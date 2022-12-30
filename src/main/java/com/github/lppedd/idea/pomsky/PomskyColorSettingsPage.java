@@ -18,6 +18,17 @@ import java.util.Map;
  * @author Edoardo Luppi
  */
 public class PomskyColorSettingsPage implements ColorSettingsPage {
+  private static final String DEMO_TEXT = "# This regex describes a cron expression\n" +
+      "let sep = ^ | ' ';\n" +
+      "let every = '*' | [digit]+ (',' [digit]+)*;\n\n" +
+      "Start\n" +
+      "(sep 'M=' :months(every))?\n" +
+      "(sep 'D=' :days(every))?\n" +
+      "(sep 'h=' :hours(every))?\n" +
+      "(sep 'm=' :minutes(every))?\n" +
+      "(sep 's=' :seconds(every))?\n" +
+      "End";
+
   private static final AttributesDescriptor[] ATTRIBUTES_DESCRIPTORS = new AttributesDescriptor[]{
       new AttributesDescriptor("Comment", PomskyHighlighterColors.COMMENT),
       new AttributesDescriptor("String", PomskyHighlighterColors.STRING),
@@ -49,16 +60,7 @@ public class PomskyColorSettingsPage implements ColorSettingsPage {
   @NotNull
   @Override
   public String getDemoText() {
-    return "# This regex describes a cron expression\n" +
-        "let sep = ^ | ' ';\n" +
-        "let every = '*' | [digit]+ (',' [digit]+)*;\n\n" +
-        "Start\n" +
-        "(sep 'M=' :months(every))?\n" +
-        "(sep 'D=' :days(every))?\n" +
-        "(sep 'h=' :hours(every))?\n" +
-        "(sep 'm=' :minutes(every))?\n" +
-        "(sep 's=' :seconds(every))?\n" +
-        "End";
+    return DEMO_TEXT;
   }
 
   @Nullable
