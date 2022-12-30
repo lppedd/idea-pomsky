@@ -36,7 +36,7 @@ import com.intellij.psi.TokenType;
 // Primitives
 NewLine         = \n
 Space           = [ \t]
-Identifier      = [a-zA-Z_]+
+Identifier      = [a-zA-Z_][a-zA-Z_0-9]*
 Number          = [+-]?[0-9_.,]+
 CodePoint       = U\+?[a-fA-F0-9]{1,6}
 
