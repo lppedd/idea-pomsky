@@ -16,7 +16,6 @@ import com.intellij.psi.TokenType;
 %function advance
 %type IElementType
 %unicode
-%ignorecase
 
 %{
 
