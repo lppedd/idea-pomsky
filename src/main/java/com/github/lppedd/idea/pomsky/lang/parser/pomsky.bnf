@@ -109,7 +109,7 @@ private quantifier_value ::=
 private repetition_quantifier ::=
       repetition_quantifier_range
     | repetition_quantifier_fixed
-    { recoverWhile = repetition_quantifier_recovery }
+    { recoverWhile = generic_expression_recovery }
 
 private repetition_quantifier_range ::=
     LBRACE NUMBER? COMMA NUMBER? RBRACE
@@ -118,23 +118,6 @@ private repetition_quantifier_range ::=
 private repetition_quantifier_fixed ::=
     LBRACE NUMBER? RBRACE
     { pin = 1 }
-
-private repetition_quantifier_recovery ::=
-    !(
-        SEMICOLON
-      | NEGATION
-      | STRING
-      | NUMBER
-      | KEYWORD
-      | IDENTIFIER
-      | LBRACE
-      | GROUP_BEGIN
-      | CLASS_BEGIN
-      | GROUP
-      | REFERENCE
-      | UNION
-      | QUANTIFIER
-    )
 
 private quantifier_type ::=
       "greedy"
@@ -147,7 +130,7 @@ private quantifier_type ::=
 group_expression ::=
       group_expression_named
     | group_expression_anonymous
-    { recoverWhile = group_expression_recovery }
+    { recoverWhile = generic_expression_recovery }
 
 private group_expression_named ::=
     group_kind GROUP_BEGIN root GROUP_END
@@ -156,24 +139,6 @@ private group_expression_named ::=
 private group_expression_anonymous ::=
     GROUP_BEGIN root GROUP_END
     { pin = 1 }
-
-private group_expression_recovery ::=
-    !(
-        SEMICOLON
-      | NEGATION
-      | STRING
-      | NUMBER
-      | KEYWORD
-      | IDENTIFIER
-      | LBRACE
-      | GROUP_END
-      | GROUP_BEGIN
-      | CLASS_BEGIN
-      | GROUP
-      | REFERENCE
-      | UNION
-      | QUANTIFIER
-    )
 
 private group_kind ::=
       GROUP
@@ -184,17 +149,19 @@ private group_kind ::=
 // *****************************************************************************
 
 character_set_expression ::=
-      NEGATION? CLASS_BEGIN DOT CLASS_END
-    | NEGATION? CLASS_BEGIN character_set_inner* CLASS_END
+    NEGATION? CLASS_BEGIN character_set_inner+ CLASS_END
+    { pin = 2 recoverWhile = generic_expression_recovery }
 
 private character_set_inner ::=
-      character_set_range
+      DOT
+    | CODE_POINT
     | NEGATION? STRING
     | NEGATION? IDENTIFIER
-    | CODE_POINT
+    | character_set_range
 
 character_set_range ::=
     single_char RANGE_SEPARATOR single_char
+    { pin = 2 }
 
 private single_char ::=
       STRING
@@ -215,3 +182,25 @@ range_expression ::=
 regex_expression ::=
     "regex" STRING
     { pin = 1 }
+
+// *****************************************************************************
+// Recovery rules
+// *****************************************************************************
+
+private generic_expression_recovery ::=
+    !(
+        SEMICOLON
+      | NEGATION
+      | UNION
+      | LBRACE
+      | GROUP_END
+      | GROUP_BEGIN
+      | CLASS_BEGIN
+      | QUANTIFIER
+      | STRING
+      | NUMBER
+      | KEYWORD
+      | IDENTIFIER
+      | GROUP
+      | REFERENCE
+    )
