@@ -148,6 +148,7 @@ private group_kind ::=
 // Character set Expression
 // *****************************************************************************
 
+// FIXME: this does not work correctly with an expression like [..]
 character_set_expression ::=
       character_set_expression_dot
     | character_set_expression_inner
