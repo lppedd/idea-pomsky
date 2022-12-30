@@ -2,8 +2,8 @@ package com.github.lppedd.idea.pomsky.lang.parser;
 
 import com.github.lppedd.idea.pomsky.lang.PomskyLanguage;
 import com.github.lppedd.idea.pomsky.lang.lexer.PomskyLexer;
-import com.github.lppedd.idea.pomsky.lang.lexer.PomskyTokenType;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiFile;
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PomskyParserDefinition implements ParserDefinition {
   private static final IFileElementType FILE = new IFileElementType(PomskyLanguage.INSTANCE);
-  private static final TokenSet TOKENSET_COMMENT = TokenSet.create(PomskyTokenType.COMMENT);
+  private static final TokenSet TOKENSET_COMMENT = TokenSet.create(PomskyTypes.COMMENT);
 
   @NotNull
   @Override

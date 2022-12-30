@@ -29,6 +29,7 @@
     LOOKAHEAD_NEGATED   = "!>>"
     LOOKBEHIND          = "<<"
     LOOKBEHIND_NEGATED  = "!<<"
+    COMMENT             = "regexp:#.*"
     KEYWORD             = "regexp:let|enable|disable|lazy|greedy|atomic|range|regex"
     QUANTIFIER          = "regexp:[*+?]"
     BOUNDARY            = "regexp:[\^$]|!?%|Start|End"

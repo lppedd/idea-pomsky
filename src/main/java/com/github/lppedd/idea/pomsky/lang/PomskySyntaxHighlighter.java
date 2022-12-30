@@ -1,7 +1,6 @@
 package com.github.lppedd.idea.pomsky.lang;
 
 import com.github.lppedd.idea.pomsky.lang.lexer.PomskyLexer;
-import com.github.lppedd.idea.pomsky.lang.lexer.PomskyTokenType;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -20,7 +19,7 @@ public class PomskySyntaxHighlighter extends SyntaxHighlighterBase {
       Map.entry(PomskyTypes.STRING, pack(PomskyHighlighterColors.STRING)),
       Map.entry(PomskyTypes.NUMBER, pack(PomskyHighlighterColors.NUMBER)),
 
-      Map.entry(PomskyTokenType.COMMENT, pack(PomskyHighlighterColors.COMMENT)),
+      Map.entry(PomskyTypes.COMMENT, pack(PomskyHighlighterColors.COMMENT)),
       Map.entry(PomskyTypes.KEYWORD, pack(PomskyHighlighterColors.KEYWORD)),
       Map.entry(PomskyTypes.IDENTIFIER, pack(PomskyHighlighterColors.IDENTIFIER)),
       Map.entry(PomskyTypes.COMMA, pack(PomskyHighlighterColors.COMMA)),

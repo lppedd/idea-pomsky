@@ -55,7 +55,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
       }
 
       {Comment} {
-          return PomskyTokenType.COMMENT;
+          return PomskyTypes.COMMENT;
       }
 
       {Keyword} {
