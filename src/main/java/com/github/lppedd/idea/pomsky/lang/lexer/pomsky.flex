@@ -67,6 +67,10 @@ Keyword         = let | enable | lazy | greedy | range | atomic
           return PomskyTypes.CODE_POINT;
       }
 
+      [\^$] | \!?% | Start | End {
+          return PomskyTypes.BOUNDARY;
+      }
+
       {Identifier} {
           return PomskyTypes.IDENTIFIER;
       }
@@ -101,10 +105,6 @@ Keyword         = let | enable | lazy | greedy | range | atomic
 
       = {
           return PomskyTypes.EQ;
-      }
-
-      [\^$] | \!?%  {
-          return PomskyTypes.BOUNDARY;
       }
 
       [*+?] {

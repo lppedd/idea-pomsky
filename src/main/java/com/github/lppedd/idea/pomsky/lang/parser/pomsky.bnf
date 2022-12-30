@@ -30,7 +30,7 @@
     LOOKBEHIND          = "<<"
     LOOKBEHIND_NEGATED  = "!<<"
     QUANTIFIER          = "regexp:[*+?]"
-    BOUNDARY            = "regexp:[\^$]|!?%"
+    BOUNDARY            = "regexp:[\^$]|!?%|Start|End"
     STRING              = "regexp:'[a-zA-Z]+'"
     NUMBER              = "regexp:[+-]?[0-9_.,]+"
     CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
