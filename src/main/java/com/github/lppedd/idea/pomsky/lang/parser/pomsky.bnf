@@ -149,12 +149,21 @@ private group_kind ::=
 // *****************************************************************************
 
 character_set_expression ::=
+      character_set_expression_dot
+    | character_set_expression_inner
+    { recoverWhile = generic_expression_recovery }
+
+// Deprecated
+private character_set_expression_dot ::=
+    NEGATION? CLASS_BEGIN DOT CLASS_END
+    { pin = 3 }
+
+private character_set_expression_inner ::=
     NEGATION? CLASS_BEGIN character_set_inner+ CLASS_END
-    { pin = 2 recoverWhile = generic_expression_recovery }
+    { pin = 2 }
 
 private character_set_inner ::=
-      DOT
-    | CODE_POINT
+      CODE_POINT
     | NEGATION? STRING
     | NEGATION? IDENTIFIER
     | character_set_range
@@ -196,6 +205,7 @@ private generic_expression_recovery ::=
       | GROUP_END
       | GROUP_BEGIN
       | CLASS_BEGIN
+      | CLASS_END
       | QUANTIFIER
       | STRING
       | NUMBER
