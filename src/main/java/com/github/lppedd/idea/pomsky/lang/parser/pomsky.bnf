@@ -29,6 +29,7 @@
     LOOKAHEAD_NEGATED   = "!>>"
     LOOKBEHIND          = "<<"
     LOOKBEHIND_NEGATED  = "!<<"
+    KEYWORD             = "regexp:let|enable|disable|lazy|greedy|atomic|range|regex"
     QUANTIFIER          = "regexp:[*+?]"
     BOUNDARY            = "regexp:[\^$]|!?%|Start|End"
     STRING              = "regexp:'[a-zA-Z]+'"
@@ -53,7 +54,7 @@ variable_declaration ::=
 
 modifier_activation ::=
     modifier_keyword boolean_setting SEMICOLON
-    { pin = 2 }
+    { pin = 1 }
 
 private modifier_keyword ::=
       "enable"
@@ -84,8 +85,8 @@ private atom_expression ::=
     | REFERENCE
     | group_expression
     | character_set_expression
-    | regex_expression
     | range_expression
+    | regex_expression
 
 private lookaround_prefix ::=
       LOOKAHEAD
@@ -119,8 +120,11 @@ private repetition_quantifier_fixed ::=
 
 private repetition_quantifier_recovery ::=
     !(
-        STRING
+        SEMICOLON
+      | NEGATION
+      | STRING
       | NUMBER
+      | KEYWORD
       | IDENTIFIER
       | LBRACE
       | GROUP_BEGIN
@@ -154,8 +158,11 @@ private group_expression_anonymous ::=
 
 private group_expression_recovery ::=
     !(
-        STRING
+        SEMICOLON
+      | NEGATION
+      | STRING
       | NUMBER
+      | KEYWORD
       | IDENTIFIER
       | LBRACE
       | GROUP_END

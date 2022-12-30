@@ -23,7 +23,7 @@ public class PomskySyntaxHighlighter extends SyntaxHighlighterBase {
       Map.entry(PomskyTypes.NUMBER, pack(PomskyHighlighterColors.NUMBER)),
 
       Map.entry(PomskyTokenType.COMMENT, pack(PomskyHighlighterColors.COMMENT)),
-      Map.entry(PomskyTokenType.KEYWORD, pack(PomskyHighlighterColors.KEYWORD)),
+      Map.entry(PomskyTypes.KEYWORD, pack(PomskyHighlighterColors.KEYWORD)),
       Map.entry(PomskyTypes.IDENTIFIER, pack(PomskyHighlighterColors.IDENTIFIER)),
       Map.entry(PomskyTypes.COMMA, pack(PomskyHighlighterColors.COMMA)),
       Map.entry(PomskyTypes.SEMICOLON, pack(PomskyHighlighterColors.SEMICOLON)),

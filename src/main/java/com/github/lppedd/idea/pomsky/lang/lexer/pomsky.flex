@@ -59,7 +59,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
       }
 
       {Keyword} {
-          return PomskyTokenType.KEYWORD;
+          return PomskyTypes.KEYWORD;
       }
 
       {CodePoint} {

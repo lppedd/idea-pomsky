@@ -18,11 +18,6 @@ public class PomskyTokenType extends IElementType {
    */
   public static final IElementType COMMENT = new PomskyTokenType("COMMENT");
 
-  /**
-   * Symbols: {@code let}, {@code lazy}, {@code range}
-   */
-  public static final IElementType KEYWORD = new PomskyTokenType("KEYWORD");
-
   public PomskyTokenType(@NonNls @NotNull final String debugName) {
     super(debugName, PomskyLanguage.INSTANCE);
   }
