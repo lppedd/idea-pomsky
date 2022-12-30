@@ -32,7 +32,7 @@
     KEYWORD             = "regexp:let|enable|disable|lazy|greedy|atomic|range|regex"
     QUANTIFIER          = "regexp:[*+?]"
     BOUNDARY            = "regexp:[\^$]|!?%|Start|End"
-    STRING              = "regexp:'[a-zA-Z]+'"
+    STRING              = "regexp:'.*'"
     NUMBER              = "regexp:[+-]?[0-9_.,]+"
     CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
     IDENTIFIER          = "regexp:[a-zA-Z_][a-zA-Z_0-9]*"
@@ -200,16 +200,17 @@ private single_char ::=
     | CODE_POINT
 
 // *****************************************************************************
-// Regex Expression
-// *****************************************************************************
-
-regex_expression ::=
-    "regex" STRING
-
-// *****************************************************************************
 // Range Expression
 // *****************************************************************************
 
 range_expression ::=
     "range" STRING RANGE_SEPARATOR STRING ("base" NUMBER)?
     { pin = 3 }
+
+// *****************************************************************************
+// Regex Expression
+// *****************************************************************************
+
+regex_expression ::=
+    "regex" STRING
+    { pin = 1 }
