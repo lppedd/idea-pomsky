@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<list>
+  <option name="POMSKY_QUANTIFIER">
+    <value>
+      <option name="FOREGROUND" value="B13001" />
+    </value>
+  </option>
+  <option name="POMSKY_NEGATION">
+    <value>
+      <option name="FOREGROUND" value="B13001" />
+    </value>
+  </option>
+  <option name="POMSKY_LOOKAROUND">
+    <value>
+      <option name="FOREGROUND" value="B13001" />
+    </value>
+  </option>
+  <option name="POMSKY_GROUP">
+    <value>
+      <option name="FOREGROUND" value="207AAB" />
+    </value>
+  </option>
+  <option name="POMSKY_REFERENCE">
+    <value>
+      <option name="FOREGROUND" value="207AAB" />
+    </value>
+  </option>
+</list>

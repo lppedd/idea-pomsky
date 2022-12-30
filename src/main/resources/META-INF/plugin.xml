@@ -1,0 +1,34 @@
+<idea-plugin>
+  <id>com.github.lppedd.idea-pomsky</id>
+  <name>Pomsky</name>
+  <vendor email="lp.edoardo@gmail.com" url="https://github.com/lppedd/idea-pomsky">Edoardo Luppi</vendor>
+  <description>Provides Pomsky support in IntelliJ-based IDEs.</description>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType
+        name="Pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyFileType"
+        fieldName="INSTANCE"
+        language="pomsky"
+        extensions="pomsky"
+        hashBangs="pomsky"
+    />
+    <lang.parserDefinition
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.parser.PomskyParserDefinition"
+    />
+    <lang.ast.factory
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.parser.PomskyASTFactory"
+    />
+    <lang.syntaxHighlighter
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskySyntaxHighlighter"
+    />
+
+    <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
+    <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
+  </extensions>
+</idea-plugin>

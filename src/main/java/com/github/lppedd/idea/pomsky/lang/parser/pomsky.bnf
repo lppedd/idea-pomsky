@@ -1,0 +1,183 @@
+//
+// IntelliJ IDEA BNF grammar for the Pomsky language
+// Author: Edoardo Luppi
+//
+{
+  parserClass = "com.github.lppedd.idea.pomsky.lang.parser.PomskyGeneratedParser"
+  parserUtilClass="com.github.lppedd.idea.pomsky.lang.parser.PomskyParserUtil"
+  generatePsi = false
+
+  elementTypeHolderClass = "com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes"
+  elementTypeClass = "com.github.lppedd.idea.pomsky.lang.parser.PomskyElementType"
+  tokenTypeClass = "com.github.lppedd.idea.pomsky.lang.lexer.PomskyTokenType"
+
+  tokens = [
+    DOT                 = "."
+    COMMA               = ","
+    SEMICOLON           = ";"
+    EQ                  = "="
+    UNION               = "|"
+    NEGATION            = "!"
+    LBRACE              = "{"
+    RBRACE              = "{"
+    GROUP_BEGIN         = "("
+    GROUP_END           = ")"
+    CLASS_BEGIN         = "["
+    CLASS_END           = "]"
+    RANGE_SEPARATOR     = "-"
+    LOOKAHEAD           = ">>"
+    LOOKAHEAD_NEGATED   = "!>>"
+    LOOKBEHIND          = "<<"
+    LOOKBEHIND_NEGATED  = "!<<"
+    QUANTIFIER          = "regexp:[*+?]"
+    STRING              = "regexp:'[a-zA-Z]+'"
+    NUMBER              = "regexp:[+-]?[0-9_.,]+"
+    CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
+    IDENTIFIER          = "regexp:[a-zA-Z_]+"
+    GROUP               = "regexp::[a-zA-Z]*"
+    REFERENCE           = "regexp:::[a-zA-Z]+"
+  ]
+}
+
+root ::=
+    (statement | expression)*
+
+private statement ::=
+      variable_declaration
+    | modifier_activation
+
+variable_declaration ::=
+    "let" IDENTIFIER EQ expression SEMICOLON
+    { pin = 2 }
+
+modifier_activation ::=
+    modifier_keyword boolean_setting SEMICOLON
+    { pin = 2 }
+
+private modifier_keyword ::=
+      "enable"
+    | "disable"
+
+private boolean_setting ::=
+    "lazy";
+
+expression ::=
+    UNION? alternatives
+
+private alternatives ::=
+    alternative (UNION alternative)*
+
+private alternative ::=
+    inner_expression+
+
+private inner_expression ::=
+      atom_expression quantifier_suffix*
+    | lookaround_prefix expression?
+
+private atom_expression ::=
+      group_expression
+    | STRING
+    | character_set_expression
+    | regex_expression
+    | REFERENCE
+    | range_expression
+    | CODE_POINT
+    | IDENTIFIER
+    | DOT
+
+private lookaround_prefix ::=
+      LOOKAHEAD
+    | LOOKAHEAD_NEGATED
+    | LOOKBEHIND
+    | LOOKBEHIND_NEGATED
+
+// *****************************************************************************
+// Quantifier
+// *****************************************************************************
+
+quantifier_suffix ::=
+    quantifier_value quantifier_type?
+
+private quantifier_value ::=
+      QUANTIFIER
+    | repetition_quantifier
+
+private repetition_quantifier ::=
+      repetition_quantifier_range
+    | repetition_quantifier_fixed
+    { recoverWhile = repetition_quantifier_recovery }
+
+private repetition_quantifier_range ::=
+    LBRACE NUMBER? COMMA NUMBER? RBRACE
+    { pin = 3 }
+
+private repetition_quantifier_fixed ::=
+    LBRACE NUMBER? RBRACE
+    { pin = 1 }
+
+private repetition_quantifier_recovery ::=
+    !(STRING | NUMBER | IDENTIFIER | LBRACE | GROUP_BEGIN | GROUP | REFERENCE)
+
+private quantifier_type ::=
+      "greedy"
+    | "lazy"
+
+// *****************************************************************************
+// Group Expression
+// *****************************************************************************
+
+group_expression ::=
+      group_expression_named
+    | group_expression_anonymous
+    { recoverWhile = group_expression_recovery }
+
+private group_expression_named ::=
+    group_kind GROUP_BEGIN root GROUP_END
+    { pin = 2 }
+
+private group_expression_anonymous ::=
+    GROUP_BEGIN root GROUP_END
+    { pin = 1 }
+
+private group_expression_recovery ::=
+    !(STRING | NUMBER | IDENTIFIER | LBRACE | GROUP_END | GROUP_BEGIN | GROUP | REFERENCE)
+
+private group_kind ::=
+      GROUP
+    | "atomic"
+
+// *****************************************************************************
+// Character set Expression
+// *****************************************************************************
+
+character_set_expression ::=
+      NEGATION? CLASS_BEGIN DOT CLASS_END
+    | NEGATION? CLASS_BEGIN character_set_inner* CLASS_END
+
+private character_set_inner ::=
+      character_set_range
+    | NEGATION? STRING
+    | NEGATION? IDENTIFIER
+    | CODE_POINT
+
+character_set_range ::=
+    single_char RANGE_SEPARATOR single_char
+
+private single_char ::=
+      STRING
+    | CODE_POINT
+
+// *****************************************************************************
+// Regex Expression
+// *****************************************************************************
+
+regex_expression ::=
+    "regex" STRING
+
+// *****************************************************************************
+// Range Expression
+// *****************************************************************************
+
+range_expression ::=
+    "range" STRING RANGE_SEPARATOR STRING ("base" NUMBER)?
+    { pin = 3 }
