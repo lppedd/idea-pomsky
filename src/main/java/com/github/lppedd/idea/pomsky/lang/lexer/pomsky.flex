@@ -103,6 +103,10 @@ Keyword         = let | enable | lazy | greedy | range | atomic
           return PomskyTypes.EQ;
       }
 
+      [\^$] | \!?%  {
+          return PomskyTypes.BOUNDARY;
+      }
+
       [*+?] {
           return PomskyTypes.QUANTIFIER;
       }

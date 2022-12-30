@@ -30,6 +30,7 @@
     LOOKBEHIND          = "<<"
     LOOKBEHIND_NEGATED  = "!<<"
     QUANTIFIER          = "regexp:[*+?]"
+    BOUNDARY            = "regexp:[\^$]|!?%"
     STRING              = "regexp:'[a-zA-Z]+'"
     NUMBER              = "regexp:[+-]?[0-9_.,]+"
     CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
@@ -75,15 +76,16 @@ private inner_expression ::=
     | lookaround_prefix expression?
 
 private atom_expression ::=
-      group_expression
+      DOT
+    | BOUNDARY
     | STRING
-    | character_set_expression
-    | regex_expression
-    | REFERENCE
-    | range_expression
     | CODE_POINT
     | IDENTIFIER
-    | DOT
+    | REFERENCE
+    | group_expression
+    | character_set_expression
+    | regex_expression
+    | range_expression
 
 private lookaround_prefix ::=
       LOOKAHEAD
@@ -116,7 +118,18 @@ private repetition_quantifier_fixed ::=
     { pin = 1 }
 
 private repetition_quantifier_recovery ::=
-    !(STRING | NUMBER | IDENTIFIER | LBRACE | GROUP_BEGIN | GROUP | REFERENCE)
+    !(
+        STRING
+      | NUMBER
+      | IDENTIFIER
+      | LBRACE
+      | GROUP_BEGIN
+      | CLASS_BEGIN
+      | GROUP
+      | REFERENCE
+      | UNION
+      | QUANTIFIER
+    )
 
 private quantifier_type ::=
       "greedy"
@@ -140,7 +153,19 @@ private group_expression_anonymous ::=
     { pin = 1 }
 
 private group_expression_recovery ::=
-    !(STRING | NUMBER | IDENTIFIER | LBRACE | GROUP_END | GROUP_BEGIN | GROUP | REFERENCE)
+    !(
+        STRING
+      | NUMBER
+      | IDENTIFIER
+      | LBRACE
+      | GROUP_END
+      | GROUP_BEGIN
+      | CLASS_BEGIN
+      | GROUP
+      | REFERENCE
+      | UNION
+      | QUANTIFIER
+    )
 
 private group_kind ::=
       GROUP
