@@ -1,5 +1,10 @@
 <?xml version='1.0'?>
 <list>
+  <option name="POMSKY_BOUNDARY">
+    <value>
+      <option name="FOREGROUND" value="ADA018" />
+    </value>
+  </option>
   <option name="POMSKY_QUANTIFIER">
     <value>
       <option name="FOREGROUND" value="D4543B" />

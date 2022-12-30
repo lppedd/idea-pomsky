@@ -16,6 +16,7 @@ public class PomskyHighlighterColors {
   public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("POMSKY_IDENTIFIER", DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
   public static final TextAttributesKey COMMA = createTextAttributesKey("POMSKY_COMMA", DefaultLanguageHighlighterColors.COMMA);
   public static final TextAttributesKey SEMICOLON = createTextAttributesKey("POMSKY_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON);
+  public static final TextAttributesKey BOUNDARY = createTextAttributesKey("POMSKY_BOUNDARY");
   public static final TextAttributesKey QUANTIFIER = createTextAttributesKey("POMSKY_QUANTIFIER");
   public static final TextAttributesKey NEGATION = createTextAttributesKey("POMSKY_NEGATION");
   public static final TextAttributesKey LOOKAROUND = createTextAttributesKey("POMSKY_LOOKAROUND");

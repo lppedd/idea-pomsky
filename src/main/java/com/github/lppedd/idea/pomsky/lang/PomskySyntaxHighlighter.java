@@ -27,6 +27,7 @@ public class PomskySyntaxHighlighter extends SyntaxHighlighterBase {
       Map.entry(PomskyTypes.IDENTIFIER, pack(PomskyHighlighterColors.IDENTIFIER)),
       Map.entry(PomskyTypes.COMMA, pack(PomskyHighlighterColors.COMMA)),
       Map.entry(PomskyTypes.SEMICOLON, pack(PomskyHighlighterColors.SEMICOLON)),
+      Map.entry(PomskyTypes.BOUNDARY, pack(PomskyHighlighterColors.BOUNDARY)),
       Map.entry(PomskyTypes.QUANTIFIER, pack(PomskyHighlighterColors.QUANTIFIER)),
       Map.entry(PomskyTypes.NEGATION, pack(PomskyHighlighterColors.NEGATION)),
       Map.entry(PomskyTypes.RANGE_SEPARATOR, pack(PomskyHighlighterColors.KEYWORD)),
