@@ -15,8 +15,9 @@ public class PomskyPsiFile extends PsiFileBase {
     super(viewProvider, PomskyLanguage.INSTANCE);
   }
 
+  @NotNull
   @Override
-  public @NotNull FileType getFileType() {
+  public FileType getFileType() {
     return PomskyFileType.INSTANCE;
   }
 
