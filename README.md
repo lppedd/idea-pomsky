@@ -4,4 +4,11 @@
 
 Provides support for [Pomsky][1] in IntelliJ IDEA-based IDEs.
 
+---
+
+An example of syntax highlight (taken [here][2]):
+
+![](.github/images/syntax-highlight.png "Syntax highlight example")
+
 [1]: https://github.com/rulex-rs/pomsky
+[2]: https://github.com/rulex-rs/pomsky/issues/42#issuecomment-1305237036
