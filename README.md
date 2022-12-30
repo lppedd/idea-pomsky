@@ -1,10 +1,10 @@
 <img align="left" width="85" height="85" src="https://raw.githubusercontent.com/lppedd/idea-pomsky/main/.github/images/logo.png" alt="Plugin logo">
 
-# Idea Pomsky
+# IDEA Pomsky
 
 Provides support for [Pomsky][1] in IntelliJ IDEA-based IDEs.
 
----
+### Screenshots
 
 An example of syntax highlight (taken [here][2]):
 
