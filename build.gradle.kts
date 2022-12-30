@@ -19,6 +19,11 @@ sourceSets {
   }
 }
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
   version.set("2022.1.4")
@@ -27,11 +32,6 @@ intellij {
 }
 
 tasks {
-  withType<JavaCompile> {
-    sourceCompatibility = "11"
-    targetCompatibility = "11"
-  }
-
   patchPluginXml {
     sinceBuild.set("221")
     untilBuild.set("231.*")
