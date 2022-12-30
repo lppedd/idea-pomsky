@@ -8,6 +8,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <fileType
+        id="pomsky"
         name="Pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyFileType"
         fieldName="INSTANCE"
@@ -16,19 +17,23 @@
         hashBangs="pomsky"
     />
     <lang.parserDefinition
+        id="pomsky"
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.parser.PomskyParserDefinition"
     />
     <lang.ast.factory
+        id="pomsky"
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.parser.PomskyASTFactory"
     />
     <lang.syntaxHighlighter
+        id="pomsky"
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskySyntaxHighlighter"
     />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
+    <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.PomskyColorSettingsPage" />
   </extensions>
 </idea-plugin>

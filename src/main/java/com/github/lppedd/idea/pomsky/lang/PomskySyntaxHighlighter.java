@@ -4,7 +4,6 @@ import com.github.lppedd.idea.pomsky.lang.lexer.PomskyLexer;
 import com.github.lppedd.idea.pomsky.lang.lexer.PomskyTokenType;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author Edoardo Luppi
  */
 public class PomskySyntaxHighlighter extends SyntaxHighlighterBase {
-  private static final TextAttributesKey[] DEFAULT = pack(HighlighterColors.TEXT);
   private static final Map<IElementType, TextAttributesKey[]> ATTRIBUTES = Map.ofEntries(
       // Primitives
       Map.entry(PomskyTypes.STRING, pack(PomskyHighlighterColors.STRING)),
@@ -52,6 +50,6 @@ public class PomskySyntaxHighlighter extends SyntaxHighlighterBase {
   @NotNull
   @Override
   public TextAttributesKey @NotNull [] getTokenHighlights(final IElementType tokenType) {
-    return ATTRIBUTES.getOrDefault(tokenType, DEFAULT);
+    return ATTRIBUTES.getOrDefault(tokenType, TextAttributesKey.EMPTY_ARRAY);
   }
 }
