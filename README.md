@@ -11,15 +11,15 @@ The plugin is under active development, and a first minimal release is expected 
 
 ## Features
 
-Syntax highlight (example taken from [here][2]).
+**Syntax highlight** and **navigation to variable** declaration.
 
-![](.github/images/syntax-highlight.png "Syntax highlight example")
+![](.github/images/variable-navigation.gif "Syntax highlight and navigation to variable declaration")
 
-Navigation to variable declaration.
+**Variable rename**, both in-place and via dialog.
 
-![](.github/images/variable-navigation.gif "Navigation to variable declaration")
+![](.github/images/inplace-rename.gif "In-place variable rename")
 
-Fragment injection.
+**Fragment injection** in comments and strings.
 
 ![](.github/images/fragment-injection.png "Fragment injection")
 
