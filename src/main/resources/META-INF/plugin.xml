@@ -31,6 +31,11 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskySyntaxHighlighter"
     />
+    <psi.referenceContributor
+        id="pomsky"
+        language="pomsky"
+        implementation="com.github.lppedd.idea.pomsky.lang.psi.reference.PomskyPsiReferenceContributor"
+    />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />

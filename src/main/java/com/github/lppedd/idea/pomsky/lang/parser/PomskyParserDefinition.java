@@ -4,6 +4,10 @@ import com.github.lppedd.idea.pomsky.lang.PomskyLanguage;
 import com.github.lppedd.idea.pomsky.lang.lexer.PomskyLexer;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiFile;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes;
+import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyCharacterSetExpressionPsiElementImpl;
+import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyExpressionPsiElementImpl;
+import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyGroupExpressionPsiElementImpl;
+import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyVariableDeclarationPsiElementImpl;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -13,9 +17,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author Edoardo Luppi
@@ -23,6 +31,12 @@ import org.jetbrains.annotations.NotNull;
 public class PomskyParserDefinition implements ParserDefinition {
   private static final IFileElementType FILE = new IFileElementType(PomskyLanguage.INSTANCE);
   private static final TokenSet TOKENSET_COMMENT = TokenSet.create(PomskyTypes.COMMENT);
+  private static final Map<IElementType, Function<ASTNode, PsiElement>> ELEMENTS = Map.ofEntries(
+      Map.entry(PomskyTypes.VARIABLE_DECLARATION, PomskyVariableDeclarationPsiElementImpl::new),
+      Map.entry(PomskyTypes.EXPRESSION, PomskyExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.GROUP_EXPRESSION, PomskyGroupExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.CHARACTER_SET_EXPRESSION, PomskyCharacterSetExpressionPsiElementImpl::new)
+  );
 
   @NotNull
   @Override
@@ -62,7 +76,9 @@ public class PomskyParserDefinition implements ParserDefinition {
 
   @NotNull
   @Override
-  public PsiElement createElement(final ASTNode node) {
-    return new ASTWrapperPsiElement(node);
+  public PsiElement createElement(@NotNull final ASTNode node) {
+    final var elementType = node.getElementType();
+    final var producer = ELEMENTS.getOrDefault(elementType, ASTWrapperPsiElement::new);
+    return producer.apply(node);
   }
 }
