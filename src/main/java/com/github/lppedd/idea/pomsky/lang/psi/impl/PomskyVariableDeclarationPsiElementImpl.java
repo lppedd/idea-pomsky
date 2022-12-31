@@ -27,6 +27,12 @@ public class PomskyVariableDeclarationPsiElementImpl extends ASTWrapperPsiElemen
 
   @NotNull
   @Override
+  public PsiElement getNameIdentifier() {
+    return getIdentifier();
+  }
+
+  @NotNull
+  @Override
   public PsiElement getNavigationElement() {
     return getIdentifier();
   }

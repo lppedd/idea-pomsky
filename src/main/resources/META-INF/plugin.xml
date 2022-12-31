@@ -31,10 +31,19 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskySyntaxHighlighter"
     />
+    <lang.elementManipulator
+        forClass="com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyIdentifierElementManipulator"
+    />
     <psi.referenceContributor
         id="pomsky"
         language="pomsky"
         implementation="com.github.lppedd.idea.pomsky.lang.psi.reference.PomskyPsiReferenceContributor"
+    />
+    <lang.refactoringSupport
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyRefactoringSupportProvider"
     />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />

@@ -2,7 +2,6 @@ package com.github.lppedd.idea.pomsky.lang.psi.reference;
 
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupExpressionPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReferenceBase;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +15,7 @@ import static com.intellij.psi.util.PsiTreeUtil.findFirstParent;
  */
 public class PomskyVariableDeclarationReference extends PsiReferenceBase<PsiElement> {
   public PomskyVariableDeclarationReference(@NotNull final PsiElement referenceElement) {
-    super(referenceElement, new TextRange(0, referenceElement.getTextLength()));
+    super(referenceElement);
   }
 
   @Nullable
