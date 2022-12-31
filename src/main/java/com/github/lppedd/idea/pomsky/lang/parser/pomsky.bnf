@@ -4,7 +4,7 @@
 //
 {
   parserClass = "com.github.lppedd.idea.pomsky.lang.parser.PomskyGeneratedParser"
-  parserUtilClass="com.github.lppedd.idea.pomsky.lang.parser.PomskyParserUtil"
+  parserUtilClass = "com.github.lppedd.idea.pomsky.lang.parser.PomskyParserUtil"
   generatePsi = false
 
   elementTypeHolderClass = "com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes"
@@ -164,10 +164,10 @@ private character_set_expression_inner ::=
     { pin = 2 }
 
 private character_set_inner ::=
-      CODE_POINT
+      character_set_range
+    | CODE_POINT
     | NEGATION? STRING
     | NEGATION? IDENTIFIER
-    | character_set_range
 
 character_set_range ::=
     single_char RANGE_SEPARATOR single_char
@@ -208,6 +208,7 @@ private generic_expression_recovery ::=
       | CLASS_BEGIN
       | CLASS_END
       | QUANTIFIER
+      | CODE_POINT
       | STRING
       | NUMBER
       | KEYWORD
