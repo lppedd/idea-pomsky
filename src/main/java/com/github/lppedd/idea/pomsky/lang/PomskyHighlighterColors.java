@@ -20,6 +20,6 @@ public class PomskyHighlighterColors {
   public static final TextAttributesKey QUANTIFIER = createTextAttributesKey("POMSKY_QUANTIFIER");
   public static final TextAttributesKey NEGATION = createTextAttributesKey("POMSKY_NEGATION");
   public static final TextAttributesKey LOOKAROUND = createTextAttributesKey("POMSKY_LOOKAROUND");
-  public static final TextAttributesKey GROUP = createTextAttributesKey("POMSKY_GROUP");
-  public static final TextAttributesKey REFERENCE = createTextAttributesKey("POMSKY_REFERENCE");
+  public static final TextAttributesKey GROUP_NAME = createTextAttributesKey("POMSKY_GROUP_NAME");
+  public static final TextAttributesKey GROUP_REFERENCE = createTextAttributesKey("POMSKY_GROUP_REFERENCE");
 }

@@ -46,6 +46,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 
 %xstate STRING_SINGLE
 %xstate STRING_DOUBLE
+%xstate GROUP_EXPRESSION
 
 %%
 
@@ -87,11 +88,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
       }
 
       ::({Identifier} | {Number})? {
-          return PomskyTypes.REFERENCE;
-      }
-
-      :({Identifier} | {Number})? {
-          return PomskyTypes.GROUP;
+          return PomskyTypes.GROUP_REFERENCE;
       }
 
       , {
@@ -100,6 +97,11 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 
       ; {
           return PomskyTypes.SEMICOLON;
+      }
+
+      : {
+          yybegin(GROUP_EXPRESSION);
+          return PomskyTypes.COLON;
       }
 
       = {
@@ -207,5 +209,16 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 
           setEof(true);
           return PomskyTypes.STRING;
+      }
+}
+
+<GROUP_EXPRESSION> {
+      {Identifier} | {Number} {
+          return PomskyTypes.GROUP_NAME;
+      }
+
+      [^] {
+          yypushback(yylength());
+          yybegin(YYINITIAL);
       }
 }

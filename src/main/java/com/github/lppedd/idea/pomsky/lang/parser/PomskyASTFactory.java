@@ -1,5 +1,7 @@
 package com.github.lppedd.idea.pomsky.lang.parser;
 
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupNamePsiElement;
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupReferencePsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes;
 import com.intellij.lang.ASTFactory;
@@ -16,7 +18,9 @@ import java.util.function.BiFunction;
  */
 public class PomskyASTFactory extends ASTFactory {
   private static final Map<IElementType, BiFunction<IElementType, CharSequence, LeafElement>> LEAFS = Map.ofEntries(
-      Map.entry(PomskyTypes.IDENTIFIER, PomskyIdentifierPsiElement::new)
+      Map.entry(PomskyTypes.IDENTIFIER, PomskyIdentifierPsiElement::new),
+      Map.entry(PomskyTypes.GROUP_NAME, PomskyGroupNamePsiElement::new),
+      Map.entry(PomskyTypes.GROUP_REFERENCE, PomskyGroupReferencePsiElement::new)
   );
 
   @Nullable

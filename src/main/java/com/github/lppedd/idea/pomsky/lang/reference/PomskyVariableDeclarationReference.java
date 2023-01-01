@@ -1,4 +1,4 @@
-package com.github.lppedd.idea.pomsky.lang.psi.reference;
+package com.github.lppedd.idea.pomsky.lang.reference;
 
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupExpressionPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;

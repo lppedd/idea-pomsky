@@ -1,0 +1,58 @@
+package com.github.lppedd.idea.pomsky.lang.psi.impl;
+
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupNamePsiElement;
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyNamedCapturingGroupExpressionPsiElement;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+
+/**
+ * @author Edoardo Luppi
+ */
+public class PomskyNamedCapturingGroupExpressionPsiElementImpl extends ASTWrapperPsiElement implements PomskyNamedCapturingGroupExpressionPsiElement {
+  public PomskyNamedCapturingGroupExpressionPsiElementImpl(@NotNull final ASTNode node) {
+    super(node);
+  }
+
+  @NotNull
+  @Override
+  public PomskyGroupNamePsiElement getGroupName() {
+    final var groupName = findChildByClass(PomskyGroupNamePsiElement.class);
+    return Objects.requireNonNull(groupName, "The group name must be present in the parsed tree");
+  }
+
+  @Override
+  public int getTextOffset() {
+    return getGroupName().getTextOffset();
+  }
+
+  @Nullable
+  @Override
+  public PsiElement getNameIdentifier() {
+    return getGroupName();
+  }
+
+  @NotNull
+  @Override
+  public PsiElement getNavigationElement() {
+    return getGroupName();
+  }
+
+  @NotNull
+  @Override
+  public String getName() {
+    return getGroupName().getText();
+  }
+
+  @NotNull
+  @Override
+  public PsiElement setName(@NotNull final String name) throws IncorrectOperationException {
+    getGroupName().replaceWithText(name);
+    return this;
+  }
+}

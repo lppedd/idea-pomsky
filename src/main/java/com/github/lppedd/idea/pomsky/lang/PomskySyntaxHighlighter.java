@@ -36,8 +36,9 @@ public class PomskySyntaxHighlighter extends SyntaxHighlighterBase {
       Map.entry(PomskyTypes.LOOKBEHIND_NEGATED, pack(PomskyHighlighterColors.LOOKAROUND)),
 
       // Grouping
-      Map.entry(PomskyTypes.GROUP, pack(PomskyHighlighterColors.GROUP)),
-      Map.entry(PomskyTypes.REFERENCE, pack(PomskyHighlighterColors.REFERENCE))
+      Map.entry(PomskyTypes.COLON, pack(PomskyHighlighterColors.GROUP_NAME)),
+      Map.entry(PomskyTypes.GROUP_NAME, pack(PomskyHighlighterColors.GROUP_NAME)),
+      Map.entry(PomskyTypes.GROUP_REFERENCE, pack(PomskyHighlighterColors.GROUP_REFERENCE))
   );
 
   @NotNull

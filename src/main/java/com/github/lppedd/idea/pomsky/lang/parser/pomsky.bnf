@@ -15,6 +15,7 @@
     DOT                 = "."
     COMMA               = ","
     SEMICOLON           = ";"
+    COLON               = ":"
     EQ                  = "="
     UNION               = "|"
     NEGATION            = "!"
@@ -37,8 +38,8 @@
     NUMBER              = "regexp:[+-]?[0-9_.,]+"
     CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
     IDENTIFIER          = "regexp:[a-zA-Z_][a-zA-Z_0-9]*"
-    GROUP               = "regexp::[a-zA-Z]*"
-    REFERENCE           = "regexp:::[a-zA-Z]+"
+    GROUP_NAME          = "regexp::[a-zA-Z]*"
+    GROUP_REFERENCE     = "regexp:::[a-zA-Z]+"
   ]
 }
 
@@ -83,7 +84,7 @@ private atom_expression ::=
     | STRING
     | CODE_POINT
     | IDENTIFIER
-    | REFERENCE
+    | GROUP_REFERENCE
     | group_expression
     | character_set_expression
     | range_expression
@@ -127,22 +128,28 @@ private quantifier_type ::=
 // Group Expression
 // *****************************************************************************
 
-group_expression ::=
-      group_expression_named
-    | group_expression_anonymous
+private group_expression ::=
+      group_expression_atomic
+    | group_expression_capturing_named
+    | group_expression_capturing_numbered
+    | group_expression_non_capturing
     { recoverWhile = generic_expression_recovery }
 
-private group_expression_named ::=
-    group_kind GROUP_BEGIN root GROUP_END
+group_expression_atomic ::=
+    "atomic" GROUP_BEGIN root GROUP_END
     { pin = 2 }
 
-private group_expression_anonymous ::=
+group_expression_capturing_named ::=
+    COLON GROUP_NAME GROUP_BEGIN root GROUP_END
+    { pin = 3 }
+
+group_expression_capturing_numbered ::=
+    COLON GROUP_BEGIN root GROUP_END
+    { pin = 2 }
+
+group_expression_non_capturing ::=
     GROUP_BEGIN root GROUP_END
     { pin = 1 }
-
-private group_kind ::=
-      GROUP
-    | "atomic"
 
 // *****************************************************************************
 // Character set Expression
@@ -200,6 +207,7 @@ regex_expression ::=
 private generic_expression_recovery ::=
     !(
         SEMICOLON
+      | COLON
       | NEGATION
       | UNION
       | LBRACE
@@ -213,6 +221,6 @@ private generic_expression_recovery ::=
       | NUMBER
       | KEYWORD
       | IDENTIFIER
-      | GROUP
-      | REFERENCE
+      | GROUP_NAME
+      | GROUP_REFERENCE
     )

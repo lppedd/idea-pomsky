@@ -20,12 +20,12 @@
       <option name="FOREGROUND" value="D4543B" />
     </value>
   </option>
-  <option name="POMSKY_GROUP">
+  <option name="POMSKY_GROUP_NAME">
     <value>
       <option name="FOREGROUND" value="69ACE3" />
     </value>
   </option>
-  <option name="POMSKY_REFERENCE">
+  <option name="POMSKY_GROUP_REFERENCE">
     <value>
       <option name="FOREGROUND" value="69ACE3" />
     </value>

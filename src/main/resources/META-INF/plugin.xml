@@ -35,10 +35,18 @@
         forClass="com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement"
         implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyIdentifierElementManipulator"
     />
+    <lang.elementManipulator
+        forClass="com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupNamePsiElement"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyGroupNameElementManipulator"
+    />
+    <lang.elementManipulator
+        forClass="com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupReferencePsiElement"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyGroupReferenceElementManipulator"
+    />
     <psi.referenceContributor
         id="pomsky"
         language="pomsky"
-        implementation="com.github.lppedd.idea.pomsky.lang.psi.reference.PomskyPsiReferenceContributor"
+        implementation="com.github.lppedd.idea.pomsky.lang.reference.PomskyPsiReferenceContributor"
     />
     <lang.refactoringSupport
         id="pomsky"
