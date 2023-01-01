@@ -63,6 +63,11 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyCommenter"
     />
+    <spellchecker.support
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.PomskySpellcheckingStrategy"
+    />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
