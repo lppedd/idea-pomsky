@@ -11,17 +11,27 @@ The plugin is under active development, and a first minimal release is expected 
 
 ## Features
 
-**Syntax highlight** and **navigation to variable** declaration.
+**Syntax highlight** and **navigation to variable declaration**.
 
 ![](.github/images/variable-navigation.gif "Syntax highlight and navigation to variable declaration")
 
 **Variable rename**, both in-place and via dialog.
 
-![](.github/images/inplace-rename.gif "In-place variable rename")
+![](.github/images/variable-rename.gif "In-place variable rename")
+
+**Navigation to named group declaration** and **rename**, both in-place and via dialog.
+
+![](.github/images/group-rename.gif "Named group rename")
 
 **Fragment injection** in comments and strings.
 
 ![](.github/images/fragment-injection.png "Fragment injection")
+
+Other minor features include:
+
+- Brace matching
+- Automatic line commenting
+- Spellchecking (where appropriate)
 
 [1]: https://github.com/rulex-rs/pomsky
 [2]: https://github.com/rulex-rs/pomsky/issues/42#issuecomment-1305237036
