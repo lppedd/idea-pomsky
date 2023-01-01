@@ -25,6 +25,11 @@ public class PomskyVariableDeclarationPsiElementImpl extends ASTWrapperPsiElemen
     return requireNonNull(identifier, "The variable identifier must be present");
   }
 
+  @Override
+  public int getTextOffset() {
+    return getIdentifier().getTextOffset();
+  }
+
   @NotNull
   @Override
   public PsiElement getNameIdentifier() {
