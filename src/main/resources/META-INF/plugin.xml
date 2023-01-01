@@ -53,6 +53,11 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyRefactoringSupportProvider"
     />
+    <lang.quoteHandler
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyQuoteHandler"
+    />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
