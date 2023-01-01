@@ -211,6 +211,7 @@ private generic_expression_recovery ::=
       | NEGATION
       | UNION
       | LBRACE
+      | BOUNDARY
       | GROUP_END
       | GROUP_BEGIN
       | CLASS_BEGIN
