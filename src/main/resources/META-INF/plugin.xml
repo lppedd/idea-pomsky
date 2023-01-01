@@ -53,6 +53,11 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyRefactoringSupportProvider"
     />
+    <lang.braceMatcher
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyBraceMatcher"
+    />
     <lang.quoteHandler
         id="pomsky"
         language="pomsky"
