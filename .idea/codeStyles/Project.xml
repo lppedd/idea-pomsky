@@ -11,6 +11,7 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="JAVA">
+      <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
       <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
       <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
       <option name="KEEP_SIMPLE_LAMBDAS_IN_ONE_LINE" value="true" />
