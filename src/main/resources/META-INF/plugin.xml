@@ -58,6 +58,11 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyQuoteHandler"
     />
+    <lang.commenter
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyCommenter"
+    />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
