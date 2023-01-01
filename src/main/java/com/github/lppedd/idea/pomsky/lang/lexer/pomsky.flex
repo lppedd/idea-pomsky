@@ -175,10 +175,6 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 
 // A literal string in the form: 'example of string' or 'example of \'string\''
 <STRING_SINGLE> {
-      \\' {
-          // Keep going
-      }
-
       ' {
           yybegin(YYINITIAL);
           return PomskyTypes.STRING;
@@ -187,6 +183,10 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 
 // A literal string in the form: "example of string" or "example of \"string\""
 <STRING_DOUBLE> {
+      \\\\ {
+          // Keep going
+      }
+
       \\\" {
           // Keep going
       }
