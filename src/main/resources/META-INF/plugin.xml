@@ -73,9 +73,21 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.PomskySpellcheckingStrategy"
     />
+    <fileEditorProvider
+        id="pomsky"
+        implementation="com.github.lppedd.idea.pomsky.editor.PomskyFileEditorProvider"
+    />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
     <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.PomskyColorSettingsPage" />
+
+    <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
+    <applicationConfigurable
+        id="com.github.lppedd.idea.pomsky.settings"
+        parentId="tools"
+        displayName="Pomsky"
+        instance="com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable"
+    />
   </extensions>
 </idea-plugin>
