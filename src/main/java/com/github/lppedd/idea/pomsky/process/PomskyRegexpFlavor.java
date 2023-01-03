@@ -6,22 +6,31 @@ import org.jetbrains.annotations.NotNull;
  * @author Edoardo Luppi
  */
 public enum PomskyRegexpFlavor {
-  PCRE("pcre"),
-  PYTHON("python"),
-  JAVA("java"),
-  JAVASCRIPT("javascript"),
-  DOTNET("dotnet"),
-  RUBY("ruby"),
-  RUST("rust");
+  PCRE("pcre", "PCRE"),
+  PYTHON("python", "Python"),
+  JAVA("java", "Java"),
+  JAVASCRIPT("javascript", "JavaScript"),
+  DOTNET("dotnet", ".NET"),
+  RUBY("ruby", "Ruby"),
+  RUST("rust", "Rust");
 
   private final String value;
+  private final String presentableName;
 
-  PomskyRegexpFlavor(@NotNull final String value) {
+  PomskyRegexpFlavor(
+      @NotNull final String value,
+      @NotNull final String presentableName) {
     this.value = value;
+    this.presentableName = presentableName;
   }
 
   @NotNull
   public String getValue() {
     return value;
+  }
+
+  @Override
+  public String toString() {
+    return presentableName;
   }
 }
