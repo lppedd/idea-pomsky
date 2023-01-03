@@ -92,6 +92,8 @@
     <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.PomskyColorSettingsPage" />
 
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
+    <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
+
     <applicationConfigurable
         id="com.github.lppedd.idea.pomsky.settings"
         parentId="tools"

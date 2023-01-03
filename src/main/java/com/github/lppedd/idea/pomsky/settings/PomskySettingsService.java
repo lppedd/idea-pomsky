@@ -4,6 +4,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Attribute;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @State(
     name = "com.github.lppedd.idea.pomsky.settings.PomskySettingsService",
-    storages = @Storage("pomsky.xml")
+    storages = @Storage(StoragePathMacros.NON_ROAMABLE_FILE)
 )
 public class PomskySettingsService implements PersistentStateComponent<PomskySettingsService> {
   @Attribute("cliExecutablePath")
