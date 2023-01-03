@@ -68,6 +68,15 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyCommenter"
     />
+    <lang.findUsagesProvider
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyFindUsagesProvider"
+    />
+    <usageTypeProvider
+        id="pomsky"
+        implementation="com.github.lppedd.idea.pomsky.lang.PomskyUsageTypeProvider"
+    />
     <spellchecker.support
         id="pomsky"
         language="pomsky"

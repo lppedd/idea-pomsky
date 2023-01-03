@@ -5,6 +5,8 @@ import com.github.lppedd.idea.pomsky.lang.psi.PomskyNamedCapturingGroupExpressio
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.SearchScope;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -54,5 +56,17 @@ public class PomskyNamedCapturingGroupExpressionPsiElementImpl extends ASTWrappe
   public PsiElement setName(@NotNull final String name) throws IncorrectOperationException {
     getGroupName().replaceWithText(name);
     return this;
+  }
+
+  @NotNull
+  @Override
+  public GlobalSearchScope getResolveScope() {
+    return GlobalSearchScope.fileScope(getContainingFile());
+  }
+
+  @NotNull
+  @Override
+  public SearchScope getUseScope() {
+    return GlobalSearchScope.fileScope(getContainingFile());
   }
 }
