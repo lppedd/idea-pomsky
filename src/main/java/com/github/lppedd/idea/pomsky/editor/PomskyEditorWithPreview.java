@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-class PomskyEditorWithPreview extends TextEditorWithPreview {
+public class PomskyEditorWithPreview extends TextEditorWithPreview {
   private boolean isDisposed;
 
   PomskyEditorWithPreview(
@@ -22,7 +22,7 @@ class PomskyEditorWithPreview extends TextEditorWithPreview {
   /**
    * Returns whether the editor has been disposed.
    */
-  boolean isDisposed() {
+  public boolean isDisposed() {
     return isDisposed;
   }
 
