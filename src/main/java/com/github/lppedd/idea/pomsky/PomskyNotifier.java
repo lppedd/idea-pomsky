@@ -2,9 +2,12 @@ package com.github.lppedd.idea.pomsky;
 
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 /**
  * Entry point for notifying Pomsky-related info to the user.
@@ -24,11 +27,13 @@ public final class PomskyNotifier {
   public void notifyError(
       @NotNull final String groupId,
       @NotNull final String subtitle,
-      @NotNull final String content) {
+      @NotNull final String content,
+      @NotNull final Collection<AnAction> actions) {
     NotificationGroupManager.getInstance()
         .getNotificationGroup(groupId)
         .createNotification("Pomsky", content, NotificationType.ERROR)
         .setSubtitle(subtitle)
+        .addActions(actions)
         .notify(project);
   }
 

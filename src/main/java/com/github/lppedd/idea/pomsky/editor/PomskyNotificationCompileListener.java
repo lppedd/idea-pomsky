@@ -26,8 +26,9 @@ class PomskyNotificationCompileListener implements PomskyCompileListener {
     if (error instanceof PomskyProcessException && error.getCause() == null) {
       final var subtitle = getPresentableFileName(compiledFile);
       final var content = error.getMessage();
+      final var actions = ((PomskyProcessException) error).getActions();
       final var notifier = PomskyNotifier.getInstance(project);
-      notifier.notifyError(PomskyNotifier.GROUP_ERROR_COMPILE, subtitle, content);
+      notifier.notifyError(PomskyNotifier.GROUP_ERROR_COMPILE, subtitle, content, actions);
     }
   }
 

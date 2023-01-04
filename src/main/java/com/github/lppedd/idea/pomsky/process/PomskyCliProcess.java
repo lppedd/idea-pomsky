@@ -1,13 +1,19 @@
 package com.github.lppedd.idea.pomsky.process;
 
+import com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -28,6 +34,8 @@ public class PomskyCliProcess implements PomskyProcess {
   @NotNull
   @Override
   public String getVersion(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
+    checkExecutable();
+
     final var commandLine = new GeneralCommandLine()
         .withExePath(executablePath.toString())
         .withParameters("--version")
@@ -79,6 +87,8 @@ public class PomskyCliProcess implements PomskyProcess {
   private PomskyCompileResult compileInternal(
       @NotNull final List<String> params,
       @NotNull final ProgressIndicator indicator) throws PomskyProcessException {
+    checkExecutable();
+
     final var commandLine = new GeneralCommandLine()
         .withExePath(executablePath.toString())
         .withParameters(params)
@@ -109,6 +119,28 @@ public class PomskyCliProcess implements PomskyProcess {
           : new PomskyCompileResult(elapsedTimeMs, output, null);
     } catch (final ExecutionException e) {
       throw new PomskyProcessException("Error during compilation", e);
+    }
+  }
+
+  private void checkExecutable() throws PomskyProcessException {
+    if (Files.notExists(executablePath)) {
+      final var exception = new PomskyProcessException("The CLI executable does not exist");
+      exception.addAction(new SettingsNotificationAction());
+      throw exception;
+    }
+  }
+
+  private static class SettingsNotificationAction extends NotificationAction {
+    SettingsNotificationAction() {
+      super("Settings");
+    }
+
+    @Override
+    public void actionPerformed(
+        @NotNull final AnActionEvent e,
+        @NotNull final Notification notification) {
+      final var project = e.getProject();
+      ShowSettingsUtil.getInstance().showSettingsDialog(project, PomskySettingsConfigurable.class);
     }
   }
 }
