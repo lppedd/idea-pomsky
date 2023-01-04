@@ -20,6 +20,7 @@ import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.HyperlinkAdapter;
@@ -137,7 +138,10 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     final var editor = (EditorEx) editorFactory.createViewer(document, project, EditorKind.PREVIEW);
     final var header = createHeaderComponent();
     initEditor(editor, header);
-    return Pair.create(TextEditorProvider.getInstance().getTextEditor(editor), header);
+
+    final var textEditor = TextEditorProvider.getInstance().getTextEditor(editor);
+    Disposer.register(textEditor, () -> editorFactory.releaseEditor(editor));
+    return Pair.create(textEditor, header);
   }
 
   @NotNull
