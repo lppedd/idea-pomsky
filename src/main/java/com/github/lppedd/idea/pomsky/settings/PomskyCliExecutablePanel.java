@@ -3,7 +3,9 @@ package com.github.lppedd.idea.pomsky.settings;
 import com.github.lppedd.idea.pomsky.process.PomskyCliProcess;
 import com.github.lppedd.idea.pomsky.process.PomskyProcessException;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.ui.ComponentValidator;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
@@ -107,23 +109,30 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
       return new ValidationInfo("Invalid Pomsky CLI executable", executablePathField);
     }
 
-    final var process = new PomskyCliProcess(executablePath);
-    final var progressManager = ProgressManager.getInstance();
-
     try {
-      final var version = progressManager.runProcessWithProgressSynchronously(
-          process::getVersion,
-          "Checking Pomsky CLI executable",
-          false,
-          null
-      );
-
-      // Notify that we now have a new valid Pomsky version
+      final var process = new PomskyCliProcess(executablePath);
+      final var version = ProgressManager.getInstance().run(new PomskyVersionTask(process));
       listener.accept(version);
     } catch (final PomskyProcessException e) {
       return new ValidationInfo(e.getMessage(), executablePathField);
     }
 
     return null;
+  }
+
+  private static class PomskyVersionTask extends Task.WithResult<String, PomskyProcessException> {
+    final PomskyCliProcess process;
+
+    PomskyVersionTask(@NotNull final PomskyCliProcess process) {
+      super(null, "Pomsky Settings", true);
+      this.process = process;
+    }
+
+    @Override
+    protected String compute(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
+      indicator.setIndeterminate(true);
+      indicator.setText("Retrieving Pomsky CLI executable version...");
+      return process.getVersion(indicator);
+    }
   }
 }

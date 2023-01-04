@@ -96,6 +96,7 @@
         implementation="com.github.lppedd.idea.pomsky.editor.PomskyEditorNotificationProvider"
     />
 
+    <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.process.PomskyService" />
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
 
