@@ -7,6 +7,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Attribute;
+import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,16 +19,36 @@ import org.jetbrains.annotations.Nullable;
     storages = @Storage(StoragePathMacros.NON_ROAMABLE_FILE)
 )
 public class PomskySettingsService implements PersistentStateComponent<PomskySettingsService> {
+  /**
+   * The absolute path to the Pomsky CLI executable.
+   */
   @Attribute("cliExecutablePath")
   private String cliExecutablePath;
+
+  /**
+   * Temporary (per IntelliJ session) flag to show or not an editor
+   * notification banner when the Pomsky CLI executable is not defined.
+   * <p>
+   * This is not stored.
+   */
+  private boolean showMissingCliExecutableBanner = true;
 
   @Nullable
   public String getCliExecutablePath() {
     return cliExecutablePath;
   }
 
+  @Transient
+  public boolean isShowMissingCliExecutableBanner() {
+    return showMissingCliExecutableBanner;
+  }
+
   public void setCliExecutablePath(@Nullable final String path) {
     cliExecutablePath = path;
+  }
+
+  public void setShowMissingCliExecutableBanner(final boolean doShow) {
+    showMissingCliExecutableBanner = doShow;
   }
 
   @NotNull

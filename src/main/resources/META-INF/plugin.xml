@@ -91,6 +91,11 @@
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
     <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.PomskyColorSettingsPage" />
 
+    <editorNotificationProvider
+        id="pomsky"
+        implementation="com.github.lppedd.idea.pomsky.editor.PomskyEditorNotificationProvider"
+    />
+
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
 

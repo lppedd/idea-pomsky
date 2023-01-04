@@ -22,7 +22,7 @@ class PomskySettingsComponent {
   PomskySettingsComponent(@NotNull final Disposable disposable) {
     // General settings
     final var generalSettingsPanel = new JBPanel<>(new GridBagLayout());
-    final var border = new IdeaTitledBorder("General Settings", JBUI.scale(15), JBUI.emptyInsets());
+    final var border = new IdeaTitledBorder("CLI Settings", JBUI.scale(15), JBUI.emptyInsets());
     generalSettingsPanel.setBorder(border);
 
     final var gb = new GridBag()
@@ -32,7 +32,7 @@ class PomskySettingsComponent {
         .setDefaultWeightX(0, 0.0)
         .setDefaultWeightX(1, 1.0);
 
-    final var versionLabel = new JBLabel("Pomsky version:");
+    final var versionLabel = new JBLabel("Version:");
     versionLabel.setForeground(JBUI.CurrentTheme.ContextHelp.FOREGROUND);
 
     generalSettingsPanel.add(versionLabel, gb.nextLine().next());
