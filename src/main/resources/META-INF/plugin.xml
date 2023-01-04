@@ -7,6 +7,7 @@
   <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
+    <!-- region Language Support -->
     <fileType
         id="pomsky"
         name="Pomsky"
@@ -90,24 +91,37 @@
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
     <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.support.PomskyColorSettingsPage" />
+    <!-- endregion -->
 
+    <!-- region Notifications -->
     <editorNotificationProvider
         id="pomsky"
         implementation="com.github.lppedd.idea.pomsky.editor.PomskyEditorNotificationProvider"
     />
+    <notificationGroup
+        id="com.github.lppedd.idea.pomsky.error.compile"
+        key="pomsky.notification.compilation.error"
+        bundle="messages.PomskyBundle"
+        displayType="BALLOON"
+    />
+    <!-- endregion -->
 
+    <!-- region Services -->
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.process.PomskyService" />
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
 
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.editor.PomskyCompileEditorService" />
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
+    <!-- endregion -->
 
+    <!-- region Configurables for settings -->
     <applicationConfigurable
         id="com.github.lppedd.idea.pomsky.settings"
         parentId="tools"
         displayName="Pomsky"
         instance="com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable"
     />
+    <!-- endregion -->
   </extensions>
 
   <projectListeners>
@@ -118,6 +132,10 @@
     <listener
         topic="com.github.lppedd.idea.pomsky.settings.PomskySettingsListener"
         class="com.github.lppedd.idea.pomsky.editor.PomskyEditorNotificationSettingsListener"
+    />
+    <listener
+        topic="com.github.lppedd.idea.pomsky.process.PomskyCompileListener"
+        class="com.github.lppedd.idea.pomsky.editor.PomskyNotificationCompileListener"
     />
   </projectListeners>
 

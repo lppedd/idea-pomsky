@@ -103,7 +103,7 @@ class PomskyCompileEditorService {
           logger.error("Error while compiling '%s'".formatted(file.getName()), e);
         }
 
-        messageBus.syncPublisher(PomskyTopics.TOPIC_COMPILE).compileErrored(file, e);
+        messageBus.syncPublisher(PomskyTopics.TOPIC_COMPILE).compileFailed(file, e);
       }
     }
 
@@ -115,7 +115,7 @@ class PomskyCompileEditorService {
     @Override
     public void onThrowable(@NotNull final Throwable e) {
       logger.error("Error while compiling '%s'".formatted(file.getName()), e);
-      messageBus.syncPublisher(PomskyTopics.TOPIC_COMPILE).compileErrored(file, e);
+      messageBus.syncPublisher(PomskyTopics.TOPIC_COMPILE).compileFailed(file, e);
     }
 
     @Override
@@ -128,7 +128,7 @@ class PomskyCompileEditorService {
       // In case we are compiling an injected fragment, we do not show
       // the file extension, as it is redundant
       final var name = file.getName();
-      return name.contains("Pomsky Fragment")
+      return name.toLowerCase().contains("pomsky fragment")
           ? name.substring(0, name.lastIndexOf(".pomsky"))
           : name;
     }

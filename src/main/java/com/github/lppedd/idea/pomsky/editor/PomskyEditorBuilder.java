@@ -113,7 +113,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       }
 
       @Override
-      public void compileErrored(
+      public void compileFailed(
           @NotNull final VirtualFile compiledFile,
           @NotNull final Throwable error) {
         updateUIState(compiledFile, true);

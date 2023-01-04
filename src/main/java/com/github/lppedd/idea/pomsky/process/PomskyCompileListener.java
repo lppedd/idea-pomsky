@@ -31,7 +31,7 @@ public interface PomskyCompileListener {
   /**
    * Called when compilation for a file could not be completed because of a fatal error.
    */
-  default void compileErrored(
+  default void compileFailed(
       @NotNull final VirtualFile compiledFile,
       @NotNull final Throwable error) {}
 }

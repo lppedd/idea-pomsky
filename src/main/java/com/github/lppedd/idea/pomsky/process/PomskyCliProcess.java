@@ -9,9 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Edoardo Luppi
@@ -44,7 +42,7 @@ public class PomskyCliProcess implements PomskyProcess {
       }
 
       if (processOutput.isTimeout()) {
-        throw new PomskyProcessException("Retrieving Pomsky version timed out");
+        throw new PomskyProcessException("Version retrieval timed out");
       }
 
       final var stdout = processOutput.getStdout().trim();
@@ -56,7 +54,7 @@ public class PomskyCliProcess implements PomskyProcess {
 
       return stdout.substring(index + 6).trim();
     } catch (final ExecutionException e) {
-      throw new PomskyProcessException("Error while retrieving Pomsky version", e);
+      throw new PomskyProcessException("Error during version retrieval", e);
     }
   }
 
@@ -90,14 +88,15 @@ public class PomskyCliProcess implements PomskyProcess {
       final var processHandler = new CapturingProcessHandler(commandLine);
       final var startTime = System.nanoTime();
       final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, TIMEOUT_COMPILE, true);
-      final var elapsedTimeMs = TimeUnit.of(ChronoUnit.NANOS).toMillis(System.nanoTime() - startTime) - 1;
+      final var elapsedTimeMs = (System.nanoTime() - startTime) / 1000000 - 1;
 
       if (processOutput.isCancelled()) {
         throw new ProcessCanceledException();
       }
 
       if (processOutput.isTimeout()) {
-        throw new PomskyProcessException("Compiling Pomsky code timed out");
+        final var message = "Compilation timed out after " + TIMEOUT_COMPILE / 1000 + " seconds";
+        throw new PomskyProcessException(message);
       }
 
       if (processOutput.getExitCode() != 0) {
@@ -109,7 +108,7 @@ public class PomskyCliProcess implements PomskyProcess {
           ? new PomskyCompileResult(elapsedTimeMs, null, "The compiled RegExp is too big")
           : new PomskyCompileResult(elapsedTimeMs, output, null);
     } catch (final ExecutionException e) {
-      throw new PomskyProcessException("Error while compiling Pomsky code", e);
+      throw new PomskyProcessException("Error during compilation", e);
     }
   }
 }
