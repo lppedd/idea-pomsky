@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Edoardo Luppi
  */
-@Service
+@Service(Service.Level.PROJECT)
 public final class PomskyNotifier {
   public static final String GROUP_ERROR_COMPILE = "com.github.lppedd.idea.pomsky.error.compile";
 
