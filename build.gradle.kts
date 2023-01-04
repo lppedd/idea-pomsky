@@ -20,20 +20,20 @@ sourceSets {
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-  version.set("2022.1.4")
+  version.set("2022.3")
   type.set("IC")
   plugins.set(listOf("java" /* Only for code documentation */))
 }
 
 tasks {
   patchPluginXml {
-    sinceBuild.set("221")
+    sinceBuild.set("223")
     untilBuild.set("231.*")
   }
 }
