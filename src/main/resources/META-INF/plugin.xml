@@ -75,12 +75,12 @@
     />
     <usageTypeProvider
         id="pomsky"
-        implementation="com.github.lppedd.idea.pomsky.PomskyUsageTypeProvider"
+        implementation="com.github.lppedd.idea.pomsky.support.PomskyUsageTypeProvider"
     />
     <spellchecker.support
         id="pomsky"
         language="pomsky"
-        implementationClass="com.github.lppedd.idea.pomsky.PomskySpellcheckingStrategy"
+        implementationClass="com.github.lppedd.idea.pomsky.support.PomskySpellcheckingStrategy"
     />
     <fileEditorProvider
         id="pomsky"
@@ -89,7 +89,7 @@
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
-    <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.PomskyColorSettingsPage" />
+    <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.support.PomskyColorSettingsPage" />
 
     <editorNotificationProvider
         id="pomsky"

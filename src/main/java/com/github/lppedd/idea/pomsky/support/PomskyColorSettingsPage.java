@@ -1,5 +1,6 @@
-package com.github.lppedd.idea.pomsky;
+package com.github.lppedd.idea.pomsky.support;
 
+import com.github.lppedd.idea.pomsky.PomskyIcons;
 import com.github.lppedd.idea.pomsky.lang.PomskyHighlighterColors;
 import com.github.lppedd.idea.pomsky.lang.PomskySyntaxHighlighter;
 import com.intellij.openapi.editor.colors.TextAttributesKey;

@@ -1,4 +1,4 @@
-package com.github.lppedd.idea.pomsky;
+package com.github.lppedd.idea.pomsky.support;
 
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyExpressionPsiElement;
 import com.intellij.psi.PsiElement;
