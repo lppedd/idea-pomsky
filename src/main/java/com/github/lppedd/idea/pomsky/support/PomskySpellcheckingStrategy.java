@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-public class PomskySpellcheckingStrategy extends SpellcheckingStrategy {
+class PomskySpellcheckingStrategy extends SpellcheckingStrategy {
   @NotNull
   @Override
   public Tokenizer<?> getTokenizer(@NotNull final PsiElement element) {

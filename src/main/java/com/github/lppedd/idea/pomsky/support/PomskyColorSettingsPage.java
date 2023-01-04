@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author Edoardo Luppi
  */
-public class PomskyColorSettingsPage implements ColorSettingsPage {
+class PomskyColorSettingsPage implements ColorSettingsPage {
   private static final String DEMO_TEXT = """
       # This regex describes a cron expression
       let sep = ^ | ' ';

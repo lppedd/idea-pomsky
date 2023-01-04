@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Edoardo Luppi
  */
-public class PomskyUsageTypeProvider implements UsageTypeProvider {
+class PomskyUsageTypeProvider implements UsageTypeProvider {
   private static final UsageType USAGE_EXPRESSIONS = new UsageType(() -> "Usage in expressions");
 
   @Nullable
