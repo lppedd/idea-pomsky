@@ -3,6 +3,7 @@ package com.github.lppedd.idea.pomsky.settings;
 import com.github.lppedd.idea.pomsky.process.PomskyCliProcess;
 import com.github.lppedd.idea.pomsky.process.PomskyProcessException;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
@@ -115,6 +116,8 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
       listener.accept(version);
     } catch (final PomskyProcessException e) {
       return new ValidationInfo(e.getMessage(), executablePathField);
+    } catch (final ProcessCanceledException e) {
+      // Nothing do here, the user canceled the version retrieval process
     }
 
     return null;
