@@ -17,6 +17,10 @@ import java.util.concurrent.TimeUnit;
  * @author Edoardo Luppi
  */
 public class PomskyCliProcess implements PomskyProcess {
+  private static final int TIMEOUT_VERSION = 15000;
+  private static final int TIMEOUT_COMPILE = 60000;
+  private static final int OUTPUT_THREESOLD = 10000000;
+
   private final Path executablePath;
 
   public PomskyCliProcess(@NotNull final Path executablePath) {
@@ -33,7 +37,7 @@ public class PomskyCliProcess implements PomskyProcess {
 
     try {
       final var processHandler = new CapturingProcessHandler(commandLine);
-      final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, 15000, true);
+      final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, TIMEOUT_VERSION, true);
 
       if (processOutput.isCancelled()) {
         throw new ProcessCanceledException();
@@ -85,7 +89,7 @@ public class PomskyCliProcess implements PomskyProcess {
     try {
       final var processHandler = new CapturingProcessHandler(commandLine);
       final var startTime = System.nanoTime();
-      final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, 30000, true);
+      final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, TIMEOUT_COMPILE, true);
       final var elapsedTimeMs = TimeUnit.of(ChronoUnit.NANOS).toMillis(System.nanoTime() - startTime) - 1;
 
       if (processOutput.isCancelled()) {
@@ -100,7 +104,10 @@ public class PomskyCliProcess implements PomskyProcess {
         return new PomskyCompileResult(elapsedTimeMs, null, processOutput.getStderr().trim());
       }
 
-      return new PomskyCompileResult(elapsedTimeMs, processOutput.getStdout().trim(), null);
+      final var output = processOutput.getStdout().trim();
+      return output.length() > OUTPUT_THREESOLD
+          ? new PomskyCompileResult(elapsedTimeMs, null, "The compiled RegExp is too big")
+          : new PomskyCompileResult(elapsedTimeMs, output, null);
     } catch (final ExecutionException e) {
       throw new PomskyProcessException("Error while compiling Pomsky code", e);
     }

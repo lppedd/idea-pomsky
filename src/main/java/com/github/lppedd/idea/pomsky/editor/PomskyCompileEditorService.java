@@ -99,7 +99,10 @@ class PomskyCompileEditorService {
           listener.compileFinished(file, result);
         });
       } catch (final IOException | PomskyProcessException e) {
-        logger.error("Error while compiling '%s'".formatted(file.getName()), e);
+        if (!(e instanceof PomskyProcessException) || e.getCause() != null) {
+          logger.error("Error while compiling '%s'".formatted(file.getName()), e);
+        }
+
         messageBus.syncPublisher(PomskyTopics.TOPIC_COMPILE).compileErrored(file, e);
       }
     }

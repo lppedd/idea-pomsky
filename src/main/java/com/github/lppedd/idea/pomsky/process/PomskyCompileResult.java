@@ -10,7 +10,6 @@ import java.util.Objects;
  *
  * @author Edoardo Luppi
  */
-@SuppressWarnings("ClassCanBeRecord")
 public class PomskyCompileResult {
   private final long elapsedTimeMs;
   private final String regexp;
