@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class PomskySettingsConfigurable implements SearchableConfigurable {
   private final Disposable disposable = Disposer.newDisposable("PomskySettingsConfigurable");
-  private final PomskySettingsService service = PomskySettingsService.getInstance();
+  private final PomskySettingsService settings = PomskySettingsService.getInstance();
   private final PomskySettingsComponent component = new PomskySettingsComponent(disposable);
 
   @NonNls
@@ -33,24 +33,24 @@ public class PomskySettingsConfigurable implements SearchableConfigurable {
   @NotNull
   @Override
   public JComponent createComponent() {
-    component.setCliExecutablePath(service.getCliExecutablePath());
+    component.setCliExecutablePath(settings.getCliExecutablePath());
     return component.getPanel();
   }
 
   @Override
   public boolean isModified() {
     return component.isDataValid() &&
-           !Objects.equals(component.getCliExecutablePath(), service.getCliExecutablePath());
+           !Objects.equals(component.getCliExecutablePath(), settings.getCliExecutablePath());
   }
 
   @Override
   public void apply() {
-    service.setCliExecutablePath(component.getCliExecutablePath());
+    settings.setCliExecutablePath(component.getCliExecutablePath());
   }
 
   @Override
   public void reset() {
-    component.setCliExecutablePath(service.getCliExecutablePath());
+    component.setCliExecutablePath(settings.getCliExecutablePath());
   }
 
   @Override
