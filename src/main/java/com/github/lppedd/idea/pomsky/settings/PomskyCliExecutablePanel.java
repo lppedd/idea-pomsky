@@ -117,7 +117,7 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
     } catch (final PomskyProcessException e) {
       return new ValidationInfo(e.getMessage(), executablePathField);
     } catch (final ProcessCanceledException e) {
-      // Nothing do here, the user canceled the version retrieval process
+      // Nothing to do here, the user canceled the version retrieval process
     }
 
     return null;
