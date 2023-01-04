@@ -47,19 +47,19 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
   private static final Key<Future<?>> KEY_LOADING = Key.create("pomskyShowLoadingFuture");
 
   private final Project project;
-  private final VirtualFile file;
+  private final VirtualFile virtualFile;
 
   PomskyEditorBuilder(
       @NotNull final Project project,
-      @NotNull final VirtualFile file) {
+      @NotNull final VirtualFile virtualFile) {
     this.project = project;
-    this.file = file;
+    this.virtualFile = virtualFile;
   }
 
   @NotNull
   @Override
   public FileEditor build() {
-    final var langEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, file);
+    final var langEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, virtualFile);
     final var previewEditorAndHeader = getPreviewEditor();
     final var previewEditor = previewEditorAndHeader.getFirst();
     final var previewHeader = previewEditorAndHeader.getSecond();
@@ -94,7 +94,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       public void compileFinished(
           @NotNull final VirtualFile compiledFile,
           @NotNull final PomskyCompileResult result) {
-        if (compositeEditor.isDisposed() || !compiledFile.equals(file)) {
+        if (compositeEditor.isDisposed() || !compiledFile.equals(virtualFile)) {
           return;
         }
 
@@ -126,21 +126,16 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
         updateUIState(compiledFile, true);
       }
 
-      void updateUIState(@NotNull final VirtualFile compiledFile, final boolean isEnabled) {
-        if (!compositeEditor.isDisposed() && compiledFile.equals(file)) {
+      void updateUIState(@NotNull final VirtualFile file, final boolean isEnabled) {
+        if (!compositeEditor.isDisposed() && file.equals(virtualFile)) {
           final var compileHyperlink = previewHeader.getCompileHyperlink();
 
           if (!isEnabled) {
             final var executor = AppExecutorUtil.getAppScheduledExecutorService();
             final var loadingFuture = executor.schedule(() -> previewHeader.setLoading(true), 400, MILLISECONDS);
-            compiledFile.putUserData(KEY_LOADING, loadingFuture);
+            KEY_LOADING.set(file, loadingFuture);
           } else {
-            final var loadingFuture = compiledFile.getUserData(KEY_LOADING);
-
-            if (loadingFuture != null) {
-              loadingFuture.cancel(false);
-            }
-
+            KEY_LOADING.getRequired(file).cancel(false);
             previewHeader.setLoading(false);
           }
 
@@ -189,7 +184,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       @Override
       protected void hyperlinkActivated(final @NotNull HyperlinkEvent e) {
         final var compileService = PomskyCompileEditorService.getInstance(project);
-        compileService.compileAndUpdateEditorAsync(file);
+        compileService.compileAndUpdateEditorAsync(virtualFile);
       }
     });
 
