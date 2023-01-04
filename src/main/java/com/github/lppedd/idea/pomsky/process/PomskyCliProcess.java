@@ -46,7 +46,7 @@ public class PomskyCliProcess implements PomskyProcess {
   @NotNull
   @Override
   public PomskyCompileResult compile(@NotNull final String code) throws PomskyProcessException {
-    return compileInternal(List.of("--no-new-line", code));
+    return compileInternal(List.of("--no-new-line", code.trim()));
   }
 
   @NotNull
@@ -54,7 +54,7 @@ public class PomskyCliProcess implements PomskyProcess {
   public PomskyCompileResult compile(
       @NotNull final String code,
       @NotNull final PomskyRegexpFlavor flavor) throws PomskyProcessException {
-    return compileInternal(List.of("--no-new-line", "--flavor", flavor.getValue(), code));
+    return compileInternal(List.of("--no-new-line", "--flavor", flavor.getValue(), code.trim()));
   }
 
   @NotNull

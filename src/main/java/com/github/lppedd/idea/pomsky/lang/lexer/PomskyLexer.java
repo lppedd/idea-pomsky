@@ -17,7 +17,11 @@ public class PomskyLexer extends FlexAdapter {
   }
 
   @Override
-  public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
+  public void start(
+      @NotNull final CharSequence buffer,
+      final int startOffset,
+      final int endOffset,
+      final int initialState) {
     getFlex().setEof(false);
     super.start(buffer, startOffset, endOffset, initialState);
   }

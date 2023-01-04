@@ -8,6 +8,7 @@ import java.util.Objects;
 /**
  * @author Edoardo Luppi
  */
+@SuppressWarnings("ClassCanBeRecord")
 public class PomskyCompileResult {
   private final String regexp;
   private final String errorMessage;

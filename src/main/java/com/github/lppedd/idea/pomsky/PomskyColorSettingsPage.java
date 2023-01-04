@@ -18,18 +18,20 @@ import java.util.Map;
  * @author Edoardo Luppi
  */
 public class PomskyColorSettingsPage implements ColorSettingsPage {
-  private static final String DEMO_TEXT = "# This regex describes a cron expression\n" +
-      "let sep = ^ | ' ';\n" +
-      "let every = '*' | [digit]+ (',' [digit]+)*;\n\n" +
-      "Start\n" +
-      "(sep 'M=' :months(every))?\n" +
-      "(sep 'D=' :days(every))?\n" +
-      "(sep 'h=' :hours(every))?\n" +
-      "(sep 'm=' :minutes(every))?\n" +
-      "(sep 's=' :seconds(every))?\n" +
-      "End";
+  private static final String DEMO_TEXT = """
+      # This regex describes a cron expression
+      let sep = ^ | ' ';
+      let every = '*' | [digit]+ (',' [digit]+)*;
 
-  private static final AttributesDescriptor[] ATTRIBUTES_DESCRIPTORS = new AttributesDescriptor[]{
+      Start
+      (sep 'M=' :months(every))?
+      (sep 'D=' :days(every))?
+      (sep 'h=' :hours(every))?
+      (sep 'm=' :minutes(every))?
+      (sep 's=' :seconds(every))?
+      End""";
+
+  private static final AttributesDescriptor[] ATTRIBUTES_DESCRIPTORS = new AttributesDescriptor[] {
       new AttributesDescriptor("Comment", PomskyHighlighterColors.COMMENT),
       new AttributesDescriptor("String", PomskyHighlighterColors.STRING),
       new AttributesDescriptor("Number", PomskyHighlighterColors.NUMBER),

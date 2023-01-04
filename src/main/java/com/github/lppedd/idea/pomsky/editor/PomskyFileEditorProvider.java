@@ -17,18 +17,24 @@ import org.jetbrains.annotations.NotNull;
 public class PomskyFileEditorProvider implements AsyncFileEditorProvider, DumbAware {
   @NotNull
   @Override
-  public Builder createEditorAsync(@NotNull final Project project, @NotNull final VirtualFile file) {
+  public Builder createEditorAsync(
+      @NotNull final Project project,
+      @NotNull final VirtualFile file) {
     return new PomskyEditorBuilder(project, file);
   }
 
   @Override
-  public boolean accept(@NotNull final Project project, @NotNull final VirtualFile file) {
+  public boolean accept(
+      @NotNull final Project project,
+      @NotNull final VirtualFile file) {
     return FileTypeRegistry.getInstance().isFileOfType(file, PomskyFileType.INSTANCE);
   }
 
   @NotNull
   @Override
-  public FileEditor createEditor(@NotNull final Project project, @NotNull final VirtualFile file) {
+  public FileEditor createEditor(
+      @NotNull final Project project,
+      @NotNull final VirtualFile file) {
     return createEditorAsync(project, file).build();
   }
 
@@ -36,7 +42,7 @@ public class PomskyFileEditorProvider implements AsyncFileEditorProvider, DumbAw
   @NotNull
   @Override
   public String getEditorTypeId() {
-    return "idea-pomsky-file-editor";
+    return "ideaPomskyFileEditor";
   }
 
   @NotNull
