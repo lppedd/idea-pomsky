@@ -3,7 +3,6 @@ package com.github.lppedd.idea.pomsky.editor;
 import com.github.lppedd.idea.pomsky.lang.PomskyFileType;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
-import com.intellij.icons.AllIcons;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.options.ShowSettingsUtil;
@@ -45,7 +44,6 @@ public class PomskyEditorNotificationProvider implements EditorNotificationProvi
       @NotNull final Project project,
       @NotNull final FileEditor fileEditor) {
     final var panel = new EditorNotificationPanel(fileEditor, EditorNotificationPanel.Status.Info);
-    panel.icon(AllIcons.General.BalloonInformation);
     panel.createActionLabel("Setup CLI", () -> openSettings(project));
     panel.createActionLabel("Dismiss", () -> dismissBanner(project));
     panel.setText("Pomsky CLI executable is not defined");
