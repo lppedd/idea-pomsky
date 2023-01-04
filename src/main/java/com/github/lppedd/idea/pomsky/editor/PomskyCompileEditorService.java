@@ -7,6 +7,7 @@ import com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ReadAction;
+import com.intellij.openapi.components.Service;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -28,7 +29,8 @@ import static java.util.Collections.synchronizedMap;
 /**
  * @author Edoardo Luppi
  */
-class PomskyCompileEditorService {
+@Service(Service.Level.PROJECT)
+final class PomskyCompileEditorService {
   private static final Logger logger = Logger.getInstance(PomskyCompileEditorService.class);
 
   private final Project project;
