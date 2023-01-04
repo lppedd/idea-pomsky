@@ -184,7 +184,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       hackEditorGutterLayout(gutterComponent);
       gutterComponent.setPaintBackground(false);
     } catch (final Exception e) {
-      logger.error("Error while hacking the preview editor gutter component", e);
+      logger.error("Error while overriding the preview editor's gutter component layout", e);
     }
 
     final var settings = editor.getSettings();
