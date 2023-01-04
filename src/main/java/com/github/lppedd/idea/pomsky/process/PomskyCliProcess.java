@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class PomskyCliProcess implements PomskyProcess {
   private static final int TIMEOUT_VERSION = 15000;
-  private static final int TIMEOUT_COMPILE = 60000;
+  private static final int TIMEOUT_COMPILE = 30000;
   private static final int OUTPUT_THREESOLD = 10000000;
 
   private final Path executablePath;
@@ -105,7 +105,7 @@ public class PomskyCliProcess implements PomskyProcess {
 
       final var output = processOutput.getStdout().trim();
       return output.length() > OUTPUT_THREESOLD
-          ? new PomskyCompileResult(elapsedTimeMs, null, "The compiled RegExp is too big")
+          ? new PomskyCompileResult(elapsedTimeMs, null, "The compiled RegExp is too big to be displayed")
           : new PomskyCompileResult(elapsedTimeMs, output, null);
     } catch (final ExecutionException e) {
       throw new PomskyProcessException("Error during compilation", e);
