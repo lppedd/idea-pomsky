@@ -212,8 +212,8 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     );
 
     final var newLayout = enhancer.create(
-        new Class[] {gutterComponent.getClass()},
-        new Object[] {gutterComponent}
+        new Class[] { gutterComponent.getClass() },
+        new Object[] { gutterComponent }
     );
 
     layoutField.set(gutterComponent, newLayout);
