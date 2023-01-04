@@ -11,11 +11,19 @@ import org.jetbrains.annotations.NotNull;
  * @author Edoardo Luppi
  */
 class PomskyEditorWithPreview extends TextEditorWithPreview {
-  public PomskyEditorWithPreview(
+  private boolean isDisposed;
+
+  PomskyEditorWithPreview(
       @NotNull final TextEditor editor,
-      @NotNull final FileEditor preview,
-      @NotNull final Layout defaultLayout) {
-    super(editor, preview, "Pomsky Editor", defaultLayout, false);
+      @NotNull final FileEditor preview) {
+    super(editor, preview, "Pomsky Editor", Layout.SHOW_EDITOR_AND_PREVIEW, false);
+  }
+
+  /**
+   * Returns whether the editor has been disposed.
+   */
+  boolean isDisposed() {
+    return isDisposed;
   }
 
   @NotNull
@@ -30,5 +38,11 @@ class PomskyEditorWithPreview extends TextEditorWithPreview {
   @Override
   protected boolean isShowFloatingToolbar() {
     return false;
+  }
+
+  @Override
+  public void dispose() {
+    isDisposed = true;
+    super.dispose();
   }
 }

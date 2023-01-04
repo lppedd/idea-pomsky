@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-public class PomskyFileEditorProvider implements AsyncFileEditorProvider, DumbAware {
+class PomskyFileEditorProvider implements AsyncFileEditorProvider, DumbAware {
   @NotNull
   @Override
   public Builder createEditorAsync(

@@ -23,7 +23,7 @@ import java.util.function.Function;
  *
  * @author Edoardo Luppi
  */
-public class PomskyEditorNotificationProvider implements EditorNotificationProvider, DumbAware {
+class PomskyEditorNotificationProvider implements EditorNotificationProvider, DumbAware {
   @Nullable
   @Override
   public Function<? super @NotNull FileEditor, ? extends @Nullable JComponent> collectNotificationData(
@@ -45,7 +45,7 @@ public class PomskyEditorNotificationProvider implements EditorNotificationProvi
       @NotNull final FileEditor fileEditor) {
     final var panel = new EditorNotificationPanel(fileEditor, EditorNotificationPanel.Status.Info);
     panel.createActionLabel("Setup CLI", () -> openSettings(project));
-    panel.createActionLabel("Dismiss", () -> dismissBanner(project));
+    panel.createActionLabel("Dismiss", () -> dismiss(project));
     panel.setText("Pomsky CLI executable is not defined");
     return panel;
   }
@@ -53,10 +53,9 @@ public class PomskyEditorNotificationProvider implements EditorNotificationProvi
   private void openSettings(@NotNull final Project project) {
     final var settingsUtil = ShowSettingsUtil.getInstance();
     settingsUtil.showSettingsDialog(project, PomskySettingsConfigurable.class);
-    EditorNotifications.getInstance(project).updateAllNotifications();
   }
 
-  private void dismissBanner(@NotNull final Project project) {
+  private void dismiss(@NotNull final Project project) {
     final var settings = PomskySettingsService.getInstance();
     settings.setShowMissingCliExecutableBanner(false);
     EditorNotifications.getInstance(project).updateAllNotifications();

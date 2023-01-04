@@ -26,7 +26,7 @@ public class PomskyCompileResult {
   }
 
   /**
-   * Returns whether an error is present or not.
+   * Returns whether an error is present.
    */
   public boolean hasError() {
     return errorMessage != null;
@@ -47,7 +47,7 @@ public class PomskyCompileResult {
    * @throws IllegalStateException if an error is present
    */
   @NotNull
-  public String getRegexp() {
+  public String getCompiledRegexp() {
     if (hasError()) {
       throw new IllegalStateException("Check if errors are present before invoking this method");
     }

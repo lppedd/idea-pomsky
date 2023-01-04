@@ -98,6 +98,8 @@
 
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.process.PomskyService" />
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
+
+    <projectService serviceImplementation="com.github.lppedd.idea.pomsky.editor.PomskyCompileEditorService" />
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
 
     <applicationConfigurable
@@ -107,4 +109,28 @@
         instance="com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable"
     />
   </extensions>
+
+  <projectListeners>
+    <listener
+        topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"
+        class="com.github.lppedd.idea.pomsky.editor.PomskyFileEditorManagerListener"
+    />
+    <listener
+        topic="com.github.lppedd.idea.pomsky.settings.PomskySettingsListener"
+        class="com.github.lppedd.idea.pomsky.editor.PomskyEditorNotificationSettingsListener"
+    />
+  </projectListeners>
+
+  <actions>
+    <group id="com.github.lppedd.idea.pomsky">
+      <action
+          id="com.github.lppedd.idea.pomsky.compile"
+          text="Compile"
+          class="com.github.lppedd.idea.pomsky.editor.PomskyCompileEditorAction">
+        <keyboard-shortcut keymap="$default" first-keystroke="control shift G" />
+      </action>
+      <separator />
+      <add-to-group group-id="EditorPopupMenu" anchor="first" />
+    </group>
+  </actions>
 </idea-plugin>

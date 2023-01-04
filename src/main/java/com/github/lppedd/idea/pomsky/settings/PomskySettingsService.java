@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.settings;
 
+import com.github.lppedd.idea.pomsky.PomskyTopics;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -19,6 +20,11 @@ import org.jetbrains.annotations.Nullable;
     storages = @Storage(StoragePathMacros.NON_ROAMABLE_FILE)
 )
 public class PomskySettingsService implements PersistentStateComponent<PomskySettingsService> {
+  @NotNull
+  public static PomskySettingsService getInstance() {
+    return ApplicationManager.getApplication().getService(PomskySettingsService.class);
+  }
+
   /**
    * The absolute path to the Pomsky CLI executable.
    */
@@ -45,10 +51,12 @@ public class PomskySettingsService implements PersistentStateComponent<PomskySet
 
   public void setCliExecutablePath(@Nullable final String path) {
     cliExecutablePath = path;
+    notifySettingsChanged();
   }
 
   public void setShowMissingCliExecutableBanner(final boolean doShow) {
     showMissingCliExecutableBanner = doShow;
+    notifySettingsChanged();
   }
 
   @NotNull
@@ -62,8 +70,8 @@ public class PomskySettingsService implements PersistentStateComponent<PomskySet
     XmlSerializerUtil.copyBean(state, this);
   }
 
-  @NotNull
-  public static PomskySettingsService getInstance() {
-    return ApplicationManager.getApplication().getService(PomskySettingsService.class);
+  private void notifySettingsChanged() {
+    final var messageBus = ApplicationManager.getApplication().getMessageBus();
+    messageBus.syncPublisher(PomskyTopics.TOPIC_SETTINGS).settingsChanged(this);
   }
 }

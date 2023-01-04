@@ -23,42 +23,53 @@ import java.awt.event.ComponentEvent;
  * @author Edoardo Luppi
  */
 class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
-  private final JBLabel compiledRegExpLabel;
-  private final ComboBox<PomskyRegexpFlavor> flavorComboBox;
-  private final HyperlinkLabel compileLabel;
+  private final JBLabel infoLabel;
+  private final ComboBox<PomskyRegexpFlavor> regexpFlavorComboBox;
+  private final HyperlinkLabel compileHyperlink;
 
-  public PomskyPreviewEditorHeader() {
+  PomskyPreviewEditorHeader() {
     super(new GridBagLayout());
 
+    // TODO: pick better colors
     setBackground(EditorColorsManager.getInstance().getGlobalScheme().getColor(HintUtil.PROMOTION_PANE_KEY));
     setBorder(JBUI.Borders.merge(
-        JBUI.Borders.empty(0, 6),
-        new SideBorder(JBColor.border(), SideBorder.BOTTOM, 2),
+        JBUI.Borders.empty(0, 7),
+        new SideBorder(JBColor.PanelBackground, SideBorder.BOTTOM, 2),
         true
     ));
 
     // noinspection DialogTitleCapitalization
-    compiledRegExpLabel = new JBLabel("Compiled RegExp");
-    flavorComboBox = new ComboBox<>(new EnumComboBoxModel<>(PomskyRegexpFlavor.class), JBUI.scale(100));
-    compileLabel = new HyperlinkLabel("Compile");
+    infoLabel = new JBLabel("Compiled RegExp");
+    regexpFlavorComboBox = new ComboBox<>(new EnumComboBoxModel<>(PomskyRegexpFlavor.class), JBUI.scale(110));
+    compileHyperlink = new HyperlinkLabel("Compile");
 
     setWideLayout();
     addComponentListener(new LayoutChangeComponentListener());
   }
 
+  @NotNull
+  public ComboBox<PomskyRegexpFlavor> getRegexpFlavorComboBox() {
+    return regexpFlavorComboBox;
+  }
+
+  @NotNull
+  public HyperlinkLabel getCompileHyperlink() {
+    return compileHyperlink;
+  }
+
   private void setWideLayout() {
     final var gb = new GridBag().setDefaultInsets(JBUI.insets(3));
-    add(compiledRegExpLabel, gb.nextLine().next());
-    add(Box.createHorizontalGlue(), gb.next().weightx(1.0));
-    add(flavorComboBox, gb.next());
-    add(compileLabel, gb.next());
+    add(infoLabel, gb.nextLine().next());
+    add(Box.createHorizontalStrut(1), gb.next().weightx(1.0));
+    add(regexpFlavorComboBox, gb.next());
+    add(compileHyperlink, gb.next());
   }
 
   private void setTightLayout() {
     final var gb = new GridBag().setDefaultInsets(JBUI.insets(2));
-    add(compiledRegExpLabel, gb.nextLine().next().insetTop(5));
-    add(flavorComboBox, gb.nextLine().next());
-    add(compileLabel, gb.nextLine().next().insetBottom(5));
+    add(infoLabel, gb.nextLine().next().insetTop(5));
+    add(regexpFlavorComboBox, gb.nextLine().next());
+    add(compileHyperlink, gb.nextLine().next().insetBottom(5));
   }
 
   private void removeComponents(final int n) {
@@ -83,14 +94,14 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
       if (lastLayoutType != layoutType) {
         switch (lastLayoutType = layoutType) {
-          case LAYOUT_TIGHT:
+          case LAYOUT_TIGHT -> {
             removeComponents(4);
             setTightLayout();
-            break;
-          case LAYOUT_WIDE:
+          }
+          case LAYOUT_WIDE -> {
             removeComponents(3);
             setWideLayout();
-            break;
+          }
         }
 
         revalidate();
