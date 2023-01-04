@@ -21,9 +21,11 @@ import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.HyperlinkAdapter;
+import com.intellij.util.concurrency.AppExecutorUtil;
 import com.intellij.util.ui.JBUI;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -33,12 +35,16 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.event.ItemEvent;
+import java.util.concurrent.Future;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * @author Edoardo Luppi
  */
 class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
   private static final Logger logger = Logger.getInstance(PomskyEditorBuilder.class);
+  private static final Key<Future<?>> KEY_LOADING = Key.create("pomskyShowLoadingFuture");
 
   private final Project project;
   private final VirtualFile file;
@@ -92,6 +98,8 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
           return;
         }
 
+        updateUIState(compiledFile, true);
+
         final var editor = (EditorEx) previewEditor.getEditor();
         final var highlighterFactory = EditorHighlighterFactory.getInstance();
 
@@ -104,8 +112,6 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
           editor.getSettings().setUseSoftWraps(true);
           WriteAction.run(() -> editor.getDocument().setText(result.getCompiledRegexp()));
         }
-
-        previewHeader.getCompileHyperlink().setEnabled(true);
       }
 
       @Override
@@ -123,6 +129,21 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       void updateUIState(@NotNull final VirtualFile compiledFile, final boolean isEnabled) {
         if (!compositeEditor.isDisposed() && compiledFile.equals(file)) {
           final var compileHyperlink = previewHeader.getCompileHyperlink();
+
+          if (!isEnabled) {
+            final var executor = AppExecutorUtil.getAppScheduledExecutorService();
+            final var loadingFuture = executor.schedule(() -> previewHeader.setLoading(true), 400, MILLISECONDS);
+            compiledFile.putUserData(KEY_LOADING, loadingFuture);
+          } else {
+            final var loadingFuture = compiledFile.getUserData(KEY_LOADING);
+
+            if (loadingFuture != null) {
+              loadingFuture.cancel(false);
+            }
+
+            previewHeader.setLoading(false);
+          }
+
           compileHyperlink.setEnabled(isEnabled);
         }
       }
