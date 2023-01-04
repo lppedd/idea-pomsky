@@ -1,5 +1,6 @@
-package com.github.lppedd.idea.pomsky.process;
+package com.github.lppedd.idea.pomsky;
 
+import com.github.lppedd.idea.pomsky.process.*;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;

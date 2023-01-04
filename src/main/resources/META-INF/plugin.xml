@@ -107,7 +107,7 @@
     <!-- endregion -->
 
     <!-- region Services -->
-    <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.process.PomskyService" />
+    <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.PomskyService" />
     <applicationService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskySettingsService" />
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
     <!-- endregion -->

@@ -1,8 +1,8 @@
 package com.github.lppedd.idea.pomsky.editor;
 
+import com.github.lppedd.idea.pomsky.PomskyService;
 import com.github.lppedd.idea.pomsky.PomskyTopics;
 import com.github.lppedd.idea.pomsky.process.PomskyProcessException;
-import com.github.lppedd.idea.pomsky.process.PomskyService;
 import com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
 import com.intellij.openapi.application.ApplicationManager;
