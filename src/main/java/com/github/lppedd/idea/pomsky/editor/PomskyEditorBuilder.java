@@ -3,7 +3,6 @@ package com.github.lppedd.idea.pomsky.editor;
 import com.github.lppedd.idea.pomsky.PomskyTopics;
 import com.github.lppedd.idea.pomsky.process.PomskyCompileListener;
 import com.github.lppedd.idea.pomsky.process.PomskyCompileResult;
-import com.github.lppedd.idea.pomsky.process.PomskyRegexpFlavor;
 import com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsListener;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
@@ -24,7 +23,6 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.HyperlinkAdapter;
 import com.intellij.util.concurrency.AppExecutorUtil;
 import com.intellij.util.ui.JBUI;
 import net.sf.cglib.proxy.Enhancer;
@@ -33,8 +31,6 @@ import org.intellij.lang.regexp.RegExpFileType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import java.awt.event.ItemEvent;
 import java.util.concurrent.Future;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -73,12 +69,10 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       @Override
       public void settingsChanged(@NotNull final PomskySettingsService settings) {
         if (!compositeEditor.isDisposed()) {
-          final var isCompileEnabled = settings.getCliExecutablePath() != null;
-          final var compileHyperlink = previewHeader.getCompileHyperlink();
-          compileHyperlink.setEnabled(isCompileEnabled);
-
-          if (!isCompileEnabled) {
-            compileHyperlink.setToolTipText("Set the Pomsky CLI executable to compile");
+          if (settings.getCliExecutablePath() != null) {
+            previewHeader.setCompileEnabled(true, null);
+          } else {
+            previewHeader.setCompileEnabled(false, "Set the Pomsky CLI executable to compile");
           }
         }
       }
@@ -128,18 +122,16 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
 
       void updateUIState(@NotNull final VirtualFile file, final boolean isEnabled) {
         if (!compositeEditor.isDisposed() && file.equals(virtualFile)) {
-          final var compileHyperlink = previewHeader.getCompileHyperlink();
-
-          if (!isEnabled) {
-            final var executor = AppExecutorUtil.getAppScheduledExecutorService();
-            final var loadingFuture = executor.schedule(() -> previewHeader.setLoading(true), 400, MILLISECONDS);
-            KEY_LOADING.set(file, loadingFuture);
-          } else {
+          if (isEnabled) {
             KEY_LOADING.getRequired(file).cancel(false);
-            previewHeader.setLoading(false);
+            previewHeader.setCompileLoading(false);
+          } else {
+            final var executor = AppExecutorUtil.getAppScheduledExecutorService();
+            final var loadingFuture = executor.schedule(() -> previewHeader.setCompileLoading(true), 400, MILLISECONDS);
+            KEY_LOADING.set(file, loadingFuture);
           }
 
-          compileHyperlink.setEnabled(isEnabled);
+          previewHeader.setCompileEnabled(isEnabled, null);
         }
       }
     });
@@ -163,30 +155,23 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
   @NotNull
   private PomskyPreviewEditorHeader createHeaderComponent() {
     final var header = new PomskyPreviewEditorHeader();
-    final var projectSettings = PomskyProjectSettingsService.getInstance(project);
-    final var regexpFlavorComboBox = header.getRegexpFlavorComboBox();
-    regexpFlavorComboBox.setItem(projectSettings.getRegexpFlavor());
-    regexpFlavorComboBox.addItemListener(e -> {
-      if (e.getStateChange() == ItemEvent.SELECTED) {
-        projectSettings.setRegexpFlavor((PomskyRegexpFlavor) e.getItem());
-      }
+    header.addRegexpFlavorListener(regexpFlavor -> {
+      final var projectSettings = PomskyProjectSettingsService.getInstance(project);
+      projectSettings.setRegexpFlavor(regexpFlavor);
     });
 
-    final var compileHyperlink = header.getCompileHyperlink();
+    header.addCompileListener(flavor -> {
+      final var projectSettings = PomskyProjectSettingsService.getInstance(project);
+      projectSettings.setRegexpFlavor(flavor);
+
+      final var compileService = PomskyCompileEditorService.getInstance(project);
+      compileService.compileAndUpdateEditorAsync(virtualFile);
+    });
 
     // Enable the hyperlink only if the CLI executable has been set
     if (PomskySettingsService.getInstance().getCliExecutablePath() == null) {
-      compileHyperlink.setEnabled(false);
-      compileHyperlink.setToolTipText("Set the Pomsky CLI executable to compile");
+      header.setCompileEnabled(false, "Set the Pomsky CLI executable to compile");
     }
-
-    compileHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
-      @Override
-      protected void hyperlinkActivated(final @NotNull HyperlinkEvent e) {
-        final var compileService = PomskyCompileEditorService.getInstance(project);
-        compileService.compileAndUpdateEditorAsync(virtualFile);
-      }
-    });
 
     return header;
   }

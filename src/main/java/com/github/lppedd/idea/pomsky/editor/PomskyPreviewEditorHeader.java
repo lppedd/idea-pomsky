@@ -7,23 +7,32 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBPanel;
+import com.intellij.util.Consumer;
 import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Edoardo Luppi
  */
 class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
+  private final Collection<Consumer<PomskyRegexpFlavor>> compileListeners = new ArrayList<>(16);
+  private final Collection<Consumer<PomskyRegexpFlavor>> regexpFlavorListeners = new ArrayList<>(16);
+
   private final JBLabel infoLabel;
   private final ComboBox<PomskyRegexpFlavor> regexpFlavorComboBox;
-  private final HyperlinkLabel compileHyperlink;
   private final JBLabel loadingIcon;
+  private final HyperlinkLabel compileHyperlink;
 
   PomskyPreviewEditorHeader() {
     super(new GridBagLayout());
@@ -38,29 +47,53 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
     // noinspection DialogTitleCapitalization
     infoLabel = new JBLabel("Compiled RegExp");
+
     regexpFlavorComboBox = new ComboBox<>(new EnumComboBoxModel<>(PomskyRegexpFlavor.class), JBUI.scale(110));
-    compileHyperlink = new HyperlinkLabel("Compile");
+    regexpFlavorComboBox.addItemListener(e -> {
+      if (e.getStateChange() == ItemEvent.SELECTED) {
+        notifyRegexpFlavorListeners((PomskyRegexpFlavor) e.getItem());
+      }
+    });
 
     loadingIcon = new JBLabel(new AnimatedIcon.Default());
     loadingIcon.setToolTipText("Compiling...");
     loadingIcon.setVisible(false);
 
+    compileHyperlink = new HyperlinkLabel("Compile");
+    compileHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
+      @Override
+      protected void hyperlinkActivated(final @NotNull HyperlinkEvent e) {
+        notifyCompileListeners(regexpFlavorComboBox.getItem());
+      }
+    });
+
     setWideLayout();
     addComponentListener(new LayoutChangeComponentListener());
   }
 
-  @NotNull
-  public ComboBox<PomskyRegexpFlavor> getRegexpFlavorComboBox() {
-    return regexpFlavorComboBox;
+  public void setCompileEnabled(final boolean isEnabled, @Nullable final String tooltip) {
+    compileHyperlink.setEnabled(isEnabled);
+    compileHyperlink.setToolTipText(tooltip);
   }
 
-  @NotNull
-  public HyperlinkLabel getCompileHyperlink() {
-    return compileHyperlink;
-  }
-
-  public void setLoading(final boolean isLoading) {
+  public void setCompileLoading(final boolean isLoading) {
     loadingIcon.setVisible(isLoading);
+  }
+
+  public void addCompileListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
+    compileListeners.add(listener);
+  }
+
+  public void addRegexpFlavorListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
+    regexpFlavorListeners.add(listener);
+  }
+
+  private void notifyCompileListeners(@NotNull final PomskyRegexpFlavor flavor) {
+    compileListeners.forEach(l -> l.consume(flavor));
+  }
+
+  private void notifyRegexpFlavorListeners(@NotNull final PomskyRegexpFlavor flavor) {
+    regexpFlavorListeners.forEach(l -> l.consume(flavor));
   }
 
   private void setWideLayout() {
