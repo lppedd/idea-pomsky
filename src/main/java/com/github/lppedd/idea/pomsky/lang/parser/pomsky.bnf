@@ -132,6 +132,8 @@ private group_expression ::=
       group_expression_atomic
     | group_expression_capturing_named
     | group_expression_capturing_numbered
+    | group_expression_capturing_named_begin_missing
+    | group_expression_capturing_begin_missing
     | group_expression_non_capturing
     { recoverWhile = generic_expression_recovery }
 
@@ -149,6 +151,19 @@ group_expression_capturing_numbered ::=
 
 group_expression_non_capturing ::=
     GROUP_BEGIN root GROUP_END
+    { pin = 1 }
+
+// These private rules are only meant to improve error recovery and reporting in cases like:
+//   : 'example'
+//      here the '(' token is missing and should be reported
+//   :groupname 'example'
+//      here the '(' token after 'groupname' is missing and should be reported
+private group_expression_capturing_named_begin_missing ::=
+    COLON GROUP_NAME GROUP_BEGIN
+    { pin = 2 }
+
+private group_expression_capturing_begin_missing ::=
+    COLON GROUP_BEGIN
     { pin = 1 }
 
 // *****************************************************************************
