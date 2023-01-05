@@ -8,6 +8,7 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.util.Consumer;
+import com.intellij.util.ui.EmptyIcon;
 import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +32,9 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
   private final JBLabel infoLabel;
   private final ComboBox<PomskyRegexpFlavor> regexpFlavorComboBox;
-  private final JBLabel loadingIcon;
+  private final JBLabel loadingIconLabel;
   private final HyperlinkLabel compileHyperlink;
+  private final AnimatedIcon.Default loadingIcon = new AnimatedIcon.Default();
 
   PomskyPreviewEditorHeader() {
     super(new GridBagLayout());
@@ -55,10 +57,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
       }
     });
 
-    loadingIcon = new JBLabel(new AnimatedIcon.Default());
-    loadingIcon.setToolTipText("Compiling...");
-    loadingIcon.setVisible(false);
-
+    loadingIconLabel = new JBLabel(EmptyIcon.create(loadingIcon));
     compileHyperlink = new HyperlinkLabel("Compile");
     compileHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
       @Override
@@ -82,7 +81,13 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   }
 
   void setCompileLoading(final boolean isLoading) {
-    loadingIcon.setVisible(isLoading);
+    if (isLoading) {
+      loadingIconLabel.setIcon(loadingIcon);
+      loadingIconLabel.setToolTipText("Compiling...");
+    } else {
+      loadingIconLabel.setIcon(EmptyIcon.create(loadingIcon));
+      loadingIconLabel.setToolTipText(null);
+    }
   }
 
   void addCompileListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
@@ -103,10 +108,10 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
   private void setWideLayout() {
     final var gb = new GridBag().setDefaultInsets(JBUI.insets(3));
-    add(infoLabel, gb.nextLine().next());
-    add(regexpFlavorComboBox, gb.next().insetLeft(JBUI.scale(4)));
-    add(Box.createHorizontalStrut(1), gb.next().weightx(1.0));
-    add(loadingIcon, gb.next());
+    add(infoLabel, gb.nextLine().next().insetLeft(1));
+    add(regexpFlavorComboBox, gb.next());
+    add(Box.createHorizontalStrut(0), gb.next().weightx(1.0));
+    add(loadingIconLabel, gb.next().insetLeft(0));
     add(compileHyperlink, gb.next().insetLeft(1));
   }
 
