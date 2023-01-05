@@ -81,7 +81,9 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     connection.subscribe(PomskyTopics.TOPIC_COMPILE, new PomskyCompileListener() {
       @Override
       public void compileRequested(@NotNull final VirtualFile compiledFile) {
-        updateUIState(compiledFile, false);
+        final var regexpFlavor = previewHeader.getRegexpFlavor();
+        PomskyProjectSettingsService.getInstance(project).setRegexpFlavor(regexpFlavor);
+        updateUI(compiledFile, false);
       }
 
       @Override
@@ -92,7 +94,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
           return;
         }
 
-        updateUIState(compiledFile, true);
+        updateUI(compiledFile, true);
 
         final var editor = (EditorEx) previewEditor.getEditor();
         final var highlighterFactory = EditorHighlighterFactory.getInstance();
@@ -110,17 +112,17 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
 
       @Override
       public void compileCanceled(@NotNull final VirtualFile compiledFile) {
-        updateUIState(compiledFile, true);
+        updateUI(compiledFile, true);
       }
 
       @Override
       public void compileFailed(
           @NotNull final VirtualFile compiledFile,
           @NotNull final Throwable error) {
-        updateUIState(compiledFile, true);
+        updateUI(compiledFile, true);
       }
 
-      void updateUIState(@NotNull final VirtualFile file, final boolean isEnabled) {
+      void updateUI(@NotNull final VirtualFile file, final boolean isEnabled) {
         if (!compositeEditor.isDisposed() && file.equals(virtualFile)) {
           if (isEnabled) {
             KEY_LOADING.getRequired(file).cancel(false);

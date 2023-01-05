@@ -71,28 +71,33 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     addComponentListener(new LayoutChangeComponentListener());
   }
 
-  public void setCompileEnabled(final boolean isEnabled, @Nullable final String tooltip) {
+  @NotNull
+  PomskyRegexpFlavor getRegexpFlavor() {
+    return regexpFlavorComboBox.getItem();
+  }
+
+  void setCompileEnabled(final boolean isEnabled, @Nullable final String tooltip) {
     compileHyperlink.setEnabled(isEnabled);
     compileHyperlink.setToolTipText(tooltip);
   }
 
-  public void setCompileLoading(final boolean isLoading) {
+  void setCompileLoading(final boolean isLoading) {
     loadingIcon.setVisible(isLoading);
   }
 
-  public void addCompileListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
+  void addCompileListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
     compileListeners.add(listener);
   }
 
-  public void addRegexpFlavorListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
+  void addRegexpFlavorListener(@NotNull final Consumer<PomskyRegexpFlavor> listener) {
     regexpFlavorListeners.add(listener);
   }
 
-  private void notifyCompileListeners(@NotNull final PomskyRegexpFlavor flavor) {
+  void notifyCompileListeners(@NotNull final PomskyRegexpFlavor flavor) {
     compileListeners.forEach(l -> l.consume(flavor));
   }
 
-  private void notifyRegexpFlavorListeners(@NotNull final PomskyRegexpFlavor flavor) {
+  void notifyRegexpFlavorListeners(@NotNull final PomskyRegexpFlavor flavor) {
     regexpFlavorListeners.forEach(l -> l.consume(flavor));
   }
 
