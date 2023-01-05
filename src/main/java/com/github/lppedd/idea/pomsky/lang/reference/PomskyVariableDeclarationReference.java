@@ -23,6 +23,11 @@ public class PomskyVariableDeclarationReference extends PsiReferenceBase<PsiElem
   public PsiElement resolve() {
     final var element = getElement();
 
+    // When searching from the variable declaration, don't include the declaration identifier
+    if (element.getParent() instanceof PomskyVariableDeclarationPsiElement) {
+      return null;
+    }
+
     // Progressively search in outer scopes, up to the entire file
     for (var scope = findElementScope(element); scope != null; scope = findElementScope(scope)) {
       final var reference = findDeclarationInScope(element, scope);
