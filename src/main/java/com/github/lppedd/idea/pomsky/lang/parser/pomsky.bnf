@@ -2,6 +2,10 @@
 // IntelliJ IDEA BNF grammar for the Pomsky language
 // Author: Edoardo Luppi
 //
+// Note: the grammar that follows might look wrong, overcomplicated, or missing pieces,
+//  but remember it's meant to parse the entire file without ever failing, and to only
+//  build elements we actually need for other usages (references, completion, etc.).
+//
 {
   parserClass = "com.github.lppedd.idea.pomsky.lang.parser.PomskyGeneratedParser"
   parserUtilClass = "com.github.lppedd.idea.pomsky.lang.parser.PomskyParserUtil"
