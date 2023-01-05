@@ -10,6 +10,7 @@ import com.intellij.ui.components.JBPanel;
 import com.intellij.util.Consumer;
 import com.intellij.util.ui.EmptyIcon;
 import com.intellij.util.ui.GridBag;
+import com.intellij.util.ui.JBInsets;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,6 +27,7 @@ import java.util.Collection;
 /**
  * @author Edoardo Luppi
  */
+@SuppressWarnings("UnstableApiUsage")
 class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   private final Collection<Consumer<PomskyRegexpFlavor>> compileListeners = new ArrayList<>(16);
   private final Collection<Consumer<PomskyRegexpFlavor>> regexpFlavorListeners = new ArrayList<>(16);
@@ -34,7 +36,6 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   private final ComboBox<PomskyRegexpFlavor> regexpFlavorComboBox;
   private final JBLabel loadingIconLabel;
   private final HyperlinkLabel compileHyperlink;
-  private final AnimatedIcon.Default loadingIcon = new AnimatedIcon.Default();
 
   PomskyPreviewEditorHeader() {
     super(new GridBagLayout());
@@ -49,7 +50,6 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
     // noinspection DialogTitleCapitalization
     infoLabel = new JBLabel("Compiled RegExp");
-
     regexpFlavorComboBox = new ComboBox<>(new EnumComboBoxModel<>(PomskyRegexpFlavor.class), JBUI.scale(110));
     regexpFlavorComboBox.addItemListener(e -> {
       if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -57,7 +57,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
       }
     });
 
-    loadingIconLabel = new JBLabel(EmptyIcon.create(loadingIcon));
+    loadingIconLabel = new JBLabel(EmptyIcon.create(new SpinningProgressIcon()));
     compileHyperlink = new HyperlinkLabel("Compile");
     compileHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
       @Override
@@ -82,10 +82,10 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
   void setCompileLoading(final boolean isLoading) {
     if (isLoading) {
-      loadingIconLabel.setIcon(loadingIcon);
+      loadingIconLabel.setIcon(new SpinningProgressIcon());
       loadingIconLabel.setToolTipText("Compiling...");
     } else {
-      loadingIconLabel.setIcon(EmptyIcon.create(loadingIcon));
+      loadingIconLabel.setIcon(EmptyIcon.create(new SpinningProgressIcon()));
       loadingIconLabel.setToolTipText(null);
     }
   }
@@ -106,20 +106,49 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     regexpFlavorListeners.forEach(l -> l.consume(flavor));
   }
 
+  @Override
+  public void updateUI() {
+    super.updateUI();
+
+    if (loadingIconLabel != null) {
+      updateUIDimensions();
+    }
+  }
+
+  private void updateUIDimensions() {
+    regexpFlavorComboBox.setMinimumAndPreferredWidth(JBUI.scale(110));
+
+    final var layout = (GridBagLayout) getLayout();
+    updateConstraints(layout, infoLabel);
+    updateConstraints(layout, regexpFlavorComboBox);
+    updateConstraints(layout, loadingIconLabel);
+    updateConstraints(layout, compileHyperlink);
+  }
+
+  private void updateConstraints(
+      @NotNull final GridBagLayout layout,
+      @NotNull final Component component) {
+    final var constraints = layout.getConstraints(component);
+    final var insets = (JBInsets) constraints.insets;
+    final var unscaled = insets.getUnscaled();
+    constraints.insets = JBUI.insets(unscaled);
+    layout.setConstraints(component, constraints);
+  }
+
   private void setWideLayout() {
     final var gb = new GridBag().setDefaultInsets(JBUI.insets(3));
-    add(infoLabel, gb.nextLine().next().insetLeft(1));
+    add(infoLabel, gb.nextLine().next().insets(3, 1, 3, 3));
     add(regexpFlavorComboBox, gb.next());
     add(Box.createHorizontalStrut(0), gb.next().weightx(1.0));
-    add(loadingIconLabel, gb.next().insetLeft(0));
-    add(compileHyperlink, gb.next().insetLeft(1));
+    add(loadingIconLabel, gb.next().insets(3, 0, 3, 3));
+    add(compileHyperlink, gb.next().insets(3, 1, 3, 3));
   }
 
   private void setTightLayout() {
     final var gb = new GridBag().setDefaultInsets(JBUI.insets(2));
-    add(infoLabel, gb.nextLine().next().insetTop(5));
+    add(infoLabel, gb.nextLine().next().insets(5, 2, 2, 2));
     add(regexpFlavorComboBox, gb.nextLine().next());
-    add(compileHyperlink, gb.nextLine().next().insetBottom(5));
+    add(compileHyperlink, gb.nextLine().next().insets(2, 2, 5, 2));
   }
 
   private void removeComponents(final int n) {
