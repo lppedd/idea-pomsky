@@ -83,6 +83,10 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.support.PomskySpellcheckingStrategy"
     />
+    <problemFileHighlightFilter
+        id="pomsky"
+        implementation="com.github.lppedd.idea.pomsky.support.PomskyProblemFileHighlightFilter"
+    />
     <fileEditorProvider
         id="pomsky"
         implementation="com.github.lppedd.idea.pomsky.editor.PomskyFileEditorProvider"
