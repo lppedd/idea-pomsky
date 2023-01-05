@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.editor;
 
+import com.github.lppedd.idea.pomsky.Workaround;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.diagnostic.Logger;
@@ -60,6 +61,7 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
     super.dispose();
   }
 
+  @Workaround
   private void hackSplitterWidth() {
     try {
       final var splitterField = TextEditorWithPreview.class.getDeclaredField("mySplitter");

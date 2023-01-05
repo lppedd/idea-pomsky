@@ -1,6 +1,7 @@
 package com.github.lppedd.idea.pomsky.editor;
 
 import com.github.lppedd.idea.pomsky.PomskyTopics;
+import com.github.lppedd.idea.pomsky.Workaround;
 import com.github.lppedd.idea.pomsky.process.PomskyCompileListener;
 import com.github.lppedd.idea.pomsky.process.PomskyCompileResult;
 import com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService;
@@ -204,6 +205,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     settings.setRightMarginShown(false);
   }
 
+  @Workaround
   private void hackEditorGutterLayout(@NotNull final EditorGutterComponentEx gutterComponent) throws Exception {
     final var layoutField = gutterComponent.getClass().getDeclaredField("myLayout");
     layoutField.trySetAccessible();
