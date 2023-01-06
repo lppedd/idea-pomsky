@@ -75,11 +75,11 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
           return PomskyTypes.IDENTIFIER;
       }
 
-      ' / [\s\S] {
+      ' {
           yybegin(STRING_SINGLE);
       }
 
-      \" / [\s\S] {
+      \" {
           yybegin(STRING_DOUBLE);
       }
 
