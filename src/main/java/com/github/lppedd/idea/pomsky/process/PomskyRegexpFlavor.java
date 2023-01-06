@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.process;
 
+import com.intellij.util.PlatformUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -32,5 +33,31 @@ public enum PomskyRegexpFlavor {
   @Override
   public String toString() {
     return presentableName;
+  }
+
+  @NotNull
+  @SuppressWarnings("UnstableApiUsage")
+  public static PomskyRegexpFlavor getDefaultProductFlavor() {
+    if (PlatformUtils.isPyCharm()) {
+      return PomskyRegexpFlavor.PYTHON;
+    }
+
+    if (PlatformUtils.isRubyMine()) {
+      return PomskyRegexpFlavor.RUBY;
+    }
+
+    if (PlatformUtils.isRider()) {
+      return PomskyRegexpFlavor.DOTNET;
+    }
+
+    if (PlatformUtils.isWebStorm()) {
+      return PomskyRegexpFlavor.JAVASCRIPT;
+    }
+
+    if (PlatformUtils.isIntelliJ()) {
+      return PomskyRegexpFlavor.JAVA;
+    }
+
+    return PomskyRegexpFlavor.PCRE;
   }
 }

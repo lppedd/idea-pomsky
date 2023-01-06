@@ -158,6 +158,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
   @NotNull
   private PomskyPreviewEditorHeader createHeaderComponent() {
     final var header = new PomskyPreviewEditorHeader();
+    header.setRegexpFlavor(PomskyProjectSettingsService.getInstance(project).getRegexpFlavor());
     header.addRegexpFlavorListener(regexpFlavor -> {
       final var projectSettings = PomskyProjectSettingsService.getInstance(project);
       projectSettings.setRegexpFlavor(regexpFlavor);

@@ -75,6 +75,10 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     return regexpFlavorComboBox.getItem();
   }
 
+  void setRegexpFlavor(@NotNull final PomskyRegexpFlavor flavor) {
+    regexpFlavorComboBox.setItem(flavor);
+  }
+
   void setCompileEnabled(final boolean isEnabled, @Nullable final String tooltip) {
     compileHyperlink.setEnabled(isEnabled);
     compileHyperlink.setToolTipText(tooltip);

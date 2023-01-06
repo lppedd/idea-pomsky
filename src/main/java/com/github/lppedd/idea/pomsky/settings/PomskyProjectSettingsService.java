@@ -26,7 +26,7 @@ public class PomskyProjectSettingsService implements PersistentStateComponent<Po
   }
 
   @Attribute("regexpFlavor")
-  private PomskyRegexpFlavor regexpFlavor = PomskyRegexpFlavor.PCRE;
+  private PomskyRegexpFlavor regexpFlavor = PomskyRegexpFlavor.getDefaultProductFlavor();
 
   @NotNull
   public PomskyRegexpFlavor getRegexpFlavor() {
