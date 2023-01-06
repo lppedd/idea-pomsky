@@ -7,13 +7,13 @@ import org.jetbrains.annotations.NotNull;
  * @author Edoardo Luppi
  */
 public enum PomskyRegexpFlavor {
-  PCRE("pcre", "PCRE"),
-  PYTHON("python", "Python"),
   JAVA("java", "Java"),
   JAVASCRIPT("javascript", "JavaScript"),
+  RUST("rust", "Rust"),
+  PYTHON("python", "Python"),
   DOTNET("dotnet", ".NET"),
   RUBY("ruby", "Ruby"),
-  RUST("rust", "Rust");
+  PCRE("pcre", "PCRE");
 
   private final String value;
   private final String presentableName;
@@ -30,6 +30,7 @@ public enum PomskyRegexpFlavor {
     return value;
   }
 
+  @NotNull
   @Override
   public String toString() {
     return presentableName;
