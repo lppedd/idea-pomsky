@@ -92,8 +92,9 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
       return getLayout() == myActionLayout;
     }
 
+    @NotNull
     @Override
-    public @NotNull ActionUpdateThread getActionUpdateThread() {
+    public ActionUpdateThread getActionUpdateThread() {
       return ActionUpdateThread.BGT;
     }
 
