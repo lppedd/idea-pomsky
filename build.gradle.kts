@@ -1,7 +1,6 @@
 plugins {
   id("java")
   id("org.jetbrains.intellij") version "1.10.1"
-  id("io.freefair.lombok") version "6.6.1"
 }
 
 group = "com.github.lppedd"
