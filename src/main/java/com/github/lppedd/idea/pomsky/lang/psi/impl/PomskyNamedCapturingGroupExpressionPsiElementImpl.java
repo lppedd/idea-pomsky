@@ -14,6 +14,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
+ * Represents a named capturing group.
+ * <pre>:groupname('str' ident)</pre>
+ * <p>
+ * This type of group can then be referenced by its name.
+ * <pre>::groupname</pre>
+ *
  * @author Edoardo Luppi
  */
 public class PomskyNamedCapturingGroupExpressionPsiElementImpl extends ASTWrapperPsiElement implements PomskyNamedCapturingGroupExpressionPsiElement {

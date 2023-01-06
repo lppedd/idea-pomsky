@@ -4,10 +4,7 @@ import com.github.lppedd.idea.pomsky.lang.PomskyLanguage;
 import com.github.lppedd.idea.pomsky.lang.lexer.PomskyLexer;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiFile;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyTypes;
-import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyCharacterSetExpressionPsiElementImpl;
-import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyExpressionPsiElementImpl;
-import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyNamedCapturingGroupExpressionPsiElementImpl;
-import com.github.lppedd.idea.pomsky.lang.psi.impl.PomskyVariableDeclarationPsiElementImpl;
+import com.github.lppedd.idea.pomsky.lang.psi.impl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -35,7 +32,10 @@ public class PomskyParserDefinition implements ParserDefinition {
       Map.entry(PomskyTypes.VARIABLE_DECLARATION, PomskyVariableDeclarationPsiElementImpl::new),
       Map.entry(PomskyTypes.EXPRESSION, PomskyExpressionPsiElementImpl::new),
       Map.entry(PomskyTypes.CHARACTER_SET_EXPRESSION, PomskyCharacterSetExpressionPsiElementImpl::new),
-      Map.entry(PomskyTypes.GROUP_EXPRESSION_CAPTURING_NAMED, PomskyNamedCapturingGroupExpressionPsiElementImpl::new)
+      Map.entry(PomskyTypes.GROUP_EXPRESSION_ATOMIC, PomskyAtomicGroupExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.GROUP_EXPRESSION_NON_CAPTURING, PomskyNonCapturingGroupExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.GROUP_EXPRESSION_CAPTURING_NAMED, PomskyNamedCapturingGroupExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.GROUP_EXPRESSION_CAPTURING_NUMBERED, PomskyNumberedCapturingGroupExpressionPsiElementImpl::new)
   );
 
   @NotNull
