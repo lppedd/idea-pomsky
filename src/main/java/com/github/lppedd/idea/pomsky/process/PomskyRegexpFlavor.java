@@ -35,6 +35,12 @@ public enum PomskyRegexpFlavor {
     return presentableName;
   }
 
+  /**
+   * Returns the regular expression flavor that should be used
+   * on a specific IDE type (IntelliJ IDEA, WebStorm, PyCharm, etc.).
+   * <p>
+   * Useful to configure default values.
+   */
   @NotNull
   @SuppressWarnings("UnstableApiUsage")
   public static PomskyRegexpFlavor getDefaultProductFlavor() {
