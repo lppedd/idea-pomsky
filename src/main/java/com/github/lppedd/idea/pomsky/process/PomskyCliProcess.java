@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Edoardo Luppi
@@ -98,7 +99,7 @@ public class PomskyCliProcess implements PomskyProcess {
       final var processHandler = new CapturingProcessHandler(commandLine);
       final var startTime = System.nanoTime();
       final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, TIMEOUT_COMPILE, true);
-      final var elapsedTimeMs = (System.nanoTime() - startTime) / 1000000 - 1;
+      final var elapsedTimeMs = Math.max(1, TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime));
 
       if (processOutput.isCancelled()) {
         throw new ProcessCanceledException();
