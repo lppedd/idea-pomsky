@@ -35,7 +35,7 @@
     LOOKBEHIND          = "<<"
     LOOKBEHIND_NEGATED  = "!<<"
     COMMENT             = "regexp:#.*"
-    KEYWORD             = "regexp:let|enable|disable|lazy|greedy|atomic|range|regex"
+    KEYWORD             = "regexp:let|enable|disable|lazy|greedy|atomic|range|regex|base|if|else"
     QUANTIFIER          = "regexp:[*+?]"
     BOUNDARY            = "regexp:[\^$]|!?%|Start|End"
     STRING              = "regexp:'.*'"

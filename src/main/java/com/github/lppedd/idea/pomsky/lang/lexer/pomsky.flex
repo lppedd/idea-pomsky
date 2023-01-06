@@ -42,7 +42,7 @@ CodePoint       = U\+?[a-fA-F0-9]{1,6}
 
 // Complex tokens
 Comment         = #.*
-Keyword         = let | enable | disable | lazy | greedy | atomic | range | regex
+Keyword         = let | enable | disable | lazy | greedy | atomic | range | regex | base | if | else
 
 %xstate STRING_SINGLE
 %xstate STRING_DOUBLE
