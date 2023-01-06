@@ -50,7 +50,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
     // noinspection DialogTitleCapitalization
     infoLabel = new JBLabel("Compiled RegExp");
-    regexpFlavorComboBox = new ComboBox<>(new EnumComboBoxModel<>(PomskyRegexpFlavor.class), JBUI.scale(110));
+    regexpFlavorComboBox = new ComboBox<>(new EnumComboBoxModel<>(PomskyRegexpFlavor.class), JBUI.scale(105));
     regexpFlavorComboBox.addItemListener(e -> {
       if (e.getStateChange() == ItemEvent.SELECTED) {
         notifyRegexpFlavorListeners((PomskyRegexpFlavor) e.getItem());
@@ -120,7 +120,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   }
 
   private void updateUIDimensions() {
-    regexpFlavorComboBox.setMinimumAndPreferredWidth(JBUI.scale(110));
+    regexpFlavorComboBox.setMinimumAndPreferredWidth(JBUI.scale(105));
 
     final var layout = (GridBagLayout) getLayout();
     updateConstraints(layout, infoLabel);

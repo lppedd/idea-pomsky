@@ -1,12 +1,12 @@
 package com.github.lppedd.idea.pomsky.editor;
 
 import com.github.lppedd.idea.pomsky.Workaround;
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.TextEditorWithPreview;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
@@ -33,26 +33,26 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
     return isDisposed;
   }
 
+  @Override
+  protected boolean isShowActionsInTabs() {
+    return true;
+  }
+
+  @NotNull
+  @Override
+  public ActionGroup getTabActions() {
+    return new DefaultActionGroup(
+        getShowEditorAction(),
+        new PomskyChangeViewModeAction(Layout.SHOW_EDITOR_AND_PREVIEW)
+    );
+  }
+
   @NotNull
   @Override
   public JComponent getComponent() {
     final var component = super.getComponent();
     hackSplitterWidth();
     return component;
-  }
-
-  @NotNull
-  @Override
-  protected ActionGroup createViewActionGroup() {
-    return new DefaultActionGroup(
-        getShowEditorAction(),
-        getShowEditorAndPreviewAction()
-    );
-  }
-
-  @Override
-  protected boolean isShowFloatingToolbar() {
-    return false;
   }
 
   @Override
@@ -71,6 +71,45 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
       splitter.setDividerWidth(JBUI.scale(3));
     } catch (final NoSuchFieldException | IllegalAccessException e) {
       logger.error("Error while overriding the splitter width", e);
+    }
+  }
+
+  /**
+   * The original action is {@code TextEditorWithPreview$ChangeViewModeAction}.
+   * <p>
+   * This is an enhanced version that allows toggling horizontal/vertical split.
+   */
+  private class PomskyChangeViewModeAction extends ToggleAction implements DumbAware {
+    private final Layout myActionLayout;
+
+    PomskyChangeViewModeAction(@NotNull final Layout layout) {
+      super(layout.getName(), layout.getName(), layout.getIcon(PomskyEditorWithPreview.this));
+      myActionLayout = layout;
+    }
+
+    @Override
+    public boolean isSelected(@NotNull final AnActionEvent e) {
+      return getLayout() == myActionLayout;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+      return ActionUpdateThread.BGT;
+    }
+
+    @Override
+    public void setSelected(@NotNull final AnActionEvent e, final boolean state) {
+      if (state) {
+        setLayout(myActionLayout);
+      } else if (myActionLayout == Layout.SHOW_EDITOR_AND_PREVIEW) {
+        setVerticalSplit(!isVerticalSplit());
+      }
+    }
+
+    @Override
+    public void update(@NotNull final AnActionEvent e) {
+      super.update(e);
+      e.getPresentation().setIcon(myActionLayout.getIcon(PomskyEditorWithPreview.this));
     }
   }
 }
