@@ -9,4 +9,8 @@ import org.jetbrains.annotations.NotNull;
 public interface PomskyVariableDeclarationPsiElement extends PsiNameIdentifierOwner {
   @NotNull
   PomskyIdentifierPsiElement getIdentifier();
+
+  @NotNull
+  @Override
+  String getName();
 }
