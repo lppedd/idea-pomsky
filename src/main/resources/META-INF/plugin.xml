@@ -74,6 +74,11 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyFindUsagesProvider"
     />
+    <annotator
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyBasicAnnotator"
+    />
     <usageTypeProvider
         id="pomsky"
         implementation="com.github.lppedd.idea.pomsky.support.PomskyUsageTypeProvider"
