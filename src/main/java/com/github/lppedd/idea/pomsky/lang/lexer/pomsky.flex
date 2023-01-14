@@ -36,9 +36,10 @@ import com.intellij.psi.TokenType;
 // Primitives
 NewLine         = \n
 Space           = [ \t]
-Identifier      = [\p{Alpha}_][\p{Alpha}\pN_]*
 Number          = [0-9_.,]+
 CodePoint       = U\+?[a-fA-F0-9]{1,6}
+Identifier      = [\p{Alpha}_][\p{Alpha}\pN_]*
+GroupName       = [a-zA-Z][a-zA-Z0-9]*
 
 // Complex tokens
 Comment         = #.*
@@ -87,7 +88,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
           return PomskyTypes.NUMBER;
       }
 
-      ::({Identifier} | {Number})? {
+      ::({GroupName} | {Number})? {
           return PomskyTypes.GROUP_REFERENCE;
       }
 
@@ -213,7 +214,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 }
 
 <GROUP_EXPRESSION> {
-      {Identifier} | {Number} {
+      {GroupName} {
           return PomskyTypes.GROUP_NAME;
       }
 
