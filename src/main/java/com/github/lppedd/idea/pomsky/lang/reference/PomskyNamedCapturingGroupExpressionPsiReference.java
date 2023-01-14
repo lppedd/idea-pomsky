@@ -7,8 +7,8 @@ import com.intellij.psi.PsiReferenceBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.intellij.psi.util.PsiTreeUtil.findChildrenOfType;
 import static com.intellij.psi.util.PsiTreeUtil.findFirstParent;
+import static com.intellij.psi.util.PsiTreeUtil.getChildrenOfTypeAsList;
 
 /**
  * Given a named capturing group reference ({@code ::my_group_name}),
@@ -47,7 +47,7 @@ public class PomskyNamedCapturingGroupExpressionPsiReference extends PsiReferenc
   private PsiElement findDeclarationInScope(
       @NotNull final PsiElement element,
       @NotNull final PsiElement scopeElement) {
-    for (final var declaration : findChildrenOfType(scopeElement, PomskyNamedCapturingGroupExpressionPsiElement.class)) {
+    for (final var declaration : getChildrenOfTypeAsList(scopeElement, PomskyNamedCapturingGroupExpressionPsiElement.class)) {
       // Do not include named capturing groups declared after the reference/usage element
       if (declaration.getTextOffset() > element.getTextOffset()) {
         return null;

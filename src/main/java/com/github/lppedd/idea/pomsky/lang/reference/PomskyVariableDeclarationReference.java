@@ -7,8 +7,8 @@ import com.intellij.psi.PsiReferenceBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.intellij.psi.util.PsiTreeUtil.findChildrenOfType;
 import static com.intellij.psi.util.PsiTreeUtil.findFirstParent;
+import static com.intellij.psi.util.PsiTreeUtil.getChildrenOfTypeAsList;
 
 /**
  * @author Edoardo Luppi
@@ -44,7 +44,7 @@ public class PomskyVariableDeclarationReference extends PsiReferenceBase<PsiElem
   private PsiElement findDeclarationInScope(
       @NotNull final PsiElement element,
       @NotNull final PsiElement scopeElement) {
-    for (final var declaration : findChildrenOfType(scopeElement, PomskyVariableDeclarationPsiElement.class)) {
+    for (final var declaration : getChildrenOfTypeAsList(scopeElement, PomskyVariableDeclarationPsiElement.class)) {
       // Do not include variables declared after the reference/usage element
       if (declaration.getTextOffset() > element.getTextOffset()) {
         return null;
