@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-public class PomskyCompletionWeigher extends CompletionWeigher {
+class PomskyCompletionWeigher extends CompletionWeigher {
   @NotNull
   @Override
   public Boolean weigh(

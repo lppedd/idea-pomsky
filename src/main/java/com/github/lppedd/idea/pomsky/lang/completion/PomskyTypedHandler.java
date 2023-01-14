@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-public class PomskyTypedHandler extends TypedHandlerDelegate {
+class PomskyTypedHandler extends TypedHandlerDelegate {
   @NotNull
   @Override
   public Result checkAutoPopup(
