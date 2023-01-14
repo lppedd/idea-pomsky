@@ -96,6 +96,22 @@
         id="pomsky"
         implementation="com.github.lppedd.idea.pomsky.editor.PomskyFileEditorProvider"
     />
+    <typedHandler
+        id="pomsky"
+        order="after completionAutoPopup"
+        implementation="com.github.lppedd.idea.pomsky.lang.completion.PomskyTypedHandler"
+    />
+    <completion.contributor
+        id="pomsky"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.completion.PomskyCompletionContributor"
+    />
+    <weigher
+        id="pomsky"
+        key="completion"
+        order="before prefix"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.completion.PomskyCompletionWeigher"
+    />
 
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
