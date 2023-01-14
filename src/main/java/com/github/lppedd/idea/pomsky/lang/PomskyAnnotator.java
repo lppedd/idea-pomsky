@@ -6,6 +6,7 @@ import com.github.lppedd.idea.pomsky.lang.psi.PomskyStringLiteralPsiElement;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
@@ -13,21 +14,26 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-public class PomskyAnnotator implements Annotator {
+public class PomskyAnnotator implements Annotator, DumbAware {
   @Override
   public void annotate(
       @NotNull final PsiElement element,
       @NotNull final AnnotationHolder holder) {
-    new PomskyAnnotatorProcess(element, holder);
+    new PomskyAnnotatorProcess(element, holder).execute();
   }
 
   private static class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
+    final PsiElement element;
     final AnnotationHolder holder;
 
     PomskyAnnotatorProcess(
         @NotNull final PsiElement element,
         @NotNull final AnnotationHolder holder) {
+      this.element = element;
       this.holder = holder;
+    }
+
+    void execute() {
       element.accept(this);
     }
 
