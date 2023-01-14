@@ -14,4 +14,8 @@ public class PomskyPsiElementVisitor extends PsiElementVisitor {
   public void visitGroupReference(@NotNull final PomskyGroupReferencePsiElement element) {
     visitElement(element);
   }
+
+  public void visitVariableDeclaration(@NotNull final PomskyVariableDeclarationPsiElement element) {
+    visitElement(element);
+  }
 }

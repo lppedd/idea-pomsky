@@ -1,14 +1,13 @@
 package com.github.lppedd.idea.pomsky.lang;
 
-import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupReferencePsiElement;
-import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiElementVisitor;
-import com.github.lppedd.idea.pomsky.lang.psi.PomskyStringLiteralPsiElement;
+import com.github.lppedd.idea.pomsky.lang.psi.*;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -58,6 +57,18 @@ public class PomskyAnnotator implements Annotator, DumbAware {
 
       if (groupName.isEmpty()) {
         holder.newAnnotation(HighlightSeverity.ERROR, "Expected number or name of a group")
+            .range(element.getTextRange())
+            .create();
+      }
+    }
+
+    @Override
+    public void visitVariableDeclaration(@NotNull final PomskyVariableDeclarationPsiElement element) {
+      // Report variables declared after any other expression
+      final var previousElement = PsiTreeUtil.skipWhitespacesBackward(element);
+
+      if (previousElement instanceof PomskyExpressionPsiElement) {
+        holder.newAnnotation(HighlightSeverity.ERROR, "Variable declarations must come before expressions")
             .range(element.getTextRange())
             .create();
       }

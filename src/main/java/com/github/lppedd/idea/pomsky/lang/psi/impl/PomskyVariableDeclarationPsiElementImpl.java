@@ -1,10 +1,12 @@
 package com.github.lppedd.idea.pomsky.lang.psi.impl;
 
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement;
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiElementVisitor;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.SearchScope;
 import com.intellij.util.IncorrectOperationException;
@@ -67,5 +69,14 @@ public class PomskyVariableDeclarationPsiElementImpl extends ASTWrapperPsiElemen
   @Override
   public SearchScope getUseScope() {
     return GlobalSearchScope.fileScope(getContainingFile());
+  }
+
+  @Override
+  public void accept(@NotNull final PsiElementVisitor visitor) {
+    if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
+      pomskyVisitor.visitVariableDeclaration(this);
+    } else {
+      super.accept(visitor);
+    }
   }
 }
