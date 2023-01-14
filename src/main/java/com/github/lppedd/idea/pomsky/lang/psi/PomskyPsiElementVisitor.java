@@ -10,4 +10,8 @@ public class PomskyPsiElementVisitor extends PsiElementVisitor {
   public void visitStringLiteral(@NotNull final PomskyStringLiteralPsiElement element) {
     visitElement(element);
   }
+
+  public void visitGroupReference(@NotNull final PomskyGroupReferencePsiElement element) {
+    visitElement(element);
+  }
 }

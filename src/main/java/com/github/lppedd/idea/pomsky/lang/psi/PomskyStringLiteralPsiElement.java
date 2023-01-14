@@ -22,7 +22,7 @@ public class PomskyStringLiteralPsiElement extends LeafPsiElement {
     if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
       pomskyVisitor.visitStringLiteral(this);
     } else {
-      visitor.visitElement(this);
+      super.accept(visitor);
     }
   }
 }

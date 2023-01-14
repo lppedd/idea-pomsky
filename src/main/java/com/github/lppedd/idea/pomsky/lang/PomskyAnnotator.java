@@ -1,17 +1,19 @@
 package com.github.lppedd.idea.pomsky.lang;
 
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupReferencePsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiElementVisitor;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyStringLiteralPsiElement;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Edoardo Luppi
  */
-public class PomskyBasicAnnotator implements Annotator {
+public class PomskyAnnotator implements Annotator {
   @Override
   public void annotate(
       @NotNull final PsiElement element,
@@ -38,6 +40,18 @@ public class PomskyBasicAnnotator implements Annotator {
           text.startsWith("'") && !text.endsWith("'") ||
           text.startsWith("\"") && !text.endsWith("\"")) {
         holder.newAnnotation(HighlightSeverity.ERROR, "String literal doesn't have a closing quote")
+            .range(element.getTextRange())
+            .create();
+      }
+    }
+
+    @Override
+    public void visitGroupReference(@NotNull final PomskyGroupReferencePsiElement element) {
+      // Report group references without a name or number
+      final var groupName = ElementManipulators.getValueText(element);
+
+      if (groupName.isEmpty()) {
+        holder.newAnnotation(HighlightSeverity.ERROR, "Expected number or name of a group")
             .range(element.getTextRange())
             .create();
       }

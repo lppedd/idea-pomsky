@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.lang.psi;
 
+import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
@@ -30,5 +31,14 @@ public class PomskyGroupReferencePsiElement extends LeafPsiElement {
   @Override
   public PsiReference @NotNull [] getReferences() {
     return ReferenceProvidersRegistry.getReferencesFromProviders(this);
+  }
+
+  @Override
+  public void accept(@NotNull final PsiElementVisitor visitor) {
+    if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
+      pomskyVisitor.visitGroupReference(this);
+    } else {
+      super.accept(visitor);
+    }
   }
 }

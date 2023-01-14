@@ -77,7 +77,7 @@
     <annotator
         id="pomsky"
         language="pomsky"
-        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyBasicAnnotator"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyAnnotator"
     />
     <usageTypeProvider
         id="pomsky"
