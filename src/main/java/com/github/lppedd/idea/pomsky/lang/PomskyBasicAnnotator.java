@@ -20,7 +20,7 @@ public class PomskyBasicAnnotator implements Annotator {
   }
 
   private static class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
-    private final AnnotationHolder holder;
+    final AnnotationHolder holder;
 
     PomskyAnnotatorProcess(
         @NotNull final PsiElement element,
