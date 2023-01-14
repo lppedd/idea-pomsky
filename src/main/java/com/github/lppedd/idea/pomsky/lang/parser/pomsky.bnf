@@ -231,6 +231,10 @@ private generic_expression_recovery ::=
       | UNION
       | LBRACE
       | BOUNDARY
+      | LOOKAHEAD
+      | LOOKAHEAD_NEGATED
+      | LOOKBEHIND
+      | LOOKBEHIND_NEGATED
       | GROUP_END
       | GROUP_BEGIN
       | CLASS_BEGIN
