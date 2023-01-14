@@ -38,7 +38,7 @@ NewLine         = \n
 Space           = [ \t]
 Number          = [0-9_.,]+
 CodePoint       = U\+?[a-fA-F0-9]{1,6}
-Identifier      = [\p{Alpha}_][\p{Alpha}\pN_]*
+Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
 GroupName       = [a-zA-Z][a-zA-Z0-9]*
 
 // Complex tokens
