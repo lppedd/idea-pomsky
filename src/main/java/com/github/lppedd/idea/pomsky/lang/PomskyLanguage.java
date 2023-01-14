@@ -18,4 +18,9 @@ public class PomskyLanguage extends Language {
   public String getDisplayName() {
     return "Pomsky";
   }
+
+  @Override
+  public boolean isCaseSensitive() {
+    return true;
+  }
 }
