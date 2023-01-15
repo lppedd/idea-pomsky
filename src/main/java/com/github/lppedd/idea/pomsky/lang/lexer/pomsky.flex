@@ -34,8 +34,7 @@ import com.intellij.psi.TokenType;
 %}
 
 // Primitives
-NewLine         = \n
-Space           = [ \t]
+Whitespace      = \s+
 Number          = [0-9_]+
 CodePoint       = U\+?[a-fA-F0-9]{1,6}
 Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
@@ -52,7 +51,7 @@ Keyword         = let | enable | disable | lazy | greedy | atomic | range | rege
 %%
 
 <YYINITIAL> {
-      {NewLine}+ | {Space}+ {
+      {Whitespace} {
           return TokenType.WHITE_SPACE;
       }
 
