@@ -1,5 +1,7 @@
 package com.github.lppedd.idea.pomsky.lang.psi;
 
+import com.github.lppedd.idea.pomsky.PomskyPatterns;
+import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
@@ -16,6 +18,21 @@ public class PomskyGroupReferencePsiElement extends LeafPsiElement {
       @NotNull final IElementType type,
       @NotNull final CharSequence text) {
     super(type, text);
+  }
+
+  /**
+   * Returns the referenced group name or number.
+   */
+  @NotNull
+  public String getName() {
+    return ElementManipulators.getValueText(this);
+  }
+
+  /**
+   * Whether this reference is using a numeric notation to refer to a group.
+   */
+  public boolean isNumbered() {
+    return PomskyPatterns.matchesNumber(getName());
   }
 
   @Nullable
