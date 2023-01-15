@@ -2,9 +2,11 @@ package com.github.lppedd.idea.pomsky.lang.psi.impl;
 
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupNamePsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyNamedCapturingGroupExpressionPsiElement;
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiElementVisitor;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.SearchScope;
 import com.intellij.util.IncorrectOperationException;
@@ -74,5 +76,14 @@ public class PomskyNamedCapturingGroupExpressionPsiElementImpl extends ASTWrappe
   @Override
   public SearchScope getUseScope() {
     return GlobalSearchScope.fileScope(getContainingFile());
+  }
+
+  @Override
+  public void accept(@NotNull final PsiElementVisitor visitor) {
+    if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
+      pomskyVisitor.visitNamedCapturingGroup(this);
+    } else {
+      super.accept(visitor);
+    }
   }
 }

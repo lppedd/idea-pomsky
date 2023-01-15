@@ -30,6 +30,10 @@ intellij {
   plugins.set(listOf("java" /* Only for code documentation */))
 }
 
+dependencies {
+  implementation("one.util:streamex:0.8.1")
+}
+
 tasks {
   patchPluginXml {
     sinceBuild.set("223")

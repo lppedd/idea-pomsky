@@ -1,6 +1,7 @@
 package com.github.lppedd.idea.pomsky.lang.psi;
 
 import com.github.lppedd.idea.pomsky.PomskyPatterns;
+import com.github.lppedd.idea.pomsky.lang.refactoring.PomskyGroupReferenceElementManipulator;
 import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
@@ -22,6 +23,8 @@ public class PomskyGroupReferencePsiElement extends LeafPsiElement {
 
   /**
    * Returns the referenced group name or number.
+   *
+   * @see PomskyGroupReferenceElementManipulator
    */
   @NotNull
   public String getName() {

@@ -6,7 +6,16 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Edoardo Luppi
  */
-public interface PomskyNamedCapturingGroupExpressionPsiElement extends PomskyGroupExpressionPsiElement, PsiNameIdentifierOwner {
+public interface PomskyNamedCapturingGroupExpressionPsiElement
+    extends PomskyCapturingGroupExpressionPsiElement,
+            PsiNameIdentifierOwner {
   @NotNull
   PomskyGroupNamePsiElement getGroupName();
+
+  /**
+   * Returns the group's name.
+   */
+  @NotNull
+  @Override
+  String getName();
 }

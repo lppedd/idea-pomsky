@@ -12,7 +12,7 @@ import com.intellij.psi.search.SearchScope;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 
-import static java.util.Objects.requireNonNull;
+import java.util.Objects;
 
 /**
  * @author Edoardo Luppi
@@ -26,7 +26,7 @@ public class PomskyVariableDeclarationPsiElementImpl extends ASTWrapperPsiElemen
   @Override
   public PomskyIdentifierPsiElement getIdentifier() {
     final var identifier = findChildByClass(PomskyIdentifierPsiElement.class);
-    return requireNonNull(identifier, "The variable identifier must be present");
+    return Objects.requireNonNull(identifier, "The variable identifier must be present");
   }
 
   @Override

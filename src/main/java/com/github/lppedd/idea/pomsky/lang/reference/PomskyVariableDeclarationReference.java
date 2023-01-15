@@ -1,20 +1,19 @@
 package com.github.lppedd.idea.pomsky.lang.reference;
 
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupExpressionPsiElement;
+import com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReferenceBase;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static com.intellij.psi.util.PsiTreeUtil.findFirstParent;
-import static com.intellij.psi.util.PsiTreeUtil.getChildrenOfTypeAsList;
 
 /**
  * @author Edoardo Luppi
  */
-public class PomskyVariableDeclarationReference extends PsiReferenceBase<PsiElement> {
-  public PomskyVariableDeclarationReference(@NotNull final PsiElement referenceElement) {
+public class PomskyVariableDeclarationReference extends PsiReferenceBase<PomskyIdentifierPsiElement> {
+  public PomskyVariableDeclarationReference(@NotNull final PomskyIdentifierPsiElement referenceElement) {
     super(referenceElement);
   }
 
@@ -32,29 +31,33 @@ public class PomskyVariableDeclarationReference extends PsiReferenceBase<PsiElem
       }
     }
 
+    // Search at the file level
     return findDeclarationInScope(element, element.getContainingFile());
   }
 
   @Nullable
   private PsiElement findElementScope(@NotNull final PsiElement element) {
-    return findFirstParent(element, true, PomskyGroupExpressionPsiElement.class::isInstance);
+    return PsiTreeUtil.findFirstParent(element, true, PomskyGroupExpressionPsiElement.class::isInstance);
   }
 
   @Nullable
   private PsiElement findDeclarationInScope(
-      @NotNull final PsiElement element,
-      @NotNull final PsiElement scopeElement) {
-    for (final var declaration : getChildrenOfTypeAsList(scopeElement, PomskyVariableDeclarationPsiElement.class)) {
+      @NotNull final PomskyIdentifierPsiElement identifier,
+      @NotNull final PsiElement scope) {
+    final var declarations = PsiTreeUtil.getChildrenOfTypeAsList(scope, PomskyVariableDeclarationPsiElement.class);
+    PsiElement result = null;
+
+    for (final var declaration : declarations) {
       // Do not include variables declared after the reference/usage element
-      if (declaration.getTextOffset() > element.getTextOffset()) {
-        return null;
+      if (declaration.getTextOffset() > identifier.getTextOffset()) {
+        break;
       }
 
-      if (element.getText().equals(declaration.getName())) {
-        return declaration;
+      if (identifier.getName().equals(declaration.getName())) {
+        result = declaration;
       }
     }
 
-    return null;
+    return result;
   }
 }

@@ -1,6 +1,6 @@
 package com.github.lppedd.idea.pomsky.lang.psi;
 
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.NavigatablePsiElement;
 
 /**
  * Represents a group, which can be:
@@ -14,4 +14,4 @@ import com.intellij.psi.PsiElement;
  *
  * @author Edoardo Luppi
  */
-public interface PomskyGroupExpressionPsiElement extends PsiElement {}
+public interface PomskyGroupExpressionPsiElement extends NavigatablePsiElement {}

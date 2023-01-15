@@ -11,11 +11,19 @@ public class PomskyPsiElementVisitor extends PsiElementVisitor {
     visitElement(element);
   }
 
+  public void visitIdentifier(@NotNull final PomskyIdentifierPsiElement element) {
+    visitElement(element);
+  }
+
   public void visitGroupReference(@NotNull final PomskyGroupReferencePsiElement element) {
     visitElement(element);
   }
 
   public void visitVariableDeclaration(@NotNull final PomskyVariableDeclarationPsiElement element) {
+    visitElement(element);
+  }
+
+  public void visitNamedCapturingGroup(@NotNull final PomskyNamedCapturingGroupExpressionPsiElement element) {
     visitElement(element);
   }
 }
