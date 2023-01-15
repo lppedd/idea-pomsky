@@ -29,7 +29,14 @@ public class PomskyGroupReferencePsiElement extends LeafPsiElement {
   }
 
   /**
-   * Whether this reference is using a numeric notation to refer to a group.
+   * Whether this reference is using the name notation to refer to a group.
+   */
+  public boolean isNamed() {
+    return !isNumbered();
+  }
+
+  /**
+   * Whether this reference is using the numeric notation to refer to a group.
    */
   public boolean isNumbered() {
     return PomskyPatterns.matchesNumber(getName());
