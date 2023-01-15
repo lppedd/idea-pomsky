@@ -20,19 +20,19 @@ public class PomskyVariableDeclarationReference extends PsiReferenceBase<PomskyI
   @Nullable
   @Override
   public PsiElement resolve() {
-    final var element = getElement();
+    final var identifier = getElement();
 
     // Progressively search in outer scopes, up to the entire file
-    for (var scope = findElementScope(element); scope != null; scope = findElementScope(scope)) {
-      final var reference = findDeclarationInScope(element, scope);
+    for (var scope = findElementScope(identifier); scope != null; scope = findElementScope(scope)) {
+      final var declaration = findDeclarationInScope(identifier, scope);
 
-      if (reference != null) {
-        return reference;
+      if (declaration != null) {
+        return declaration;
       }
     }
 
     // Search at the file level
-    return findDeclarationInScope(element, element.getContainingFile());
+    return findDeclarationInScope(identifier, identifier.getContainingFile());
   }
 
   @Nullable

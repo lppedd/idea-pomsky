@@ -19,7 +19,7 @@ class PomskyTypedHandler extends TypedHandlerDelegate {
       @NotNull final Project project,
       @NotNull final Editor editor,
       @NotNull final PsiFile file) {
-    if (file.getLanguage() == PomskyLanguage.INSTANCE && isCharValid(charTyped)) {
+    if (file.getLanguage().isKindOf(PomskyLanguage.INSTANCE) && isCharValid(charTyped)) {
       AutoPopupController.getInstance(project).scheduleAutoPopup(editor);
       return Result.STOP;
     }
