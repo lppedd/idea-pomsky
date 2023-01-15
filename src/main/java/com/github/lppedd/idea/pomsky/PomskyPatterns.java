@@ -5,6 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.regex.Pattern;
 
 /**
+ * Plugin-wide reusable RegExp patterns and utility methods.
+ *
  * @author Edoardo Luppi
  */
 public class PomskyPatterns {
