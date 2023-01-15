@@ -74,6 +74,10 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.PomskyFindUsagesProvider"
     />
+    <highlightUsagesHandlerFactory
+        id="pomsky"
+        implementation="com.github.lppedd.idea.pomsky.lang.annotator.PomskyBuiltinsHighlightUsagesHandlerFactory"
+    />
     <annotator
         id="pomsky"
         language="pomsky"

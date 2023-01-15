@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.lang.annotator;
 
+import com.github.lppedd.idea.pomsky.lang.PomskyBuiltins;
 import com.github.lppedd.idea.pomsky.lang.psi.*;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -53,6 +54,12 @@ class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
     final var reference = element.getReference();
 
     if (reference == null || reference.resolve() == null) {
+      // Check if the element refer to a built-in variable or property
+      if (PomskyBuiltins.Variables.is(element.getName())) {
+        // TODO: highlight built-ins using a different foreground color
+        return;
+      }
+
       final var message = "Variable '%s' doesn't exist".formatted(element.getName());
       holder.newAnnotation(HighlightSeverity.ERROR, message)
           .range(element.getTextRange())
