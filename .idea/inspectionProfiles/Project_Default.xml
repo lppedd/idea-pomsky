@@ -1,9 +1,6 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="Convert2Lambda" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="reportNotAnnotatedInterfaces" value="false" />
-    </inspection_tool>
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
         <language minSize="60" name="Java" />
