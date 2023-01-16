@@ -56,7 +56,6 @@ class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
     if (reference == null || reference.resolve() == null) {
       // Check if the element refer to a built-in variable or property
       if (PomskyBuiltins.Variables.is(element.getName())) {
-        // TODO: highlight built-ins using a different foreground color
         return;
       }
 
