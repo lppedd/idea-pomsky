@@ -117,6 +117,21 @@
         implementationClass="com.github.lppedd.idea.pomsky.lang.completion.PomskyCompletionWeigher"
     />
 
+    <localInspection
+        id="pomskyUnusedVariableDeclaration"
+        language="pomsky"
+        shortName="PomskyUnusedVariableDeclaration"
+        level="WARNING"
+        bundle="messages.PomskyBundle"
+        key="inspection.declarationRedundancy.variable"
+        groupBundle="messages.PomskyBundle"
+        groupKey="inspection.group.declarationRedundancy"
+        groupPath="Pomsky"
+        enabledByDefault="true"
+        editorAttributes="NOT_USED_ELEMENT_ATTRIBUTES"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.inspections.PomskyUnusedVariableDeclarationInspection"
+    />
+
     <additionalTextAttributes scheme="Default" file="colorSchemes/pomsky.xml" />
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/pomsky-darcula.xml" />
     <colorSettingsPage id="pomsky" implementation="com.github.lppedd.idea.pomsky.support.PomskyColorSettingsPage" />
@@ -129,7 +144,7 @@
     />
     <notificationGroup
         id="com.github.lppedd.idea.pomsky.error.compile"
-        key="pomsky.notification.compilation.error"
+        key="notification.compilation.error"
         bundle="messages.PomskyBundle"
         displayType="BALLOON"
     />
