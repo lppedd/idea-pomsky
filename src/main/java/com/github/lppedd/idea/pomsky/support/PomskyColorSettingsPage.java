@@ -37,6 +37,8 @@ class PomskyColorSettingsPage implements ColorSettingsPage {
       new AttributesDescriptor("String", PomskyHighlighterColors.STRING),
       new AttributesDescriptor("Number", PomskyHighlighterColors.NUMBER),
       new AttributesDescriptor("Keyword", PomskyHighlighterColors.KEYWORD),
+      new AttributesDescriptor("Identifiers//Variable", PomskyHighlighterColors.IDENTIFIER),
+      new AttributesDescriptor("Identifiers//Built-in variable", PomskyHighlighterColors.IDENTIFIER_BUILTIN),
       new AttributesDescriptor("Group//Group name", PomskyHighlighterColors.GROUP_NAME),
       new AttributesDescriptor("Group//Group reference", PomskyHighlighterColors.GROUP_REFERENCE),
       new AttributesDescriptor("Braces and Operators//Comma", PomskyHighlighterColors.COMMA),

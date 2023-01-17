@@ -30,4 +30,9 @@
       <option name="FOREGROUND" value="207AAB" />
     </value>
   </option>
+  <option name="POMSKY_IDENTIFIER_BUILTIN">
+    <value>
+      <option name="FONT_TYPE" value="1" />
+    </value>
+  </option>
 </list>
