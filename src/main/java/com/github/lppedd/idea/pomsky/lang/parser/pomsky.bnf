@@ -76,10 +76,10 @@ private alternatives ::=
     alternative (UNION alternative)*
 
 private alternative ::=
-    inner_expression+
+    fix_expression+
 
-private inner_expression ::=
-      atom_expression quantifier_suffix*
+private fix_expression ::=
+      atom_expression repetition_suffix*
     | lookaround_prefix expression?
 
 private atom_expression ::=
@@ -104,10 +104,10 @@ private lookaround_prefix ::=
 // Quantifier
 // *****************************************************************************
 
-quantifier_suffix ::=
-    quantifier_value quantifier_type?
+repetition_suffix ::=
+    repetition_count repetition_type?
 
-private quantifier_value ::=
+private repetition_count ::=
       QUANTIFIER
     | repetition_quantifier
 
@@ -124,7 +124,7 @@ private repetition_quantifier_fixed ::=
     LBRACE NUMBER? RBRACE
     { pin = 1 }
 
-private quantifier_type ::=
+private repetition_type ::=
       "greedy"
     | "lazy"
 
