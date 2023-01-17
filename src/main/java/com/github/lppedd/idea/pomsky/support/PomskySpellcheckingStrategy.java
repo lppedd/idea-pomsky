@@ -1,9 +1,11 @@
 package com.github.lppedd.idea.pomsky.support;
 
+import com.github.lppedd.idea.pomsky.lang.PomskyBuiltins;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupNamePsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupReferencePsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
@@ -24,16 +26,23 @@ class PomskySpellcheckingStrategy extends SpellcheckingStrategy {
       return new PomskyCommentTokenizer();
     }
 
-    if (element instanceof PomskyGroupReferencePsiElement) {
-      return new PomskyGroupReferenceTokenizer();
+    if (element instanceof PomskyIdentifierPsiElement identifier && !isBuiltin(identifier)) {
+      return new PomskyLeafElementTokenizer(true);
     }
 
-    if (element instanceof PomskyIdentifierPsiElement ||
-        element instanceof PomskyGroupNamePsiElement) {
+    if (element instanceof PomskyGroupNamePsiElement ||
+        element instanceof PomskyGroupReferencePsiElement) {
       return new PomskyLeafElementTokenizer(true);
     }
 
     return SpellcheckingStrategy.EMPTY_TOKENIZER;
+  }
+
+  private boolean isBuiltin(@NotNull final PomskyIdentifierPsiElement identifier) {
+    final var name = identifier.getName();
+    return PomskyBuiltins.CharacterClasses.is(name) ||
+           PomskyBuiltins.Variables.is(name) ||
+           PomskyBuiltins.Properties.is(name);
   }
 
   private static class PomskyCommentTokenizer extends PomskyLeafElementTokenizer {
@@ -58,24 +67,6 @@ class PomskySpellcheckingStrategy extends SpellcheckingStrategy {
       }
 
       return TextRange.create(startIndex, elementText.length());
-    }
-  }
-
-  private static class PomskyGroupReferenceTokenizer extends PomskyLeafElementTokenizer {
-    PomskyGroupReferenceTokenizer() {
-      super(true);
-    }
-
-    @NotNull
-    @Override
-    protected TextRange getRangeToCheck(
-        @NotNull final LeafPsiElement element,
-        @NotNull final String elementText) {
-      // Exclude the group reference '::' starting characters
-      final var length = elementText.length();
-      return length > 2
-          ? TextRange.create(2, length)
-          : TextRange.EMPTY_RANGE;
     }
   }
 
@@ -111,7 +102,7 @@ class PomskySpellcheckingStrategy extends SpellcheckingStrategy {
     protected TextRange getRangeToCheck(
         @NotNull final LeafPsiElement element,
         @NotNull final String elementText) {
-      return TextRange.allOf(elementText);
+      return ElementManipulators.getValueTextRange(element);
     }
   }
 }
