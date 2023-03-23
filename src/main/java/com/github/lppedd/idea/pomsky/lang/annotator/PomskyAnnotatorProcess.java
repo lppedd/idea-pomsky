@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Edoardo Luppi
+ * @see PomskyBuiltinAnnotator
  */
 class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
   private final PsiElement element;
@@ -47,6 +48,21 @@ class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
   @Override
   public void visitIdentifier(@NotNull final PomskyIdentifierPsiElement element) {
     if (element.getParent() instanceof PomskyVariableDeclarationPsiElement) {
+      return;
+    }
+
+    final var isInCharacterSet = PsiTreeUtil.getParentOfType(element, PomskyCharacterSetExpressionPsiElement.class) != null;
+
+    if (isInCharacterSet) {
+      if (PomskyBuiltins.CharacterClasses.is(element.getName()) ||
+          PomskyBuiltins.Properties.is(element.getName())) {
+        return;
+      }
+
+      final var message = "Unknown character class `%s`".formatted(element.getName());
+      holder.newAnnotation(HighlightSeverity.ERROR, message)
+          .range(element.getTextRange())
+          .create();
       return;
     }
 
@@ -139,7 +155,7 @@ class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
     PsiElement previous = declaration;
 
     while ((previous = previous.getPrevSibling()) != null) {
-      if (previous instanceof PomskyVariableDeclarationPsiElement other &&
+      if (previous instanceof final PomskyVariableDeclarationPsiElement other &&
           other.getName().equals(declaration.getName())) {
         previousDeclaration = other;
       }

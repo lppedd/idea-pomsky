@@ -5,15 +5,17 @@ import com.intellij.codeInsight.completion.CompletionWeigher;
 import com.intellij.codeInsight.lookup.LookupElement;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * @author Edoardo Luppi
  */
 class PomskyCompletionWeigher extends CompletionWeigher {
   @NotNull
   @Override
-  public Boolean weigh(
+  public Integer weigh(
       @NotNull final LookupElement element,
       @NotNull final CompletionLocation location) {
-    return element.getUserData(PomskyCompletionContributor.KEY_KEYWORD) != Boolean.TRUE;
+    return Objects.requireNonNull(element.getUserData(PomskyCompletionContributor.KEY_WEIGHT));
   }
 }

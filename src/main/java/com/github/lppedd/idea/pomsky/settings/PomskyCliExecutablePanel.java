@@ -66,7 +66,7 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
     executablePathField.addBrowseFolderListener(new TextBrowseFolderListener(chooserDescriptor));
 
     final var executablePathPanel = UI.PanelFactory.panel(executablePathField)
-        .withComment("The Pomsky CLI executable path. E.g., 'C:/tools/pomsky_windows_v0.8.exe'", false)
+        .withComment("The Pomsky CLI executable path. E.g., 'C:/tools/pomsky_windows_v0.10.exe'", false)
         .createPanel();
 
     installValidationOnFilePicker();

@@ -5,14 +5,11 @@ import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupExpressionPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;
 import com.intellij.codeInsight.TailType;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
-import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ProcessingContext;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,29 +20,28 @@ import java.util.Collection;
 /**
  * @author Edoardo Luppi
  */
-class PomskyVariableCompletionProvider extends CompletionProvider<CompletionParameters> {
+class PomskyVariableCompletionProvider implements PomskyCompletionProvider {
   @Override
-  protected void addCompletions(
+  public void addCompletions(
       @NotNull final CompletionParameters parameters,
-      @NotNull final ProcessingContext context,
-      @NotNull final CompletionResultSet result) {
-    final var element = parameters.getPosition();
-    final var currentOffset = element.getTextOffset();
+      @NotNull final Collection<LookupElement> lookupElements) {
+    final var position = parameters.getPosition();
+    final var currentOffset = position.getTextOffset();
     final var declarations = new ArrayList<PsiNamedElement>(16);
 
     // Progressively search in outer scopes, up to the entire file
-    for (var scope = findElementScope(element); scope != null; scope = findElementScope(scope)) {
+    for (var scope = findElementScope(position); scope != null; scope = findElementScope(scope)) {
       declarations.addAll(findDeclarationsInScope(scope, currentOffset));
     }
 
     // Search at the file level
-    declarations.addAll(findDeclarationsInScope(element.getContainingFile(), currentOffset));
+    declarations.addAll(findDeclarationsInScope(position.getContainingFile(), currentOffset));
 
     StreamEx.of(declarations)
         .distinct(PsiNamedElement::getName)
         .map(this::createLookupElement)
         .append(createKeywordLookupElement("let"))
-        .forEach(result::addElement);
+        .into(lookupElements);
   }
 
   @Nullable
@@ -65,19 +61,22 @@ class PomskyVariableCompletionProvider extends CompletionProvider<CompletionPara
 
   @NotNull
   private LookupElement createLookupElement(@NotNull final PsiNamedElement element) {
-    return LookupElementBuilder.create(element)
+    final var lookupElement = LookupElementBuilder.create(element)
         .withIcon(PomskyIcons.LOGO)
         .withTypeText("Variable");
+
+    lookupElement.putUserData(PomskyCompletionContributor.KEY_WEIGHT, 2);
+    return lookupElement;
   }
 
   @NotNull
   @SuppressWarnings("SameParameterValue")
   private LookupElement createKeywordLookupElement(@NotNull final String keyword) {
-    final var element = LookupElementBuilder.create(keyword)
+    final var lookupElement = LookupElementBuilder.create(keyword)
         .withInsertHandler((ctx, item) -> TailType.insertChar(ctx.getEditor(), ctx.getTailOffset(), ' '))
         .bold();
 
-    element.putUserData(PomskyCompletionContributor.KEY_KEYWORD, Boolean.TRUE);
-    return element;
+    lookupElement.putUserData(PomskyCompletionContributor.KEY_WEIGHT, 0);
+    return lookupElement;
   }
 }
