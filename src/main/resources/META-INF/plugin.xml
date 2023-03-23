@@ -192,7 +192,7 @@
           id="com.github.lppedd.idea.pomsky.compile"
           text="Compile"
           class="com.github.lppedd.idea.pomsky.editor.PomskyCompileEditorAction">
-        <keyboard-shortcut keymap="$default" first-keystroke="control shift G" />
+        <keyboard-shortcut keymap="$default" first-keystroke="control shift O" />
       </action>
       <separator />
       <add-to-group group-id="EditorPopupMenu" anchor="first" />
