@@ -1,7 +1,10 @@
 package com.github.lppedd.idea.pomsky.editor;
 
 import com.github.lppedd.idea.pomsky.Workaround;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.ToggleAction;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
@@ -40,11 +43,11 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
 
   @NotNull
   @Override
-  public ActionGroup getTabActions() {
-    return new DefaultActionGroup(
+  protected AnAction @NotNull [] createTabActions() {
+    return new AnAction[] {
         getShowEditorAction(),
         new PomskyChangeViewModeAction(Layout.SHOW_EDITOR_AND_PREVIEW)
-    );
+    };
   }
 
   @NotNull

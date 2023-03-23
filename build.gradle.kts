@@ -28,7 +28,7 @@ java {
 }
 
 intellij {
-  version.set("2022.3")
+  version.set("LATEST-EAP-SNAPSHOT")
   type.set("IC")
   plugins.set(listOf("java" /* Only for code documentation */))
 }
@@ -69,13 +69,12 @@ tasks {
   }
 
   patchPluginXml {
-    sinceBuild.set("223")
+    sinceBuild.set("231")
     untilBuild.set("233.*")
   }
 
   runPluginVerifier {
     ideVersions.set(listOf(
-        "IC-2022.3",
         "IC-2023.1",
     ))
   }

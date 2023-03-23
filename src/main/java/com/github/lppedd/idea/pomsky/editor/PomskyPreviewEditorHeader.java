@@ -7,7 +7,6 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBPanel;
-import com.intellij.util.Consumer;
 import com.intellij.util.ui.EmptyIcon;
 import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBInsets;
@@ -23,6 +22,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 /**
  * @author Edoardo Luppi
@@ -103,11 +103,15 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   }
 
   void notifyCompileListeners(@NotNull final PomskyRegexpFlavor flavor) {
-    compileListeners.forEach(l -> l.consume(flavor));
+    for (final var listener : compileListeners) {
+      listener.accept(flavor);
+    }
   }
 
   void notifyRegexpFlavorListeners(@NotNull final PomskyRegexpFlavor flavor) {
-    regexpFlavorListeners.forEach(l -> l.consume(flavor));
+    for (final var listener : regexpFlavorListeners) {
+      listener.accept(flavor);
+    }
   }
 
   @Override
