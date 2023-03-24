@@ -42,7 +42,19 @@ GroupName       = [a-zA-Z][a-zA-Z0-9]*
 
 // Complex tokens
 Comment         = #.*
-Keyword         = let | enable | disable | lazy | greedy | atomic | range | regex | base | if | else
+Keyword         = let
+                | enable
+                | disable
+                | lazy
+                | greedy
+                | atomic
+                | range
+                | regex
+                | base
+                | if
+                | else
+                | test
+                | U
 
 %xstate STRING_SINGLE
 %xstate STRING_DOUBLE
