@@ -23,6 +23,6 @@ public class PomskyGroupReferenceElementManipulator extends AbstractElementManip
   @Override
   public TextRange getRangeInElement(@NotNull final PomskyGroupReferencePsiElement element) {
     // Take out the initial '::' in group references like '::my_group_name'
-    return new TextRange(2, element.getTextLength());
+    return TextRange.create(2, element.getTextLength());
   }
 }

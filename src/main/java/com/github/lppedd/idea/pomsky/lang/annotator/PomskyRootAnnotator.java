@@ -26,14 +26,14 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
   public void annotate(
       @NotNull final PsiElement element,
       @NotNull final AnnotationHolder holder) {
-    new PomskyAnnotatorProcess(element, holder).execute();
+    new PomskyRootAnnotatorProcess(element, holder).execute();
   }
 
-  private static class PomskyAnnotatorProcess extends PomskyPsiElementVisitor {
+  private static class PomskyRootAnnotatorProcess extends PomskyPsiElementVisitor {
     final PsiElement element;
     final AnnotationHolder holder;
 
-    PomskyAnnotatorProcess(
+    PomskyRootAnnotatorProcess(
         @NotNull final PsiElement element,
         @NotNull final AnnotationHolder holder) {
       this.element = element;
@@ -64,7 +64,7 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
           if (i >= textLength - 1 || (text.charAt(i + 1) != '\\' && text.charAt(i + 1) != '"')) {
             holder.newAnnotation(HighlightSeverity.ERROR, "Unsupported escape sequence in string literal")
                 .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                .range(new TextRange(i, Math.min(i + 2, text.length())))
+                .range(TextRange.create(i, Math.min(i + 2, text.length())))
                 .create();
           }
 
