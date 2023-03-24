@@ -48,7 +48,7 @@ class PomskyCompileEditorAction extends DumbAwareAction {
 
     // The action must be enabled only if a Pomsky CLI executable has been set.
     // Obviously we are not sure if it's still valid at this point,
-    // so we will throw an error afterwards in case, shown to the user via notifications
+    // so we will throw an error afterward in case, shown to the user via notifications
     final var isExecutableSet = isVisible && PomskySettingsService.getInstance().getCliExecutablePath() != null;
     presentation.setEnabled(isExecutableSet && PomskyCompileEditorService.getInstance(project).canCompile(file));
   }
