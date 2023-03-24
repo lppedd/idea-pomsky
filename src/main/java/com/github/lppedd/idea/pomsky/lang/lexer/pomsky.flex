@@ -36,7 +36,7 @@ import com.intellij.psi.TokenType;
 // Primitives
 Whitespace      = \s+
 Number          = [0-9_]+
-CodePoint       = U\+?[a-fA-F0-9]{1,6}
+CodePoint       = U{Whitespace}*\+{Whitespace}*[a-fA-F0-9]{1,6}
 Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
 GroupName       = [a-zA-Z][a-zA-Z0-9]*
 
