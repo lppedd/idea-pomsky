@@ -41,7 +41,8 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     super(new GridBagLayout());
 
     // TODO: pick better colors
-    setBackground(EditorColorsManager.getInstance().getGlobalScheme().getColor(HintUtil.PROMOTION_PANE_KEY));
+    final var colorsManager = EditorColorsManager.getInstance();
+    setBackground(colorsManager.getGlobalScheme().getColor(HintUtil.PROMOTION_PANE_KEY));
     setBorder(JBUI.Borders.merge(
         JBUI.Borders.empty(0, 7),
         new SideBorder(JBColor.PanelBackground, SideBorder.BOTTOM, JBUI.scale(2)),
@@ -117,6 +118,9 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   @Override
   public void updateUI() {
     super.updateUI();
+
+    final var colorsManager = EditorColorsManager.getInstance();
+    setBackground(colorsManager.getGlobalScheme().getColor(HintUtil.PROMOTION_PANE_KEY));
 
     if (loadingIconLabel != null) {
       updateUIDimensions();
