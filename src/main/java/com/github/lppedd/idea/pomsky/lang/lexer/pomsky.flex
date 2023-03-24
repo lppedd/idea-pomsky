@@ -45,6 +45,7 @@ Comment         = #.*
 Keyword         = let
                 | enable
                 | disable
+                | unicode
                 | lazy
                 | greedy
                 | atomic

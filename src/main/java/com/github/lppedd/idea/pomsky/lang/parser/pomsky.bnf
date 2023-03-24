@@ -67,7 +67,8 @@ private modifier_keyword ::=
     | "disable"
 
 private boolean_setting ::=
-    "lazy";
+      "lazy"
+    | "unicode";
 
 expression ::=
     UNION? alternatives
