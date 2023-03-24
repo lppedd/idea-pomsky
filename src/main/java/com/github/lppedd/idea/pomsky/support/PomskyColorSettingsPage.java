@@ -34,7 +34,8 @@ class PomskyColorSettingsPage implements ColorSettingsPage {
 
   private static final AttributesDescriptor[] ATTRIBUTES_DESCRIPTORS = new AttributesDescriptor[] {
       new AttributesDescriptor("Comment", PomskyHighlighterColors.COMMENT),
-      new AttributesDescriptor("String", PomskyHighlighterColors.STRING),
+      new AttributesDescriptor("String//String text", PomskyHighlighterColors.STRING),
+      new AttributesDescriptor("String//Escape sequence", PomskyHighlighterColors.STRING_ESCAPE),
       new AttributesDescriptor("Number", PomskyHighlighterColors.NUMBER),
       new AttributesDescriptor("Keyword", PomskyHighlighterColors.KEYWORD),
       new AttributesDescriptor("Identifiers//Variable", PomskyHighlighterColors.IDENTIFIER),

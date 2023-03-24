@@ -79,14 +79,19 @@
         implementation="com.github.lppedd.idea.pomsky.lang.annotator.PomskyBuiltinsHighlightUsagesHandlerFactory"
     />
     <annotator
-        id="pomsky"
+        id="pomskyRoot"
         language="pomsky"
-        implementationClass="com.github.lppedd.idea.pomsky.lang.annotator.PomskyAnnotator"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.annotator.PomskyRootAnnotator"
     />
     <annotator
         id="pomskyBuiltin"
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.annotator.PomskyBuiltinAnnotator"
+    />
+    <annotator
+        id="pomskyEscapeSequence"
+        language="pomsky"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.annotator.PomskyEscapeSequenceAnnotator"
     />
     <usageTypeProvider
         id="pomsky"

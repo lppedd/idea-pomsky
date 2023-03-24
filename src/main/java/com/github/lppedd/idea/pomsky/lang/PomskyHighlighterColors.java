@@ -23,4 +23,5 @@ public class PomskyHighlighterColors {
   public static final TextAttributesKey LOOKAROUND = createTextAttributesKey("POMSKY_LOOKAROUND");
   public static final TextAttributesKey GROUP_NAME = createTextAttributesKey("POMSKY_GROUP_NAME");
   public static final TextAttributesKey GROUP_REFERENCE = createTextAttributesKey("POMSKY_GROUP_REFERENCE");
+  public static final TextAttributesKey STRING_ESCAPE = createTextAttributesKey("POMSKY_STRING_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE);
 }
