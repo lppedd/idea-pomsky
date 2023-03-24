@@ -15,6 +15,7 @@ import java.util.function.BiFunction;
  */
 public class PomskyASTFactory extends ASTFactory {
   private static final Map<IElementType, BiFunction<IElementType, CharSequence, LeafElement>> LEAFS = Map.ofEntries(
+      Map.entry(PomskyTypes.KEYWORD, PomskyKeywordPsiElement::new),
       Map.entry(PomskyTypes.STRING, PomskyStringLiteralPsiElement::new),
       Map.entry(PomskyTypes.IDENTIFIER, PomskyIdentifierPsiElement::new),
       Map.entry(PomskyTypes.GROUP_NAME, PomskyGroupNamePsiElement::new),

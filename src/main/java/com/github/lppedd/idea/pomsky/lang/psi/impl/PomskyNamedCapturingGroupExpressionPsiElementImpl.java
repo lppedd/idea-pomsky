@@ -16,12 +16,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * Represents a named capturing group.
- * <pre>:groupname('str' ident)</pre>
- * <p>
- * This type of group can then be referenced by its name.
- * <pre>::groupname</pre>
- *
  * @author Edoardo Luppi
  */
 public class PomskyNamedCapturingGroupExpressionPsiElementImpl extends ASTWrapperPsiElement implements PomskyNamedCapturingGroupExpressionPsiElement {
@@ -80,7 +74,7 @@ public class PomskyNamedCapturingGroupExpressionPsiElementImpl extends ASTWrappe
 
   @Override
   public void accept(@NotNull final PsiElementVisitor visitor) {
-    if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
+    if (visitor instanceof final PomskyPsiElementVisitor pomskyVisitor) {
       pomskyVisitor.visitNamedCapturingGroup(this);
     } else {
       super.accept(visitor);

@@ -19,7 +19,7 @@ public class PomskyStringLiteralPsiElement extends LeafPsiElement {
 
   @Override
   public void accept(@NotNull final PsiElementVisitor visitor) {
-    if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
+    if (visitor instanceof final PomskyPsiElementVisitor pomskyVisitor) {
       pomskyVisitor.visitStringLiteral(this);
     } else {
       super.accept(visitor);

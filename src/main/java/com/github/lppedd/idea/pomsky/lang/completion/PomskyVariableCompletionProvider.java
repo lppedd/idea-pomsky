@@ -3,7 +3,6 @@ package com.github.lppedd.idea.pomsky.lang.completion;
 import com.github.lppedd.idea.pomsky.PomskyIcons;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyGroupExpressionPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;
-import com.intellij.codeInsight.TailType;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -40,15 +39,6 @@ class PomskyVariableCompletionProvider implements PomskyCompletionProvider {
     StreamEx.of(declarations)
         .distinct(PsiNamedElement::getName)
         .map(this::createLookupElement)
-        .append(createKeywordLookupElement("let"))
-        .append(createKeywordLookupElement("range"))
-        .append(createKeywordLookupElement("regex"))
-        .append(createKeywordLookupElement("atomic"))
-        .append(createKeywordLookupElement("enable"))
-        .append(createKeywordLookupElement("disable"))
-        .append(createKeywordLookupElement("lazy"))
-        .append(createKeywordLookupElement("greedy"))
-        .append(createKeywordLookupElement("base"))
         .into(lookupElements);
   }
 
@@ -74,20 +64,6 @@ class PomskyVariableCompletionProvider implements PomskyCompletionProvider {
         .withTypeText("Variable");
 
     lookupElement.putUserData(PomskyCompletionContributor.KEY_WEIGHT, 2);
-    return lookupElement;
-  }
-
-  @NotNull
-  @SuppressWarnings("SameParameterValue")
-  private LookupElement createKeywordLookupElement(@NotNull final String keyword) {
-    final var lookupElement = LookupElementBuilder.create(keyword)
-        .withInsertHandler((ctx, item) -> {
-          if (!"lazy".equals(keyword) && !"greedy".equals(keyword)) {
-            TailType.insertChar(ctx.getEditor(), ctx.getTailOffset(), ' ');
-          }
-        }).bold();
-
-    lookupElement.putUserData(PomskyCompletionContributor.KEY_WEIGHT, 0);
     return lookupElement;
   }
 }

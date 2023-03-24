@@ -26,7 +26,7 @@ class PomskyBuiltinsHighlightUsagesHandlerFactory extends HighlightUsagesHandler
   }
 
   private boolean isBuiltinElement(@NotNull final PsiElement element) {
-    if (!(element instanceof PomskyIdentifierPsiElement identifier)) {
+    if (!(element instanceof final PomskyIdentifierPsiElement identifier)) {
       return false;
     }
 

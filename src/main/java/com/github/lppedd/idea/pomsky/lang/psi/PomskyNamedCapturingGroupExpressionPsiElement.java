@@ -4,6 +4,12 @@ import com.intellij.psi.PsiNameIdentifierOwner;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Represents a named capturing group.
+ * <pre>:groupname('str' ident)</pre>
+ * <p>
+ * This type of group can then be referenced by its name.
+ * <pre>::groupname</pre>
+ *
  * @author Edoardo Luppi
  */
 public interface PomskyNamedCapturingGroupExpressionPsiElement

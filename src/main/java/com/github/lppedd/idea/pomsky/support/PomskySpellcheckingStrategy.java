@@ -26,7 +26,7 @@ class PomskySpellcheckingStrategy extends SpellcheckingStrategy {
       return new PomskyCommentTokenizer();
     }
 
-    if (element instanceof PomskyIdentifierPsiElement identifier && !isBuiltin(identifier)) {
+    if (element instanceof final PomskyIdentifierPsiElement identifier && !isBuiltin(identifier)) {
       return new PomskyLeafElementTokenizer(true);
     }
 

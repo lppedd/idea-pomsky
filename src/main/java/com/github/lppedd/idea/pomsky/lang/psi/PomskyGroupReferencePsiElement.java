@@ -62,7 +62,7 @@ public class PomskyGroupReferencePsiElement extends LeafPsiElement {
 
   @Override
   public void accept(@NotNull final PsiElementVisitor visitor) {
-    if (visitor instanceof PomskyPsiElementVisitor pomskyVisitor) {
+    if (visitor instanceof final PomskyPsiElementVisitor pomskyVisitor) {
       pomskyVisitor.visitGroupReference(this);
     } else {
       super.accept(visitor);

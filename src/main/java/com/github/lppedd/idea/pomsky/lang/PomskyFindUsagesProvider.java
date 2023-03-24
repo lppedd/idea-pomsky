@@ -48,7 +48,7 @@ public class PomskyFindUsagesProvider implements FindUsagesProvider {
   @NotNull
   @Override
   public String getDescriptiveName(@NotNull final PsiElement element) {
-    return element instanceof PsiNamedElement namedElement
+    return element instanceof final PsiNamedElement namedElement
         ? Objects.requireNonNullElse(namedElement.getName(), element.getText())
         : element.getText();
   }

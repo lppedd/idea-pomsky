@@ -29,13 +29,16 @@ public class PomskyParserDefinition implements ParserDefinition {
   private static final IFileElementType FILE = new IFileElementType(PomskyLanguage.INSTANCE);
   private static final TokenSet TOKENSET_COMMENT = TokenSet.create(PomskyTypes.COMMENT);
   private static final Map<IElementType, Function<ASTNode, PsiElement>> ELEMENTS = Map.ofEntries(
+      Map.entry(PomskyTypes.MODIFIER_ACTIVATION, PomskyModifierActivationPsiElementImpl::new),
       Map.entry(PomskyTypes.VARIABLE_DECLARATION, PomskyVariableDeclarationPsiElementImpl::new),
       Map.entry(PomskyTypes.EXPRESSION, PomskyExpressionPsiElementImpl::new),
       Map.entry(PomskyTypes.CHARACTER_SET_EXPRESSION, PomskyCharacterSetExpressionPsiElementImpl::new),
       Map.entry(PomskyTypes.GROUP_EXPRESSION_ATOMIC, PomskyAtomicGroupExpressionPsiElementImpl::new),
       Map.entry(PomskyTypes.GROUP_EXPRESSION_NON_CAPTURING, PomskyNonCapturingGroupExpressionPsiElementImpl::new),
       Map.entry(PomskyTypes.GROUP_EXPRESSION_CAPTURING_NAMED, PomskyNamedCapturingGroupExpressionPsiElementImpl::new),
-      Map.entry(PomskyTypes.GROUP_EXPRESSION_CAPTURING_NUMBERED, PomskyNumberedCapturingGroupExpressionPsiElementImpl::new)
+      Map.entry(PomskyTypes.GROUP_EXPRESSION_CAPTURING_NUMBERED, PomskyNumberedCapturingGroupExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.RANGE_EXPRESSION, PomskyRangeExpressionPsiElementImpl::new),
+      Map.entry(PomskyTypes.REPETITION_SUFFIX, PomskyRepetitionSuffixPsiElementImpl::new)
   );
 
   @NotNull

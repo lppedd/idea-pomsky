@@ -27,6 +27,11 @@ public class PomskyCompletionContributor extends CompletionContributor implement
   public static final Key<Integer> KEY_WEIGHT = KeyWithDefaultValue.create("pomskyCompletionWeight", Integer.MAX_VALUE);
 
   /**
+   * Provides completion items for keywords.
+   */
+  private static final PomskyCompletionProvider KEYWORDS = new PomskyKeywordCompletionProvider();
+
+  /**
    * Provides completion items for user-defined variables.
    */
   private static final PomskyCompletionProvider VARIABLES = new PomskyVariableCompletionProvider();
@@ -85,6 +90,7 @@ public class PomskyCompletionContributor extends CompletionContributor implement
 
     if (position instanceof PomskyIdentifierPsiElement) {
       if (positionParent instanceof PomskyExpressionPsiElement) {
+        KEYWORDS.addCompletions(parameters, lookupElements);
         VARIABLES.addCompletions(parameters, lookupElements);
         BUILTIN_VARIABLES.addCompletions(parameters, lookupElements);
       } else if (positionParent instanceof PomskyCharacterSetExpressionPsiElement) {

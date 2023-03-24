@@ -24,7 +24,7 @@ public class PomskyRefactoringSupportProvider extends RefactoringSupportProvider
   }
 
   private boolean isNamedGroupReference(@Nullable final PsiElement context) {
-    if (context instanceof PomskyGroupReferencePsiElement groupReference) {
+    if (context instanceof final PomskyGroupReferencePsiElement groupReference) {
       return groupReference.isNamed();
     }
 
@@ -32,7 +32,7 @@ public class PomskyRefactoringSupportProvider extends RefactoringSupportProvider
         ? null
         : PsiTreeUtil.prevVisibleLeaf(context);
 
-    if (adjustedContext instanceof PomskyGroupReferencePsiElement groupReference) {
+    if (adjustedContext instanceof final PomskyGroupReferencePsiElement groupReference) {
       return groupReference.isNamed();
     }
 
