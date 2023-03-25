@@ -6,9 +6,9 @@ import com.github.lppedd.idea.pomsky.lang.psi.PomskyCharacterSetExpressionPsiEle
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyIdentifierPsiElement;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyPsiElementVisitor;
 import com.github.lppedd.idea.pomsky.lang.psi.PomskyVariableDeclarationPsiElement;
+import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -47,7 +47,7 @@ public class PomskyBuiltinAnnotator implements Annotator, DumbAware {
       }
 
       if (isBuiltin(element)) {
-        holder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES)
+        holder.newSilentAnnotation(HighlightInfoType.SYMBOL_TYPE_SEVERITY)
             .textAttributes(PomskyHighlighterColors.IDENTIFIER_BUILTIN)
             .range(element.getTextRange())
             .create();
