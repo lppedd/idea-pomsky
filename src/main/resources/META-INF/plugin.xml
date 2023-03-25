@@ -192,9 +192,14 @@
   </projectListeners>
 
   <actions>
-    <group id="com.github.lppedd.idea.pomsky">
+    <action
+        id="pomskyCreateFile"
+        class="com.github.lppedd.idea.pomsky.support.PomskyCreateFileAction">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="FileTemplateSeparatorGroup" />
+    </action>
+    <group id="pomskyEditorPopupMenu">
       <action
-          id="com.github.lppedd.idea.pomsky.compile"
+          id="pomskyEditorCompile"
           text="Compile"
           class="com.github.lppedd.idea.pomsky.editor.PomskyCompileEditorAction">
         <keyboard-shortcut keymap="$default" first-keystroke="control shift O" />
