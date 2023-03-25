@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 /**
- * Adds a "compile time" indicator at the bottom of Pomsky editors.
+ * Adds an "elapsed time" indicator at the bottom of Pomsky editors.
  * <p>
  * The time is notified by the compilation service.
  *
@@ -36,10 +36,10 @@ class PomskyFileEditorManagerListener implements FileEditorManagerListener {
     panel.setOpaque(false);
     panel.setBorder(JBUI.Borders.empty(2, 4, 4, 4));
 
-    final var compilationTimeLabel = new JBLabel("Compile time: N/A");
-    panel.add(compilationTimeLabel, BorderLayout.EAST);
+    final var elapsedTimeLabel = new JBLabel("Elapsed time: N/A");
+    panel.add(elapsedTimeLabel, BorderLayout.EAST);
 
-    // Connect to the compilation topic to be notified of compile times
+    // Connect to the compilation topic to be notified of elapsed times
     final var project = manager.getProject();
     final var messageBus = project.getMessageBus();
     messageBus.connect(editor).subscribe(PomskyTopics.TOPIC_COMPILE, new PomskyCompileListener() {
@@ -48,7 +48,7 @@ class PomskyFileEditorManagerListener implements FileEditorManagerListener {
           @NotNull final VirtualFile compiledFile,
           @NotNull final PomskyCompileResult result) {
         if (compiledFile.equals(file)) {
-          compilationTimeLabel.setText("Compile time: %d ms".formatted(result.getElapsedTimeMs()));
+          elapsedTimeLabel.setText("Elapsed time: %d ms".formatted(result.getElapsedTimeMs()));
         }
       }
     });
