@@ -2,9 +2,9 @@
   <id>com.github.lppedd.idea-pomsky</id>
   <name>Pomsky</name>
   <vendor email="lp.edoardo@gmail.com" url="https://github.com/lppedd/idea-pomsky">Edoardo Luppi</vendor>
-  <description>Provides Pomsky support in IntelliJ-based IDEs.</description>
 
   <depends>com.intellij.modules.platform</depends>
+  <resource-bundle>messages.PomskyBundle</resource-bundle>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- region Language Support -->
@@ -132,9 +132,7 @@
         language="pomsky"
         shortName="PomskyUnusedVariableDeclaration"
         level="WARNING"
-        bundle="messages.PomskyBundle"
         key="inspection.declarationRedundancy.variable"
-        groupBundle="messages.PomskyBundle"
         groupKey="inspection.group.declarationRedundancy"
         groupPath="Pomsky"
         enabledByDefault="true"
@@ -155,7 +153,6 @@
     <notificationGroup
         id="com.github.lppedd.idea.pomsky.error.compile"
         key="notification.compilation.error"
-        bundle="messages.PomskyBundle"
         displayType="BALLOON"
     />
     <!-- endregion -->

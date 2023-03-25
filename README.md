@@ -3,7 +3,7 @@
 
 # IDEA Pomsky
 
-Provides support for [Pomsky][1] in IntelliJ IDEA-based IDEs.
+Provides support for [Pomsky][1] in IntelliJ-based IDEs.
 
 Looking for the latest **plugin binary**? Get it [here][2]!  
 Supported IDE versions **from 0.1.0**: `231.*` to `233.*` (both inclusive)

@@ -28,6 +28,7 @@ java {
 }
 
 intellij {
+  pluginName.set("idea-pomsky")
   version.set("LATEST-EAP-SNAPSHOT")
   type.set("IC")
   plugins.set(listOf("java" /* Only for code documentation */))
@@ -69,8 +70,10 @@ tasks {
   }
 
   patchPluginXml {
+    version.set(project.version.toString())
     sinceBuild.set("231")
     untilBuild.set("233.*")
+    pluginDescription.set((File("${projectDir.path}/plugin-description.html").readText(Charsets.UTF_8)))
   }
 
   runPluginVerifier {
