@@ -4,6 +4,7 @@ import com.github.lppedd.idea.pomsky.process.*;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.util.Version;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
@@ -19,7 +20,7 @@ public class PomskyService implements PomskyProcess {
 
   @NotNull
   @Override
-  public String getVersion(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
+  public Version getVersion(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
     final var process = new PomskyCliProcess(getExecutablePath());
     return process.getVersion(indicator);
   }

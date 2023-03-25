@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.settings;
 
+import com.github.lppedd.idea.pomsky.PomskyConstants;
 import com.github.lppedd.idea.pomsky.process.PomskyCliProcess;
 import com.github.lppedd.idea.pomsky.process.PomskyProcessException;
 import com.intellij.openapi.Disposable;
@@ -11,6 +12,7 @@ import com.intellij.openapi.ui.ComponentValidator;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.ui.ValidationInfo;
+import com.intellij.openapi.util.Version;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.util.ui.UI;
@@ -113,7 +115,11 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
     try {
       final var process = new PomskyCliProcess(executablePath);
       final var version = ProgressManager.getInstance().run(new PomskyVersionTask(process));
-      listener.accept(version);
+      listener.accept(version.toString());
+
+      if (version.compareTo(PomskyConstants.MIN_VERSION) < 0) {
+        return new ValidationInfo("The minimum supported version is " + PomskyConstants.MIN_VERSION, executablePathField);
+      }
     } catch (final PomskyProcessException e) {
       return new ValidationInfo(e.getMessage(), executablePathField);
     } catch (final ProcessCanceledException e) {
@@ -123,7 +129,7 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
     return null;
   }
 
-  private static class PomskyVersionTask extends Task.WithResult<String, PomskyProcessException> {
+  private static class PomskyVersionTask extends Task.WithResult<Version, PomskyProcessException> {
     final PomskyCliProcess process;
 
     PomskyVersionTask(@NotNull final PomskyCliProcess process) {
@@ -131,8 +137,9 @@ class PomskyCliExecutablePanel extends JBPanel<PomskyCliExecutablePanel> {
       this.process = process;
     }
 
+    @NotNull
     @Override
-    protected String compute(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
+    protected Version compute(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
       indicator.setIndeterminate(true);
       indicator.setText("Retrieving Pomsky CLI executable version...");
       return process.getVersion(indicator);

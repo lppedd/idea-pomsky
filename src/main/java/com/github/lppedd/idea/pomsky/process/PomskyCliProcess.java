@@ -10,6 +10,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.util.Version;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @author Edoardo Luppi
  */
 public class PomskyCliProcess implements PomskyProcess {
+  private static final Version INVALID_VERSION = new Version(0, 0, 0);
   private static final int TIMEOUT_VERSION = 15000;
   private static final int TIMEOUT_COMPILE = 30000;
   private static final int OUTPUT_THREESOLD = 10000000;
@@ -34,7 +36,7 @@ public class PomskyCliProcess implements PomskyProcess {
 
   @NotNull
   @Override
-  public String getVersion(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
+  public Version getVersion(@NotNull final ProgressIndicator indicator) throws PomskyProcessException {
     checkExecutable();
 
     final var commandLine = new GeneralCommandLine()
@@ -61,7 +63,9 @@ public class PomskyCliProcess implements PomskyProcess {
         throw new PomskyProcessException("Not a Pomsky CLI executable");
       }
 
-      return stdout.substring(index + 6).trim();
+      final var versionStr = stdout.substring(index + 6).trim();
+      final var version = Version.parseVersion(versionStr);
+      return version != null ? version : INVALID_VERSION;
     } catch (final ExecutionException e) {
       throw new PomskyProcessException("Error during version retrieval", e);
     }
