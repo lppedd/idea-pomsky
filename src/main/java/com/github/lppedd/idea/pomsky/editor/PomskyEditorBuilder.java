@@ -210,7 +210,6 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     settings.setLineNumbersShown(false);
     settings.setLineMarkerAreaShown(false);
     settings.setGutterIconsShown(false);
-    settings.setFoldingOutlineShown(false);
     settings.setIndentGuidesShown(false);
     settings.setRightMarginShown(false);
   }
