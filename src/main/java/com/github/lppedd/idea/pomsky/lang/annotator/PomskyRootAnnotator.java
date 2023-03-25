@@ -62,9 +62,12 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
 
         while (i > -1) {
           if (i >= textLength - 1 || (text.charAt(i + 1) != '\\' && text.charAt(i + 1) != '"')) {
+            final var elementStartOffset = element.getTextRange().getStartOffset();
+            final var startOffset = elementStartOffset + i;
+            final var endOffset = elementStartOffset + Math.min(i + 2, text.length());
             holder.newAnnotation(HighlightSeverity.ERROR, "Unsupported escape sequence in string literal")
                 .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                .range(TextRange.create(i, Math.min(i + 2, text.length())))
+                .range(TextRange.create(startOffset, endOffset))
                 .create();
           }
 
