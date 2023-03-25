@@ -1,10 +1,12 @@
 package com.github.lppedd.idea.pomsky.editor;
 
 import com.github.lppedd.idea.pomsky.Workaround;
+import com.intellij.ide.ui.UISettingsListener;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.ToggleAction;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
@@ -27,6 +29,14 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
       @NotNull final TextEditor editor,
       @NotNull final FileEditor preview) {
     super(editor, preview, "Pomsky Editor", Layout.SHOW_EDITOR_AND_PREVIEW, false);
+    ApplicationManager.getApplication()
+        .getMessageBus()
+        .connect(this)
+        .subscribe(UISettingsListener.TOPIC, (UISettingsListener) settings -> {
+          if (!isDisposed()) {
+            hackSplitterWidth();
+          }
+        });
   }
 
   /**
