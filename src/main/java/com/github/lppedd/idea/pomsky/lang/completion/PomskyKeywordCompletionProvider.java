@@ -28,7 +28,8 @@ class PomskyKeywordCompletionProvider implements PomskyCompletionProvider {
     lookupElements.add(createLookupElement("greedy", false));
   }
 
-  private @NotNull LookupElement createLookupElement(@NotNull final String keyword, final boolean doAddSpace) {
+  @NotNull
+  private LookupElement createLookupElement(@NotNull final String keyword, final boolean doAddSpace) {
     final InsertHandler<LookupElement> insertHandler = doAddSpace
         ? (ctx, item) -> TailType.insertChar(ctx.getEditor(), ctx.getTailOffset(), ' ')
         : null;
