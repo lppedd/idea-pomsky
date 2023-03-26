@@ -4,6 +4,9 @@ import com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
+import com.intellij.execution.process.ProcessAdapter;
+import com.intellij.execution.process.ProcessEvent;
+import com.intellij.execution.process.ProcessOutput;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -13,6 +16,8 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.util.Version;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,7 +72,7 @@ public class PomskyCliProcess implements PomskyProcess {
       final var version = Version.parseVersion(versionStr);
       return version != null ? version : INVALID_VERSION;
     } catch (final ExecutionException e) {
-      throw new PomskyProcessException("Error during version retrieval", e);
+      throw new PomskyProcessException("Internal error during version retrieval. See log file.", e);
     }
   }
 
@@ -76,7 +81,7 @@ public class PomskyCliProcess implements PomskyProcess {
   public PomskyCompileResult compile(
       @NotNull final String code,
       @NotNull final ProgressIndicator indicator) throws PomskyProcessException {
-    return compileInternal(List.of("--no-new-line", code.trim()), indicator);
+    return compileInternal(List.of("--no-new-line"), code, indicator);
   }
 
   @NotNull
@@ -85,12 +90,13 @@ public class PomskyCliProcess implements PomskyProcess {
       @NotNull final String code,
       @NotNull final PomskyRegexpFlavor regexpFlavor,
       @NotNull final ProgressIndicator indicator) throws PomskyProcessException {
-    return compileInternal(List.of("--no-new-line", "--flavor", regexpFlavor.getValue(), code.trim()), indicator);
+    return compileInternal(List.of("--no-new-line", "--flavor", regexpFlavor.getValue()), code, indicator);
   }
 
   @NotNull
   private PomskyCompileResult compileInternal(
       @NotNull final List<String> params,
+      @NotNull final String code,
       @NotNull final ProgressIndicator indicator) throws PomskyProcessException {
     checkExecutable();
 
@@ -101,8 +107,33 @@ public class PomskyCliProcess implements PomskyProcess {
 
     try {
       final var processHandler = new CapturingProcessHandler(commandLine);
+      processHandler.addProcessListener(new ProcessAdapter() {
+        @Override
+        public void startNotified(@NotNull final ProcessEvent event) {
+          final var input = event.getProcessHandler().getProcessInput();
+
+          if (input == null) {
+            final var cause = new IOException("Could not acquire the process input stream");
+            throw new PomskyInternalException(cause);
+          }
+
+          try (final var writer = new OutputStreamWriter(input, commandLine.getCharset())) {
+            writer.write(code);
+          } catch (final IOException e) {
+            throw new PomskyInternalException(e);
+          }
+        }
+      });
+
       final var startTime = System.nanoTime();
-      final var processOutput = processHandler.runProcessWithProgressIndicator(indicator, TIMEOUT_COMPILE, true);
+      final ProcessOutput processOutput;
+
+      try {
+        processOutput = processHandler.runProcessWithProgressIndicator(indicator, TIMEOUT_COMPILE, true);
+      } catch (final PomskyInternalException e) {
+        throw new PomskyProcessException("Internal error during compilation. See log file.", e.getCause());
+      }
+
       final var elapsedTimeMs = Math.max(1, TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime));
 
       if (processOutput.isCancelled()) {
@@ -110,8 +141,7 @@ public class PomskyCliProcess implements PomskyProcess {
       }
 
       if (processOutput.isTimeout()) {
-        final var message = "Compilation timed out after " + TIMEOUT_COMPILE / 1000 + " seconds";
-        throw new PomskyProcessException(message);
+        throw new PomskyProcessException("Compilation timed out after " + TIMEOUT_COMPILE / 1000 + " seconds");
       }
 
       if (processOutput.getExitCode() != 0) {
@@ -123,7 +153,7 @@ public class PomskyCliProcess implements PomskyProcess {
           ? new PomskyCompileResult(elapsedTimeMs, null, "The compiled RegExp is too big to be displayed")
           : new PomskyCompileResult(elapsedTimeMs, output, null);
     } catch (final ExecutionException e) {
-      throw new PomskyProcessException("Error during compilation", e);
+      throw new PomskyProcessException("Internal error during compilation. See log file.", e);
     }
   }
 
@@ -146,6 +176,12 @@ public class PomskyCliProcess implements PomskyProcess {
         @NotNull final Notification notification) {
       final var project = e.getProject();
       ShowSettingsUtil.getInstance().showSettingsDialog(project, PomskySettingsConfigurable.class);
+    }
+  }
+
+  private static class PomskyInternalException extends RuntimeException {
+    PomskyInternalException(@NotNull final Throwable cause) {
+      super(cause);
     }
   }
 }
