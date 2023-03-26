@@ -151,7 +151,7 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     });
 
     // Register a listener on the primary editor's document (where the actual code is)
-    // so that if a user activated "Live preview", we compile on every change
+    // so that if a user activates "Live preview", we compile on every change
     final var primaryDocument = primaryEditor.getEditor().getDocument();
     primaryDocument.addDocumentListener(new BulkAwareDocumentListener.Simple() {
       @Override
@@ -186,6 +186,11 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     header.addRegexpFlavorListener(regexpFlavor -> {
       final var projectSettings = PomskyProjectSettingsService.getInstance(project);
       projectSettings.setRegexpFlavor(regexpFlavor);
+
+      if (PomskySettingsService.getInstance().isLivePreview()) {
+        final var compileService = PomskyCompileEditorService.getInstance(project);
+        compileService.compileAndUpdateEditorAsync(virtualFile);
+      }
     });
 
     header.addCompileListener(flavor -> {
