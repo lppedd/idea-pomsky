@@ -23,7 +23,7 @@ class PomskyNotificationCompileListener implements PomskyCompileListener {
   public void compileFailed(
       @NotNull final VirtualFile compiledFile,
       @NotNull final Throwable error) {
-    if (error instanceof PomskyProcessException && error.getCause() == null) {
+    if (error instanceof PomskyProcessException) {
       final var subtitle = getPresentableFileName(compiledFile);
       final var content = error.getMessage();
       final var actions = ((PomskyProcessException) error).getActions();

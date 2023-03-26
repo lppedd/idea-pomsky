@@ -26,9 +26,9 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
   private boolean isDisposed;
 
   PomskyEditorWithPreview(
-      @NotNull final TextEditor editor,
-      @NotNull final FileEditor preview) {
-    super(editor, preview, "Pomsky Editor", Layout.SHOW_EDITOR_AND_PREVIEW, false);
+      @NotNull final TextEditor primaryEditor,
+      @NotNull final FileEditor previewEditor) {
+    super(primaryEditor, previewEditor, "Pomsky Editor", Layout.SHOW_EDITOR_AND_PREVIEW, false);
     ApplicationManager.getApplication()
         .getMessageBus()
         .connect(this)

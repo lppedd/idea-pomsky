@@ -32,16 +32,26 @@ public class PomskySettingsService implements PersistentStateComponent<PomskySet
   private String cliExecutablePath;
 
   /**
+   * Whether to compile a file on every change.
+   */
+  @Attribute("isLivePreview")
+  private boolean isLivePreview;
+
+  /**
    * Temporary (per IntelliJ session) flag to show or not an editor
    * notification banner when the Pomsky CLI executable is not defined.
    * <p>
-   * This is not stored.
+   * This is not stored as <code>@Transient</code> is applied to the getter.
    */
   private boolean showMissingCliExecutableBanner = true;
 
   @Nullable
   public String getCliExecutablePath() {
     return cliExecutablePath;
+  }
+
+  public boolean isLivePreview() {
+    return isLivePreview;
   }
 
   @Transient
@@ -52,6 +62,10 @@ public class PomskySettingsService implements PersistentStateComponent<PomskySet
   public void setCliExecutablePath(@Nullable final String path) {
     cliExecutablePath = path;
     notifySettingsChanged();
+  }
+
+  public void setLivePreview(final boolean isLivePreview) {
+    this.isLivePreview = isLivePreview;
   }
 
   public void setShowMissingCliExecutableBanner(final boolean doShow) {

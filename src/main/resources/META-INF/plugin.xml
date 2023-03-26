@@ -163,12 +163,20 @@
     <projectService serviceImplementation="com.github.lppedd.idea.pomsky.settings.PomskyProjectSettingsService" />
     <!-- endregion -->
 
-    <!-- region Configurables for settings -->
+    <!-- region Setting's Configurables -->
     <applicationConfigurable
         id="com.github.lppedd.idea.pomsky.settings"
         parentId="tools"
         displayName="Pomsky"
         instance="com.github.lppedd.idea.pomsky.settings.PomskySettingsConfigurable"
+    />
+    <!-- endregion -->
+
+    <!-- region Registry Keys -->
+    <registryKey
+        key="com.github.lppedd.idea.pomsky.debounce.time"
+        defaultValue="800"
+        description="Debounce time in milliseconds for Live preview compilation."
     />
     <!-- endregion -->
   </extensions>

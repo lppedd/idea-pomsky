@@ -9,8 +9,10 @@ import com.github.lppedd.idea.pomsky.settings.PomskySettingsListener;
 import com.github.lppedd.idea.pomsky.settings.PomskySettingsService;
 import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.EditorKind;
+import com.intellij.openapi.editor.event.BulkAwareDocumentListener;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
@@ -58,11 +60,11 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
   @NotNull
   @Override
   public FileEditor build() {
-    final var langEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, virtualFile);
+    final var primaryEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, virtualFile);
     final var previewEditorAndHeader = getPreviewEditor();
     final var previewEditor = previewEditorAndHeader.getFirst();
     final var previewHeader = previewEditorAndHeader.getSecond();
-    final var compositeEditor = new PomskyEditorWithPreview(langEditor, previewEditor);
+    final var compositeEditor = new PomskyEditorWithPreview(primaryEditor, previewEditor);
 
     // We want to receive compilation/settings events to update UI components accordingly.
     // This connection is going to stay open as long as the editor is shown on the screen
@@ -148,6 +150,19 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
       }
     });
 
+    // Register a listener on the primary editor's document (where the actual code is)
+    // so that if a user activated "Live preview", we compile on every change
+    final var primaryDocument = primaryEditor.getEditor().getDocument();
+    primaryDocument.addDocumentListener(new BulkAwareDocumentListener.Simple() {
+      @Override
+      public void afterDocumentChange(@NotNull final Document document) {
+        if (PomskySettingsService.getInstance().isLivePreview()) {
+          final var compileService = PomskyCompileEditorService.getInstance(project);
+          compileService.compileAndUpdateEditorAsyncDebounce(virtualFile);
+        }
+      }
+    });
+
     return compositeEditor;
   }
 
@@ -174,9 +189,6 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
     });
 
     header.addCompileListener(flavor -> {
-      final var projectSettings = PomskyProjectSettingsService.getInstance(project);
-      projectSettings.setRegexpFlavor(flavor);
-
       final var compileService = PomskyCompileEditorService.getInstance(project);
       compileService.compileAndUpdateEditorAsync(virtualFile);
     });

@@ -103,18 +103,6 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     regexpFlavorListeners.add(listener);
   }
 
-  void notifyCompileListeners(@NotNull final PomskyRegexpFlavor flavor) {
-    for (final var listener : compileListeners) {
-      listener.accept(flavor);
-    }
-  }
-
-  void notifyRegexpFlavorListeners(@NotNull final PomskyRegexpFlavor flavor) {
-    for (final var listener : regexpFlavorListeners) {
-      listener.accept(flavor);
-    }
-  }
-
   @Override
   public void updateUI() {
     super.updateUI();
@@ -124,6 +112,18 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
     if (loadingIconLabel != null) {
       updateUIDimensions();
+    }
+  }
+
+  private void notifyCompileListeners(@NotNull final PomskyRegexpFlavor flavor) {
+    for (final var listener : compileListeners) {
+      listener.accept(flavor);
+    }
+  }
+
+  private void notifyRegexpFlavorListeners(@NotNull final PomskyRegexpFlavor flavor) {
+    for (final var listener : regexpFlavorListeners) {
+      listener.accept(flavor);
     }
   }
 
