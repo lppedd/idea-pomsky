@@ -1,6 +1,7 @@
 package com.github.lppedd.idea.pomsky.settings;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.ui.panel.ComponentPanelBuilder;
 import com.intellij.ui.border.IdeaTitledBorder;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
@@ -58,10 +59,12 @@ class PomskySettingsComponent {
 
     final var editorPanel = new JBPanel<>(new GridBagLayout());
     editorPanel.setBorder(new IdeaTitledBorder("Editor Settings", JBUI.scale(SECTION_INDENT), JBUI.insetsTop(15)));
-    editorPanel.add(livePreviewCheckbox, editorGb.nextLine().next().insetBottom(4));
+    editorPanel.add(livePreviewCheckbox, editorGb.nextLine().next().insetBottom(2));
 
     final var commentLabel = new JBLabel("Compile a file on every change");
     commentLabel.setForeground(JBUI.CurrentTheme.ContextHelp.FOREGROUND);
+    commentLabel.setFont(ComponentPanelBuilder.getCommentFont(commentLabel.getFont()));
+
     editorPanel.add(commentLabel, editorGb.nextLine().next().insets(0, SECTION_INDENT + 20, 0, 0));
 
     // Root panel
