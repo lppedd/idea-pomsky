@@ -85,12 +85,12 @@ Keyword         = let
           return PomskyTypes.BOUNDARY;
       }
 
-      {NonPrintable} {
-          return PomskyTypes.NON_PRINTABLE;
-      }
-
       {Identifier} {
           return PomskyTypes.IDENTIFIER;
+      }
+
+      {NonPrintable} {
+          return PomskyTypes.NON_PRINTABLE;
       }
 
       ' {
