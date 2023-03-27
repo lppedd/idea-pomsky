@@ -2,6 +2,7 @@ package com.github.lppedd.idea.pomsky.editor;
 
 import com.github.lppedd.idea.pomsky.Workaround;
 import com.intellij.ide.ui.UISettingsListener;
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -13,22 +14,27 @@ import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.TextEditorWithPreview;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.ui.Splitter;
+import com.intellij.util.EventDispatcher;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.util.EventListener;
 
 /**
  * @author Edoardo Luppi
  */
 public class PomskyEditorWithPreview extends TextEditorWithPreview {
   private static final Logger logger = Logger.getInstance(PomskyEditorWithPreview.class);
+
+  private final EventDispatcher<PomskyEditorLayoutListener> layoutListener =
+      EventDispatcher.create(PomskyEditorLayoutListener.class);
   private boolean isDisposed;
 
   PomskyEditorWithPreview(
       @NotNull final TextEditor primaryEditor,
       @NotNull final FileEditor previewEditor) {
-    super(primaryEditor, previewEditor, "Pomsky Editor", Layout.SHOW_EDITOR_AND_PREVIEW, false);
+    super(primaryEditor, previewEditor, "PomskyEditor", Layout.SHOW_EDITOR_AND_PREVIEW, false);
     ApplicationManager.getApplication()
         .getMessageBus()
         .connect(this)
@@ -40,10 +46,38 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
   }
 
   /**
+   * Adds a listener to be notified on editor's layout changes.
+   */
+  public void addLayoutListener(@NotNull final PomskyEditorLayoutListener listener) {
+    layoutListener.addListener(listener);
+  }
+
+  /**
    * Returns whether the editor has been disposed.
    */
   public boolean isDisposed() {
     return isDisposed;
+  }
+
+  @Override
+  public void setVerticalSplit(final boolean isVerticalSplit) {
+    super.setVerticalSplit(isVerticalSplit);
+    saveOrientation(isVerticalSplit);
+  }
+
+  @NotNull
+  @Override
+  public JComponent getComponent() {
+    final var component = super.getComponent();
+    super.setVerticalSplit(getOrientation());
+    hackSplitterWidth();
+    return component;
+  }
+
+  @Override
+  public void dispose() {
+    isDisposed = true;
+    super.dispose();
   }
 
   @Override
@@ -60,18 +94,15 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
     };
   }
 
-  @NotNull
   @Override
-  public JComponent getComponent() {
-    final var component = super.getComponent();
-    hackSplitterWidth();
-    return component;
+  protected void handleLayoutChange(final boolean isVerticalSplit) {
+    super.handleLayoutChange(isVerticalSplit);
+    saveOrientation(isVerticalSplit);
   }
 
   @Override
-  public void dispose() {
-    isDisposed = true;
-    super.dispose();
+  protected void onLayoutChange(@NotNull final Layout oldValue, @NotNull final Layout newValue) {
+    layoutListener.getMulticaster().onLayoutChange(oldValue, newValue);
   }
 
   @Workaround
@@ -85,6 +116,23 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
     } catch (final NoSuchFieldException | IllegalAccessException e) {
       logger.error("Error while overriding the splitter width", e);
     }
+  }
+
+  private boolean getOrientation() {
+    return PropertiesComponent.getInstance().getBoolean(getOrientationPropertyName());
+  }
+
+  private void saveOrientation(final boolean isVerticalSplit) {
+    PropertiesComponent.getInstance().setValue(getOrientationPropertyName(), isVerticalSplit, false);
+  }
+
+  @NotNull
+  private String getOrientationPropertyName() {
+    return getName() + "Orientation";
+  }
+
+  public interface PomskyEditorLayoutListener extends EventListener {
+    void onLayoutChange(@NotNull final Layout oldValue, @NotNull final Layout newValue);
   }
 
   /**
@@ -116,7 +164,7 @@ public class PomskyEditorWithPreview extends TextEditorWithPreview {
       if (state) {
         setLayout(myActionLayout);
       } else if (myActionLayout == Layout.SHOW_EDITOR_AND_PREVIEW) {
-        setVerticalSplit(!isVerticalSplit());
+        handleLayoutChange(!isVerticalSplit());
       }
     }
 
