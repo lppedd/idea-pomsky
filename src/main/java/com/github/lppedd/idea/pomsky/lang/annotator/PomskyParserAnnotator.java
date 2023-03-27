@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * @see PomskyBuiltinAnnotator
  * @see PomskyEscapeSequenceAnnotator
  */
-public class PomskyRootAnnotator implements Annotator, DumbAware {
+public class PomskyParserAnnotator implements Annotator, DumbAware {
   @Override
   public void annotate(
       @NotNull final PsiElement element,
@@ -52,7 +52,7 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
 
       // Report unclosed string literals
       if (textLength == 1 || isSingleQuotesUnclosed(text) || isDoubleQuotesUnclosed(text)) {
-        holder.newAnnotation(HighlightSeverity.ERROR, "String literal doesn't have a closing quote")
+        holder.newAnnotation(HighlightSeverity.ERROR, "This string literal doesn't have a closing quote")
             .range(element.getTextRange())
             .create();
       }
@@ -119,7 +119,7 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
     public void visitGroupReference(@NotNull final PomskyGroupReferencePsiElement element) {
       // Report group references without a name or number
       if (element.getName().isEmpty()) {
-        holder.newAnnotation(HighlightSeverity.ERROR, "Expected number or name of a group")
+        holder.newAnnotation(HighlightSeverity.ERROR, "Expected number or group name")
             .range(element.getTextRange())
             .create();
         return;
@@ -129,7 +129,10 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
       final var reference = element.getReference();
 
       if (reference == null || reference.resolve() == null) {
-        holder.newAnnotation(HighlightSeverity.ERROR, "Reference to unknown group")
+        final var message = element.isNumbered()
+            ? "Reference to unknown group. There is no group number %s"
+            : "Reference to unknown group. There is no group named %s";
+        holder.newAnnotation(HighlightSeverity.ERROR, message.formatted(element.getName()))
             .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
             .range(element.getTextRange())
             .create();

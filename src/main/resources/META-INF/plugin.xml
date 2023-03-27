@@ -87,9 +87,9 @@
         implementation="com.github.lppedd.idea.pomsky.lang.annotator.PomskyBuiltinsHighlightUsagesHandlerFactory"
     />
     <annotator
-        id="pomskyRoot"
+        id="pomskyParser"
         language="pomsky"
-        implementationClass="com.github.lppedd.idea.pomsky.lang.annotator.PomskyRootAnnotator"
+        implementationClass="com.github.lppedd.idea.pomsky.lang.annotator.PomskyParserAnnotator"
     />
     <annotator
         id="pomskyBuiltin"
