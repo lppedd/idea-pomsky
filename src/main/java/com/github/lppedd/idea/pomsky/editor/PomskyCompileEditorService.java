@@ -143,8 +143,10 @@ final class PomskyCompileEditorService implements Disposable {
         final var result = PomskyService.getInstance().compile(code, flavor, indicator);
 
         ApplicationManager.getApplication().invokeLater(() -> {
-          final var publisher = project.getMessageBus().syncPublisher(PomskyTopics.TOPIC_COMPILE);
-          publisher.compileFinished(file, result);
+          if (!project.isDisposed()) {
+            final var publisher = project.getMessageBus().syncPublisher(PomskyTopics.TOPIC_COMPILE);
+            publisher.compileFinished(file, result);
+          }
         });
       } catch (final IOException | PomskyProcessException e) {
         if (!(e instanceof PomskyProcessException) || e.getCause() != null) {
