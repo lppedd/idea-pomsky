@@ -161,6 +161,15 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
             .range(element.getIdentifier().getTextRange())
             .create();
       }
+
+      // Report invalid variable names
+      final var message = PomskyNameHelper.getInstance().validateIdentifier(element.getName());
+
+      if (message != null) {
+        holder.newAnnotation(HighlightSeverity.ERROR, message)
+            .range(element.getIdentifier().getTextRange())
+            .create();
+      }
     }
 
     @Override

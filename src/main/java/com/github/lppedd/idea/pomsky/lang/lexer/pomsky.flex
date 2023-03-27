@@ -38,8 +38,8 @@ Whitespace      = \s+
 Number          = [0-9_]+
 NonPrintable    = [nrtaef]
 CodePoint       = U{Whitespace}*\+{Whitespace}*[a-fA-F0-9]{1,6}
-Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
-GroupName       = [\p{Alpha}\p{N}_-]* // This is a relaxed variant. The correct regexp is [a-zA-Z][a-zA-Z0-9]*
+Identifier      = [\p{Alpha}\p{N}_]*    // This is a relaxed variant. The correct regexp is [\p{Alpha}_][\p{Alpha}\p{N}_]*
+GroupName       = [\p{Alpha}\p{N}_-]*   // This is a relaxed variant. The correct regexp is [a-zA-Z][a-zA-Z0-9]*
 
 // Complex tokens
 Comment         = #.*
