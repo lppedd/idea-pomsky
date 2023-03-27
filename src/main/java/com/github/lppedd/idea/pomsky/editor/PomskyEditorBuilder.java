@@ -21,7 +21,6 @@ import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
-import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Key;
@@ -35,7 +34,6 @@ import org.intellij.lang.regexp.RegExpFileType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.datatransfer.StringSelection;
 import java.util.concurrent.Future;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -114,10 +112,6 @@ class PomskyEditorBuilder extends AsyncFileEditorProvider.Builder {
           WriteAction.run(() -> {
             final var compiledRegexp = result.getCompiledRegexp();
             editor.getDocument().setText(compiledRegexp);
-
-            // Copy the compiled RegExp to clipboard
-            final var content = new StringSelection(compiledRegexp);
-            CopyPasteManager.getInstance().setContents(content);
           });
         }
       }
