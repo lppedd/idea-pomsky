@@ -54,6 +54,10 @@
         language="pomsky"
         implementationClass="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyRefactoringSupportProvider"
     />
+    <renameInputValidator
+        id="pomskyGroupName"
+        implementation="com.github.lppedd.idea.pomsky.lang.refactoring.PomskyGroupNameRenameInputValidator"
+    />
     <lang.braceMatcher
         id="pomsky"
         language="pomsky"

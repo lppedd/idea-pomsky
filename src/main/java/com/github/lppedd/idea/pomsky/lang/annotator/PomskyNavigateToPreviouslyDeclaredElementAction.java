@@ -12,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Edoardo Luppi
  */
-class PomskyNavigateToPreviouslyDeclaredElementFix implements IntentionAction {
+class PomskyNavigateToPreviouslyDeclaredElementAction implements IntentionAction {
   private final NavigatablePsiElement element;
 
-  PomskyNavigateToPreviouslyDeclaredElementFix(@NotNull final NavigatablePsiElement element) {
+  PomskyNavigateToPreviouslyDeclaredElementAction(@NotNull final NavigatablePsiElement element) {
     this.element = element;
   }
 

@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
  * @author Edoardo Luppi
  * @see PomskyUnusedVariableDeclarationInspection
  */
-class PomskyRemoveUnusedVariableDeclarationFix implements LocalQuickFix {
+class PomskyRemoveUnusedVariableDeclarationQuickFix implements LocalQuickFix {
   private final String variableName;
 
-  PomskyRemoveUnusedVariableDeclarationFix(@NotNull final String variableName) {
+  PomskyRemoveUnusedVariableDeclarationQuickFix(@NotNull final String variableName) {
     this.variableName = variableName;
   }
 

@@ -11,12 +11,39 @@ import java.util.*;
  */
 @SuppressWarnings("unused")
 public class PomskyBuiltins {
+  private static final Map<String, Builtin> KEYWORDS = new HashMap<>(32);
   private static final Map<String, Builtin> CHARACTER_CLASSES = new HashMap<>(64);
   private static final Map<String, Builtin> VARIABLES = new HashMap<>(32);
   private static final Map<String, Builtin> CATEGORIES = new HashMap<>(128);
   private static final Map<String, Builtin> SCRIPTS = new HashMap<>(512);
   private static final Map<String, Builtin> BLOCKS = new HashMap<>(256);
   private static final Map<String, Builtin> OTHERS = new HashMap<>(128);
+
+  public static class Keywords {
+    public static final Builtin let = new Builtin("let", KEYWORDS);
+    public static final Builtin lazy = new Builtin("lazy", KEYWORDS);
+    public static final Builtin greedy = new Builtin("greedy", KEYWORDS);
+    public static final Builtin range = new Builtin("range", KEYWORDS);
+    public static final Builtin base = new Builtin("base", KEYWORDS);
+    public static final Builtin atomic = new Builtin("atomic", KEYWORDS);
+    public static final Builtin enable = new Builtin("enable", KEYWORDS);
+    public static final Builtin disable = new Builtin("disable", KEYWORDS);
+    public static final Builtin regex = new Builtin("regex", KEYWORDS);
+    public static final Builtin test = new Builtin("test", KEYWORDS);
+    public static final Builtin recursion = new Builtin("recursion", KEYWORDS);
+    public static final Builtin iff = new Builtin("if", KEYWORDS);
+    public static final Builtin elsee = new Builtin("else", KEYWORDS);
+    public static final Builtin U = new Builtin("U", KEYWORDS);
+
+    @NotNull
+    public static Collection<Builtin> all() {
+      return Collections.unmodifiableCollection(KEYWORDS.values());
+    }
+
+    public static boolean is(@NotNull final String name) {
+      return KEYWORDS.containsKey(name);
+    }
+  }
 
   /**
    * See <a href="https://pomsky-lang.org/docs/reference/grammar/#characterset">CharacterSet grammar rule</a>.

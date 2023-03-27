@@ -1,6 +1,7 @@
 package com.github.lppedd.idea.pomsky.lang.annotator;
 
 import com.github.lppedd.idea.pomsky.lang.PomskyBuiltins;
+import com.github.lppedd.idea.pomsky.lang.PomskyNameHelper;
 import com.github.lppedd.idea.pomsky.lang.psi.*;
 import com.github.lppedd.idea.pomsky.util.StringUtils;
 import com.intellij.codeInspection.ProblemHighlightType;
@@ -156,7 +157,7 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
 
       if (previousDeclaration != null) {
         holder.newAnnotation(HighlightSeverity.ERROR, "A variable with the same name already exists in this scope")
-            .withFix(new PomskyNavigateToPreviouslyDeclaredElementFix(previousDeclaration))
+            .withFix(new PomskyNavigateToPreviouslyDeclaredElementAction(previousDeclaration))
             .range(element.getIdentifier().getTextRange())
             .create();
       }
@@ -173,7 +174,16 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
       if (previousDeclaration != null) {
         final var message = "Group name '%s' used multiple times".formatted(element.getName());
         holder.newAnnotation(HighlightSeverity.ERROR, message)
-            .withFix(new PomskyNavigateToPreviouslyDeclaredElementFix(previousDeclaration))
+            .withFix(new PomskyNavigateToPreviouslyDeclaredElementAction(previousDeclaration))
+            .range(element.getGroupName().getTextRange())
+            .create();
+      }
+
+      // Report invalid group names
+      final var message = PomskyNameHelper.getInstance().validateGroupName(element.getName());
+
+      if (message != null) {
+        holder.newAnnotation(HighlightSeverity.ERROR, message)
             .range(element.getGroupName().getTextRange())
             .create();
       }

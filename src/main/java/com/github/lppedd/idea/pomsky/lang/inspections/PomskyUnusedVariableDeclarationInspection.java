@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Reports variables that are not used and offers a fix to remove them.
  *
  * @author Edoardo Luppi
- * @see PomskyRemoveUnusedVariableDeclarationFix
+ * @see PomskyRemoveUnusedVariableDeclarationQuickFix
  */
 class PomskyUnusedVariableDeclarationInspection extends LocalInspectionTool {
   @NotNull
@@ -47,7 +47,7 @@ class PomskyUnusedVariableDeclarationInspection extends LocalInspectionTool {
           element,
           rangeInElement,
           "Variable '%s' is never used".formatted(variableName),
-          new PomskyRemoveUnusedVariableDeclarationFix(variableName)
+          new PomskyRemoveUnusedVariableDeclarationQuickFix(variableName)
       );
     }
   }
