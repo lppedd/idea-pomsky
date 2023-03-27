@@ -72,6 +72,16 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   }
 
   @NotNull
+  ComboBox<PomskyRegexpFlavor> getRegexpFlavorComboBox() {
+    return regexpFlavorComboBox;
+  }
+
+  @NotNull
+  HyperlinkLabel getCompileHyperlink() {
+    return compileHyperlink;
+  }
+
+  @NotNull
   PomskyRegexpFlavor getRegexpFlavor() {
     return regexpFlavorComboBox.getItem();
   }

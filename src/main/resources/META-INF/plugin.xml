@@ -195,6 +195,10 @@
         class="com.github.lppedd.idea.pomsky.editor.PomskyFileEditorManagerListener"
     />
     <listener
+        topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"
+        class="com.github.lppedd.idea.pomsky.editor.PomskyTooltipsFileEditorManagerListener"
+    />
+    <listener
         topic="com.github.lppedd.idea.pomsky.settings.PomskySettingsListener"
         class="com.github.lppedd.idea.pomsky.editor.PomskyEditorNotificationSettingsListener"
     />
