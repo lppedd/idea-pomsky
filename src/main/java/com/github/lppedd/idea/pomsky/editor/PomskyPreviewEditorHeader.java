@@ -1,5 +1,6 @@
 package com.github.lppedd.idea.pomsky.editor;
 
+import com.github.lppedd.idea.pomsky.Workaround;
 import com.github.lppedd.idea.pomsky.process.PomskyRegexpFlavor;
 import com.intellij.codeInsight.hint.HintUtil;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
@@ -27,14 +28,13 @@ import java.util.function.Consumer;
 /**
  * @author Edoardo Luppi
  */
-@SuppressWarnings("UnstableApiUsage")
 class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
   private final Collection<Consumer<PomskyRegexpFlavor>> compileListeners = new ArrayList<>(16);
   private final Collection<Consumer<PomskyRegexpFlavor>> regexpFlavorListeners = new ArrayList<>(16);
 
   private final JBLabel infoLabel;
   private final ComboBox<PomskyRegexpFlavor> regexpFlavorComboBox;
-  private final JBLabel loadingIconLabel;
+  private final JBLabel busyIconLabel;
   private final HyperlinkLabel compileHyperlink;
 
   PomskyPreviewEditorHeader() {
@@ -58,7 +58,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
       }
     });
 
-    loadingIconLabel = new JBLabel(EmptyIcon.create(new SpinningProgressIcon()));
+    busyIconLabel = new JBLabel(EmptyIcon.create(getBusyIcon()));
     compileHyperlink = new HyperlinkLabel("Compile");
     compileHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
       @Override
@@ -87,11 +87,11 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
 
   void setCompileLoading(final boolean isLoading) {
     if (isLoading) {
-      loadingIconLabel.setIcon(new SpinningProgressIcon());
-      loadingIconLabel.setToolTipText("Compiling...");
+      busyIconLabel.setIcon(getBusyIcon());
+      busyIconLabel.setToolTipText("Compiling...");
     } else {
-      loadingIconLabel.setIcon(EmptyIcon.create(new SpinningProgressIcon()));
-      loadingIconLabel.setToolTipText(null);
+      busyIconLabel.setIcon(EmptyIcon.create(getBusyIcon()));
+      busyIconLabel.setToolTipText(null);
     }
   }
 
@@ -110,7 +110,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     final var colorsManager = EditorColorsManager.getInstance();
     setBackground(colorsManager.getGlobalScheme().getColor(HintUtil.PROMOTION_PANE_KEY));
 
-    if (loadingIconLabel != null) {
+    if (busyIconLabel != null) {
       updateUIDimensions();
     }
   }
@@ -127,13 +127,27 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     }
   }
 
+  @NotNull
+  @Workaround
+  private Icon getBusyIcon() {
+    try {
+      // We need a fresh copy of the frames for the current scaling
+      final var getDefaultFrames = AnimatedIcon.Default.class.getDeclaredMethod("getDefaultFrames");
+      getDefaultFrames.trySetAccessible();
+      return new AnimatedIcon((AnimatedIcon.Frame[]) getDefaultFrames.invoke(null));
+    } catch (final Exception e) {
+      // In this case the size of the icon won't be affected by scale changes
+      return AnimatedIcon.Default.INSTANCE;
+    }
+  }
+
   private void updateUIDimensions() {
     regexpFlavorComboBox.setMinimumAndPreferredWidth(JBUI.scale(105));
 
     final var layout = (GridBagLayout) getLayout();
     updateConstraints(layout, infoLabel);
     updateConstraints(layout, regexpFlavorComboBox);
-    updateConstraints(layout, loadingIconLabel);
+    updateConstraints(layout, busyIconLabel);
     updateConstraints(layout, compileHyperlink);
   }
 
@@ -152,7 +166,7 @@ class PomskyPreviewEditorHeader extends JBPanel<PomskyPreviewEditorHeader> {
     add(infoLabel, gb.nextLine().next().insets(3, 1, 3, 3));
     add(regexpFlavorComboBox, gb.next());
     add(Box.createHorizontalStrut(0), gb.next().weightx(1.0));
-    add(loadingIconLabel, gb.next().insets(3, 0, 3, 3));
+    add(busyIconLabel, gb.next().insets(3, 0, 3, 3));
     add(compileHyperlink, gb.next().insets(3, 1, 3, 3));
   }
 
