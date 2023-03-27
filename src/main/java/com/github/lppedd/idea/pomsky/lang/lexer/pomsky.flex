@@ -36,10 +36,9 @@ import com.intellij.psi.TokenType;
 // Primitives
 Whitespace      = \s+
 Number          = [0-9_]+
-NonPrintable    = [nrtaef]
 CodePoint       = U{Whitespace}*\+{Whitespace}*[a-fA-F0-9]{1,6}
 Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
-GroupName       = [\p{Alpha}\p{N}_-]*   // This is a relaxed variant. The correct regexp is [a-zA-Z][a-zA-Z0-9]*
+GroupName       = [\p{Alpha}\p{N}_-]+   // This is a relaxed variant. The correct regexp is [a-zA-Z][a-zA-Z0-9]*
 
 // Complex tokens
 Comment         = #.*
@@ -64,131 +63,125 @@ Keyword         = let
 
 %%
 
-<YYINITIAL> {
-      {Whitespace} {
-          return TokenType.WHITE_SPACE;
-      }
+{Whitespace} {
+    return TokenType.WHITE_SPACE;
+}
 
-      {Comment} {
-          return PomskyTypes.COMMENT;
-      }
+{Comment} {
+    return PomskyTypes.COMMENT;
+}
 
-      {Keyword} {
-          return PomskyTypes.KEYWORD;
-      }
+{Keyword} {
+    return PomskyTypes.KEYWORD;
+}
 
-      {CodePoint} {
-          return PomskyTypes.CODE_POINT;
-      }
+{CodePoint} {
+    return PomskyTypes.CODE_POINT;
+}
 
-      [\^$] | \!?% | Start | End {
-          return PomskyTypes.BOUNDARY;
-      }
+[\^$] | \!?% | Start | End {
+    return PomskyTypes.BOUNDARY;
+}
 
-      {Identifier} {
-          return PomskyTypes.IDENTIFIER;
-      }
+{Identifier} {
+    return PomskyTypes.IDENTIFIER;
+}
 
-      {NonPrintable} {
-          return PomskyTypes.NON_PRINTABLE;
-      }
+' {
+    yybegin(STRING_SINGLE);
+}
 
-      ' {
-          yybegin(STRING_SINGLE);
-      }
+\" {
+    yybegin(STRING_DOUBLE);
+}
 
-      \" {
-          yybegin(STRING_DOUBLE);
-      }
+[0-9]+ {
+    return PomskyTypes.NUMBER;
+}
 
-      [0-9]+ {
-          return PomskyTypes.NUMBER;
-      }
+::({GroupName} | {Number})? {
+    return PomskyTypes.GROUP_REFERENCE;
+}
 
-      ::({GroupName} | {Number})? {
-          return PomskyTypes.GROUP_REFERENCE;
-      }
+, {
+    return PomskyTypes.COMMA;
+}
 
-      , {
-          return PomskyTypes.COMMA;
-      }
+; {
+    return PomskyTypes.SEMICOLON;
+}
 
-      ; {
-          return PomskyTypes.SEMICOLON;
-      }
+: {
+    yybegin(GROUP_EXPRESSION);
+    return PomskyTypes.COLON;
+}
 
-      : {
-          yybegin(GROUP_EXPRESSION);
-          return PomskyTypes.COLON;
-      }
+= {
+    return PomskyTypes.EQ;
+}
 
-      = {
-          return PomskyTypes.EQ;
-      }
+[*+?] {
+    return PomskyTypes.QUANTIFIER;
+}
 
-      [*+?] {
-          return PomskyTypes.QUANTIFIER;
-      }
+\| {
+    return PomskyTypes.UNION;
+}
 
-      \| {
-          return PomskyTypes.UNION;
-      }
+\[ {
+    return PomskyTypes.CLASS_BEGIN;
+}
 
-      \[ {
-          return PomskyTypes.CLASS_BEGIN;
-      }
+] {
+    return PomskyTypes.CLASS_END;
+}
 
-      ] {
-          return PomskyTypes.CLASS_END;
-      }
+\( {
+    return PomskyTypes.GROUP_BEGIN;
+}
 
-      \( {
-          return PomskyTypes.GROUP_BEGIN;
-      }
+\) {
+    return PomskyTypes.GROUP_END;
+}
 
-      \) {
-          return PomskyTypes.GROUP_END;
-      }
+\{ {
+    return PomskyTypes.LBRACE;
+}
 
-      \{ {
-          return PomskyTypes.LBRACE;
-      }
+\} {
+    return PomskyTypes.RBRACE;
+}
 
-      \} {
-          return PomskyTypes.RBRACE;
-      }
+>> {
+    return PomskyTypes.LOOKAHEAD;
+}
 
-      >> {
-          return PomskyTypes.LOOKAHEAD;
-      }
+\<< {
+    return PomskyTypes.LOOKBEHIND;
+}
 
-      \<< {
-          return PomskyTypes.LOOKBEHIND;
-      }
+\!>> {
+    return PomskyTypes.LOOKAHEAD_NEGATED;
+}
 
-      \!>> {
-          return PomskyTypes.LOOKAHEAD_NEGATED;
-      }
+\!<< {
+    return PomskyTypes.LOOKBEHIND_NEGATED;
+}
 
-      \!<< {
-          return PomskyTypes.LOOKBEHIND_NEGATED;
-      }
+\! {
+    return PomskyTypes.NEGATION;
+}
 
-      \! {
-          return PomskyTypes.NEGATION;
-      }
+- {
+    return PomskyTypes.RANGE_SEPARATOR;
+}
 
-      - {
-          return PomskyTypes.RANGE_SEPARATOR;
-      }
+\. {
+    return PomskyTypes.DOT;
+}
 
-      \. {
-          return PomskyTypes.DOT;
-      }
-
-      [^] {
-          return PlainTextTokenTypes.PLAIN_TEXT;
-      }
+[^] {
+    return PlainTextTokenTypes.PLAIN_TEXT;
 }
 
 // A literal string in the form: 'example of string' or 'example of \'string\''

@@ -91,7 +91,7 @@ public class PomskyRootAnnotator implements Annotator, DumbAware {
           return;
         }
 
-        final var message = "Unknown character class `%s`".formatted(element.getName());
+        final var message = "Unknown character class '%s'".formatted(element.getName());
         holder.newAnnotation(HighlightSeverity.ERROR, message)
             .range(element.getTextRange())
             .create();
