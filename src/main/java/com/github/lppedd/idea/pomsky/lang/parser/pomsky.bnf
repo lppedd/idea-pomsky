@@ -40,6 +40,7 @@
     BOUNDARY            = "regexp:[\^$]|!?%|Start|End"
     STRING              = "regexp:'.*'"
     NUMBER              = "regexp:[0-9_]+"
+    NON_PRINTABLE       = "regexp:[nrtaef]"
     CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
     IDENTIFIER          = "regexp:[\p{Alpha}_][\p{Alpha}\p{N}_]*"
     GROUP_NAME          = "regexp:[a-zA-Z][a-zA-Z0-9]*"
@@ -192,6 +193,7 @@ private character_set_expression_inner ::=
 
 private character_set_inner ::=
       character_set_range
+    | NON_PRINTABLE
     | CODE_POINT
     | NEGATION? STRING
     | NEGATION? IDENTIFIER
@@ -202,6 +204,7 @@ character_set_range ::=
 
 private single_char ::=
       STRING
+    | NON_PRINTABLE
     | CODE_POINT
 
 // *****************************************************************************

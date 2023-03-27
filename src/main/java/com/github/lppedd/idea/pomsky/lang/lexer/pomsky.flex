@@ -36,6 +36,7 @@ import com.intellij.psi.TokenType;
 // Primitives
 Whitespace      = \s+
 Number          = [0-9_]+
+NonPrintable    = [nrtaef]
 CodePoint       = U{Whitespace}*\+{Whitespace}*[a-fA-F0-9]{1,6}
 Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
 GroupName       = [a-zA-Z][a-zA-Z0-9]*
@@ -82,6 +83,10 @@ Keyword         = let
 
       [\^$] | \!?% | Start | End {
           return PomskyTypes.BOUNDARY;
+      }
+
+      {NonPrintable} {
+          return PomskyTypes.NON_PRINTABLE;
       }
 
       {Identifier} {
