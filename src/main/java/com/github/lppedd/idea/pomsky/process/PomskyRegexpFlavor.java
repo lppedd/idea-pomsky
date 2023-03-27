@@ -1,6 +1,6 @@
 package com.github.lppedd.idea.pomsky.process;
 
-import com.intellij.util.PlatformUtils;
+import com.github.lppedd.idea.pomsky.util.IDEUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,25 +43,24 @@ public enum PomskyRegexpFlavor {
    * Useful to configure default values.
    */
   @NotNull
-  @SuppressWarnings("UnstableApiUsage")
   public static PomskyRegexpFlavor getDefaultProductFlavor() {
-    if (PlatformUtils.isPyCharm()) {
+    if (IDEUtils.isPyCharm()) {
       return PomskyRegexpFlavor.PYTHON;
     }
 
-    if (PlatformUtils.isRubyMine()) {
+    if (IDEUtils.isRubyMine()) {
       return PomskyRegexpFlavor.RUBY;
     }
 
-    if (PlatformUtils.isRider()) {
+    if (IDEUtils.isRider()) {
       return PomskyRegexpFlavor.DOTNET;
     }
 
-    if (PlatformUtils.isWebStorm()) {
+    if (IDEUtils.isWebStorm()) {
       return PomskyRegexpFlavor.JAVASCRIPT;
     }
 
-    if (PlatformUtils.isIntelliJ()) {
+    if (IDEUtils.isIntelliJ()) {
       return PomskyRegexpFlavor.JAVA;
     }
 
