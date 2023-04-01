@@ -34,11 +34,12 @@ import com.intellij.psi.TokenType;
 %}
 
 // Primitives
-Whitespace      = \s+
+Whitespace      = \s
 Number          = [0-9_]+
 CodePoint       = U{Whitespace}*\+{Whitespace}*[a-fA-F0-9]{1,6}
 Identifier      = [\p{Alpha}_][\p{Alpha}\p{N}_]*
 GroupName       = [\p{Alpha}\p{N}_-]+   // This is a relaxed variant. The correct regexp is [a-zA-Z][a-zA-Z0-9]*
+GroupReference  = ::({GroupName}|{Number})?
 
 // Complex tokens
 Comment         = #.*
@@ -63,7 +64,7 @@ Keyword         = let
 
 %%
 
-{Whitespace} {
+{Whitespace}+ {
     return TokenType.WHITE_SPACE;
 }
 
@@ -99,7 +100,7 @@ Keyword         = let
     return PomskyTypes.NUMBER;
 }
 
-::({GroupName} | {Number})? {
+{GroupReference} {
     return PomskyTypes.GROUP_REFERENCE;
 }
 

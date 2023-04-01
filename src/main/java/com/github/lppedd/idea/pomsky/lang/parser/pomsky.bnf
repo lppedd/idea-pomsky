@@ -35,15 +35,15 @@
     LOOKBEHIND          = "<<"
     LOOKBEHIND_NEGATED  = "!<<"
     COMMENT             = "regexp:#.*"
-    KEYWORD             = "regexp:let|enable|disable|lazy|greedy|atomic|range|regex|base|if|else"
+    KEYWORD             = "regexp:let|enable|disable|unicode|lazy|greedy|atomic|range|regex|base|if|else|test|U"
     QUANTIFIER          = "regexp:[*+?]"
     BOUNDARY            = "regexp:[\^$]|!?%|Start|End"
     STRING              = "regexp:'.*'"
     NUMBER              = "regexp:[0-9_]+"
-    CODE_POINT          = "regexp:U\+?[a-fA-F0-9]{1,6}"
+    CODE_POINT          = "regexp:U\s*\+\s*[a-fA-F0-9]{1,6}"
     IDENTIFIER          = "regexp:[\p{Alpha}_][\p{Alpha}\p{N}_]*"
-    GROUP_NAME          = "regexp:[a-zA-Z][a-zA-Z0-9]*"
-    GROUP_REFERENCE     = "regexp:::[a-zA-Z]+"
+    GROUP_NAME          = "regexp:[\p{Alpha}\p{N}_-]+"
+    GROUP_REFERENCE     = "regexp:::[\p{Alpha}\p{N}_-]+|[0-9_]+"
   ]
 }
 
@@ -59,12 +59,8 @@ variable_declaration ::=
     { pin = 2 }
 
 modifier_activation ::=
-    modifier_keyword boolean_setting SEMICOLON
+    ("enable" | "disable") boolean_setting SEMICOLON
     { pin = 1 }
-
-private modifier_keyword ::=
-      "enable"
-    | "disable"
 
 private boolean_setting ::=
       "lazy"
