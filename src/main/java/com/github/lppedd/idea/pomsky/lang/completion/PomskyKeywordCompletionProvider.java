@@ -25,6 +25,7 @@ class PomskyKeywordCompletionProvider implements PomskyCompletionProvider {
     lookupElements.add(createLookupElement("disable", true));
     lookupElements.add(createLookupElement("base", true));
     lookupElements.add(createLookupElement("lazy", false));
+    lookupElements.add(createLookupElement("unicode", false));
     lookupElements.add(createLookupElement("greedy", false));
   }
 
