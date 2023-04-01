@@ -140,8 +140,25 @@ public class PomskyParserAnnotator implements Annotator, DumbAware {
     }
 
     @Override
+    public void visitModifierActivation(@NotNull final PomskyModifierActivationPsiElement element) {
+      // Report modifier activations located after expressions
+      final var previousElement = PsiTreeUtil.skipSiblingsBackward(
+          element,
+          PsiComment.class,
+          PsiWhiteSpace.class,
+          PomskyModifierActivationPsiElement.class
+      );
+
+      if (previousElement instanceof PomskyExpressionPsiElement) {
+        holder.newAnnotation(HighlightSeverity.ERROR, "Modifier activation must come before expressions")
+            .range(element.getTextRange())
+            .create();
+      }
+    }
+
+    @Override
     public void visitVariableDeclaration(@NotNull final PomskyVariableDeclarationPsiElement element) {
-      // Report variables declared after any other expression
+      // Report variables declared after expressions
       final var previousElement = PsiTreeUtil.skipSiblingsBackward(
           element,
           PsiComment.class,

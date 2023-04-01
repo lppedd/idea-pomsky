@@ -19,6 +19,10 @@ public class PomskyPsiElementVisitor extends PsiElementVisitor {
     visitElement(element);
   }
 
+  public void visitModifierActivation(@NotNull final PomskyModifierActivationPsiElement element) {
+    visitElement(element);
+  }
+
   public void visitVariableDeclaration(@NotNull final PomskyVariableDeclarationPsiElement element) {
     visitElement(element);
   }
